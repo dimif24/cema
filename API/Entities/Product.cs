@@ -1,8 +1,13 @@
+
+using System.ComponentModel.DataAnnotations;
+
 namespace API.Entities
 {
     public class Product
     {
         public int Id { get; set; }
+
+        [Required]
         public string Name { get; set; }
 
         public string Description { get; set; }
@@ -13,10 +18,10 @@ namespace API.Entities
 
         public string Brand { get; set; }
 
-        public decimal Weight { get; set; }
+        public decimal? Weight { get; set; }
 
-        public decimal Height { get; set; }
-        public decimal Width { get; set; }
+        public decimal? Height { get; set; }
+        public decimal? Width { get; set; }
 
         public List<ProductVariant> Variants { get; set; } = new List<ProductVariant>();
 
