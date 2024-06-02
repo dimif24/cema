@@ -1,29 +1,26 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-using System.ComponentModel.DataAnnotations;
-
-namespace API.Entities
+namespace API.Dto
 {
-    public class Product
+    public class VariantDto
     {
         public int Id { get; set; }
-
-        [Required]
         public string Name { get; set; }
-
         public string Description { get; set; }
-
         public string Type { get; set; }
-
         public string Category { get; set; }
-
         public string Brand { get; set; }
-
         public decimal? Weight { get; set; }
-
         public decimal? Height { get; set; }
         public decimal? Width { get; set; }
-
-        public virtual ICollection<ProductVariant> Variants { get; set; } = new List<ProductVariant>();
+        public string Color { get; set; }
+        public decimal Price { get; set; }
+        public int? QuantityInStock { get; set; }
+        public string PictureUrl { get; set; }
+        public int ProductId { get; set; }
 
     }
 }
