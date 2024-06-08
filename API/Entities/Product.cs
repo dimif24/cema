@@ -24,6 +24,7 @@ namespace API.Entities
         public decimal? Width { get; set; }
 
         public virtual ICollection<ProductVariant> Variants { get; set; } = new List<ProductVariant>();
+        public ICollection<SupplierProduct> Suppliers { get; set; } = new List<SupplierProduct>();
 
     }
 }
