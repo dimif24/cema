@@ -339,7 +339,7 @@ namespace API.Data
             var suppliers = new List<Supplier>
             {
                 new Supplier{
-                    Name = "Global Supplies Inc.",
+                    Name = "Cushions Supplies Inc.",
                     Description = "A leading supplier of quality goods worldwide.",
                     Country = "USA",
                     City = "New York",
@@ -378,7 +378,7 @@ namespace API.Data
                 },
                 new Supplier
                 {
-                    Name = "Supplier 1",
+                    Name = "Lamps Supplies Inc.",
                     Country = "USA",
                     City = "New York",
                     PhoneNumber = "123-456-7890",
@@ -387,21 +387,34 @@ namespace API.Data
 
                     ContactPersons = new List<ContactPerson>
                     {
-                        new ContactPerson { Name = "John Doe", Position = "Manager", PhoneNumber = "111-111-1111", Email = "john@example.com" },
-                        new ContactPerson { Name = "Jane Smith", Position = "Sales", PhoneNumber = "222-222-2222", Email = "jane@example.com" }
+                        new ContactPerson { Name = "Logus Dent", Position = "Manager", PhoneNumber = "111-111-1111", Email = "logus@example.com" },
+                        new ContactPerson { Name = "Lebron James", Position = "Sales", PhoneNumber = "222-222-2222", Email = "lebron@example.com" }
                     }
                 },
                 new Supplier
                 {
-                    Name = "Supplier 2",
-                    Country = "Germany",
-                    City = "Berlin",
-                    PhoneNumber = "098-765-4321",
-                    Email = "supplier2@example.com",
+                    Name = "Candles Supplies Inc.",
+                    Country = "France",
+                    City = "Paris",
+                    PhoneNumber = "099-223-665",
+                    Email = "supplier3@example.com",
                     ContactPersons = new List<ContactPerson>
                     {
-                        new ContactPerson { Name = "Hans Müller", Position = "Manager", PhoneNumber = "333-333-3333", Email = "hans@example.com" },
-                        new ContactPerson { Name = "Greta Schmidt", Position = "Sales", PhoneNumber = "444-444-4444", Email = "greta@example.com" }
+                        new ContactPerson { Name = "Patrik Selon", Position = "Manager", PhoneNumber = "333-333-3333", Email = "selon@example.com" },
+                        new ContactPerson { Name = "Diana kilyan", Position = "Sales", PhoneNumber = "444-444-4444", Email = "kilyan@example.com" }
+                    }
+                },
+                new Supplier
+                {
+                    Name = "Clocks Supplies Inc.",
+                    Country = "Germany",
+                    City = "Berlin",
+                    PhoneNumber = "098-765-9090",
+                    Email = "supplier4@example.com",
+                    ContactPersons = new List<ContactPerson>
+                    {
+                        new ContactPerson { Name = "Daemon Roys", Position = "Manager", PhoneNumber = "333-333-3333", Email = "roys@example.com" },
+                        new ContactPerson { Name = "Liva Schmidt", Position = "Sales", PhoneNumber = "444-444-4444", Email = "liva@example.com" }
                     }
                 }
             };
@@ -413,7 +426,11 @@ namespace API.Data
             var supplierProducts = new List<SupplierProduct>
             {
                 new SupplierProduct { SupplierId = suppliers[0].Id, ProductId = products[0].Id, Qty = 50 },
-                new SupplierProduct { SupplierId = suppliers[1].Id, ProductId = products[1].Id, Qty = 75 }
+                new SupplierProduct { SupplierId = suppliers[1].Id, ProductId = products[0].Id, Qty = 50 },
+
+                new SupplierProduct { SupplierId = suppliers[1].Id, ProductId = products[1].Id, Qty = 100 },
+                new SupplierProduct { SupplierId = suppliers[1].Id, ProductId = products[2].Id, Qty = 100 },
+
                 // Add more supplier-product relationships here...
             };
 
