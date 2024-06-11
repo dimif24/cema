@@ -358,23 +358,7 @@ namespace API.Data
                     BankName = "Bank of America",
                     BankAccountNumber = "123456789012",
                     ShippingMethods = new List<string> { "FedEx", "DHL", "UPS" },
-                    ContactPersons = new List<ContactPerson>
-                    {
-                        new ContactPerson
-                        {
-                            Name = "John Doe",
-                            Position = "Manager",
-                            PhoneNumber = "111-111-1111",
-                            Email = "john.doe@globalsupplies.com"
-                        },
-                        new ContactPerson
-                        {
-                            Name = "Jane Smith",
-                            Position = "Sales Representative",
-                            PhoneNumber = "222-222-2222",
-                            Email = "jane.smith@globalsupplies.com"
-                        }
-                    },
+
                 },
                 new Supplier
                 {
@@ -385,11 +369,7 @@ namespace API.Data
                     Email = "supplier1@example.com",
                     ShippingMethods=["Ocean","Air"],
 
-                    ContactPersons = new List<ContactPerson>
-                    {
-                        new ContactPerson { Name = "Logus Dent", Position = "Manager", PhoneNumber = "111-111-1111", Email = "logus@example.com" },
-                        new ContactPerson { Name = "Lebron James", Position = "Sales", PhoneNumber = "222-222-2222", Email = "lebron@example.com" }
-                    }
+
                 },
                 new Supplier
                 {
@@ -398,11 +378,8 @@ namespace API.Data
                     City = "Paris",
                     PhoneNumber = "099-223-665",
                     Email = "supplier3@example.com",
-                    ContactPersons = new List<ContactPerson>
-                    {
-                        new ContactPerson { Name = "Patrik Selon", Position = "Manager", PhoneNumber = "333-333-3333", Email = "selon@example.com" },
-                        new ContactPerson { Name = "Diana kilyan", Position = "Sales", PhoneNumber = "444-444-4444", Email = "kilyan@example.com" }
-                    }
+
+
                 },
                 new Supplier
                 {
@@ -411,16 +388,70 @@ namespace API.Data
                     City = "Berlin",
                     PhoneNumber = "098-765-9090",
                     Email = "supplier4@example.com",
-                    ContactPersons = new List<ContactPerson>
-                    {
-                        new ContactPerson { Name = "Daemon Roys", Position = "Manager", PhoneNumber = "333-333-3333", Email = "roys@example.com" },
-                        new ContactPerson { Name = "Liva Schmidt", Position = "Sales", PhoneNumber = "444-444-4444", Email = "liva@example.com" }
-                    }
+
+
                 }
             };
 
             context.Suppliers.AddRange(suppliers);
             context.SaveChanges();
+            var contactPersons = new List<ContactPerson>{
+
+                        new ContactPerson
+                        {
+                            Name = "John Doe",
+                            Position = "Manager",
+                            PhoneNumber = "111-111-1111",
+                            Email = "john.doe@globalsupplies.com",
+                            SupplierId = 1
+                        },
+                        new ContactPerson
+                        {
+                            Name = "Jane Smith",
+                            Position = "Sales Representative",
+                            PhoneNumber = "222-222-2222",
+                            Email = "jane.smith@globalsupplies.com",
+                            SupplierId = 1
+                        },
+                        new ContactPerson {
+                             Name = "Logus Dent",
+                          Position = "Manager", PhoneNumber = "111-111-1111",
+                           Email = "logus@example.com",
+                           SupplierId=2
+                           },
+                        new ContactPerson { Name = "Lebron James",
+                         Position = "Sales",
+                         PhoneNumber = "222-222-2222",
+                          Email = "lebron@example.com",
+                          SupplierId=2 },
+                        new ContactPerson {
+                             Name = "Patrik Selon",
+                        Position = "Manager", PhoneNumber = "333-333-3333",
+                        Email = "selon@example.com",
+                        SupplierId=3
+                        },
+
+                        new ContactPerson {
+                            Name = "Diana kilyan",
+                         Position = "Sales",
+                          PhoneNumber = "444-444-4444",
+                           Email = "kilyan@example.com",
+                           SupplierId=3
+                            },
+                        new ContactPerson { Name = "Daemon Roys",
+                        Position = "Manager",
+                        PhoneNumber = "333-333-3333",
+                            Email = "roys@example.com",
+                            SupplierId=4 },
+                        new ContactPerson { Name = "Liva Schmidt",
+                         Position = "Sales",
+                          PhoneNumber = "444-444-4444",
+                           Email = "liva@example.com",
+                           SupplierId=4 }
+
+            };
+            context.ContactPerson.AddRange(contactPersons);
+
 
             // Define supplier-product relationships
             var supplierProducts = new List<SupplierProduct>
