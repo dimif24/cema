@@ -28,7 +28,7 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Supplier>> GetSupplier(int id)
         {
-            var result = await _context.Suppliers.Where(sp => sp.Id == id).Include(sp => sp.Products).SingleOrDefaultAsync();
+            var result = await _context.Suppliers.Where(sp => sp.Id == id).Include(sp => sp.Products).Include(sp => sp.ContactPersons).SingleOrDefaultAsync();
             if (result == null)
             {
                 return NotFound();
@@ -124,6 +124,24 @@ namespace API.Controllers
 
             return NoContent();
         }
+
+        [HttpDelete("Delete/{id}")]
+        public async Task<IActionResult> DeleteSupplier(int id)
+        {
+            var supplier = await _context.Suppliers.Include(sp => sp.ContactPersons).Include(sp => sp.Products).SingleOrDefaultAsync(sp => sp.Id == id);
+
+            if (supplier == null)
+            {
+                return NotFound($"Supplier with ID {id} not found");
+            }
+
+            _context.Suppliers.Remove(supplier);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+
         [HttpPost("AddContactPerson/{supplierId}")]
         public async Task<ActionResult<ContactPerson>> AddContactPerson(int supplierId, ContactPersonDto contactPersonDto)
         {
@@ -152,6 +170,26 @@ namespace API.Controllers
 
             return CreatedAtAction(nameof(GetSupplier), new { id = supplierId }, contactPerson);
         }
+
+
+
+        [HttpDelete("DeleteContactPerson/{contactPersonId}")]
+        public async Task<IActionResult> DeleteContactPerson(int contactPersonId)
+        {
+            var contactPerson = await _context.ContactPerson.FindAsync(contactPersonId);
+
+            if (contactPerson == null)
+            {
+                return NotFound($"Contact person with ID {contactPersonId} not found");
+            }
+
+            _context.ContactPerson.Remove(contactPerson);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+
 
 
     }
