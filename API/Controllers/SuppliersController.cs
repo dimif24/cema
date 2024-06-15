@@ -18,7 +18,7 @@ namespace API.Controllers
             _context = context;
         }
 
-        [HttpGet("All")]
+        [HttpGet]
         public async Task<ActionResult<List<Supplier>>> GetSuppliers()
         {
             return await _context.Suppliers.ToListAsync();
@@ -40,7 +40,7 @@ namespace API.Controllers
             }
         }
 
-        [HttpPost("Add")]
+        [HttpPost]
         public async Task<ActionResult<Supplier>> AddSupplier(SupplierDto createSupplierDto)
         {
             var supplier = new Supplier
@@ -78,7 +78,7 @@ namespace API.Controllers
             return CreatedAtAction(nameof(GetSupplier), new { id = supplier.Id }, supplier);
         }
 
-        [HttpPut("/Update/{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateSupplier(int id, SupplierDto updateSupplierDto)
         {
             var supplier = await _context.Suppliers.Include(sp => sp.ContactPersons).SingleOrDefaultAsync(sp => sp.Id == id);
