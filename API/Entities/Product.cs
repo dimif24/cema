@@ -1,5 +1,6 @@
 
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace API.Entities
 {
@@ -24,6 +25,9 @@ namespace API.Entities
         public decimal? Width { get; set; }
 
         public virtual ICollection<ProductVariant> Variants { get; set; } = new List<ProductVariant>();
+
+        [JsonIgnore]
+        public ICollection<SupplierProduct> Suppliers { get; set; } = new List<SupplierProduct>();
 
     }
 }

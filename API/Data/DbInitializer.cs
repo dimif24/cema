@@ -6,7 +6,7 @@ namespace API.Data
     {
         public static void Initialize(StoreContext context)
         {
-            if (context.Products.Any() && context.ProductVariants.Any()) return;
+            if (context.Products.Any() && context.ProductVariants.Any() && context.Suppliers.Any() && context.SupplierProducts.Any() && context.ContactPerson.Any()) return;
 
             var products = new List<Product>{
                 new Product {
@@ -333,6 +333,139 @@ namespace API.Data
             };
 
             context.Products.AddRange(products);
+            context.SaveChanges();
+
+
+            var suppliers = new List<Supplier>
+            {
+                new Supplier{
+                    Name = "Cushions Supplies Inc.",
+                    Description = "A leading supplier of quality goods worldwide.",
+                    Country = "USA",
+                    City = "New York",
+                    BusinessType = "Wholesale",
+                    YearEstablished = 1995,
+                    PhoneNumber = "123-456-7890",
+                    Currency = "USD",
+                    ProfileImage = "/images/suppliers/global-supplies.png",
+                    CR = 50000m,
+                    DB = 25000m,
+                    Balance = 25000m,
+                    Email = "contact@globalsupplies.com",
+                    Website = "https://www.globalsupplies.com",
+                    FaxNumber = "123-456-7891",
+                    TimeZone = "EST",
+                    BankName = "Bank of America",
+                    BankAccountNumber = "123456789012",
+                    ShippingMethods = new List<string> { "FedEx", "DHL", "UPS" },
+
+                },
+                new Supplier
+                {
+                    Name = "Lamps Supplies Inc.",
+                    Country = "USA",
+                    City = "New York",
+                    PhoneNumber = "123-456-7890",
+                    Email = "supplier1@example.com",
+                    ShippingMethods=["Ocean","Air"],
+
+
+                },
+                new Supplier
+                {
+                    Name = "Candles Supplies Inc.",
+                    Country = "France",
+                    City = "Paris",
+                    PhoneNumber = "099-223-665",
+                    Email = "supplier3@example.com",
+
+
+                },
+                new Supplier
+                {
+                    Name = "Clocks Supplies Inc.",
+                    Country = "Germany",
+                    City = "Berlin",
+                    PhoneNumber = "098-765-9090",
+                    Email = "supplier4@example.com",
+
+
+                }
+            };
+
+            context.Suppliers.AddRange(suppliers);
+            context.SaveChanges();
+            var contactPersons = new List<ContactPerson>{
+
+                        new ContactPerson
+                        {
+                            Name = "John Doe",
+                            Position = "Manager",
+                            PhoneNumber = "111-111-1111",
+                            Email = "john.doe@globalsupplies.com",
+                            SupplierId = 1
+                        },
+                        new ContactPerson
+                        {
+                            Name = "Jane Smith",
+                            Position = "Sales Representative",
+                            PhoneNumber = "222-222-2222",
+                            Email = "jane.smith@globalsupplies.com",
+                            SupplierId = 1
+                        },
+                        new ContactPerson {
+                             Name = "Logus Dent",
+                          Position = "Manager", PhoneNumber = "111-111-1111",
+                           Email = "logus@example.com",
+                           SupplierId=2
+                           },
+                        new ContactPerson { Name = "Lebron James",
+                         Position = "Sales",
+                         PhoneNumber = "222-222-2222",
+                          Email = "lebron@example.com",
+                          SupplierId=2 },
+                        new ContactPerson {
+                             Name = "Patrik Selon",
+                        Position = "Manager", PhoneNumber = "333-333-3333",
+                        Email = "selon@example.com",
+                        SupplierId=3
+                        },
+
+                        new ContactPerson {
+                            Name = "Diana kilyan",
+                         Position = "Sales",
+                          PhoneNumber = "444-444-4444",
+                           Email = "kilyan@example.com",
+                           SupplierId=3
+                            },
+                        new ContactPerson { Name = "Daemon Roys",
+                        Position = "Manager",
+                        PhoneNumber = "333-333-3333",
+                            Email = "roys@example.com",
+                            SupplierId=4 },
+                        new ContactPerson { Name = "Liva Schmidt",
+                         Position = "Sales",
+                          PhoneNumber = "444-444-4444",
+                           Email = "liva@example.com",
+                           SupplierId=4 }
+
+            };
+            context.ContactPerson.AddRange(contactPersons);
+
+
+            // Define supplier-product relationships
+            var supplierProducts = new List<SupplierProduct>
+            {
+                new SupplierProduct { SupplierId = suppliers[0].Id, ProductId = products[0].Id, Qty = 50 },
+                new SupplierProduct { SupplierId = suppliers[1].Id, ProductId = products[0].Id, Qty = 50 },
+
+                new SupplierProduct { SupplierId = suppliers[1].Id, ProductId = products[1].Id, Qty = 100 },
+                new SupplierProduct { SupplierId = suppliers[1].Id, ProductId = products[2].Id, Qty = 100 },
+
+                // Add more supplier-product relationships here...
+            };
+
+            context.SupplierProducts.AddRange(supplierProducts);
 
             context.SaveChanges();
             // foreach (var product in products)
