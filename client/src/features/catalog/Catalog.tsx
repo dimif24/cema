@@ -1,11 +1,4 @@
-import {
-  Avatar,
-  Button,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-} from '@mui/material'
+import { Button } from '@mui/material'
 import { Product } from '../../models/products'
 import ProductList from './ProductList'
 interface CatalogProps {
