@@ -23,7 +23,7 @@ namespace API.Controllers
         {
             return await _context.ContactPerson.ToListAsync();
         }
-        
+
         [HttpGet("{id}")]
         public async Task<ActionResult<ContactPerson>> GetContactPerson(int id)
         {
@@ -39,27 +39,24 @@ namespace API.Controllers
             }
         }
 
-        [HttpPost("{supplierId}")]
+        [HttpPost]
 
-        public async Task<ActionResult<ContactPerson>> AddContactPerson(int supplierId, ContactPerson contactPerson)
+        public async Task<ActionResult<ContactPerson>> AddContactPerson(ContactPerson contactPerson)
         {
-            if (supplierId != contactPerson.SupplierId)
-            {
-                return BadRequest("Supplier ID mismatch");
-            }
 
-            var supplier = await _context.Suppliers.FindAsync(supplierId);
+
+            var supplier = await _context.Suppliers.FindAsync(contactPerson.SupplierId);
             if (supplier == null)
             {
-                return NotFound($"Supplier with ID {supplierId} not found");
+                return NotFound($"Supplier with ID {contactPerson.SupplierId} not found");
             }
 
-            contactPerson.SupplierId = supplierId;
+            contactPerson.SupplierId = contactPerson.SupplierId;
 
             _context.ContactPerson.Add(contactPerson);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetContactPersons), new { id = supplierId }, contactPerson);
+            return CreatedAtAction(nameof(GetContactPersons), new { id = contactPerson.SupplierId }, contactPerson);
         }
 
 

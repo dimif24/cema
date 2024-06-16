@@ -28,7 +28,7 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
-            return await _context.Products.Include(product => product.Variants).Include(product => product.Suppliers).SingleOrDefaultAsync(product => product.Id == id);
+            return await _context.Products.Include(product => product.Variants).SingleOrDefaultAsync(product => product.Id == id);
 
         }
 
