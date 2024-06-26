@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Product } from '../../models/products'
 import Catalog from '../../features/catalog/Catalog'
 import Header from './Header'
+import AddSupplier from '../../Components/Admin/AddSupplier'
 
 function App() {
   const [products, setProducts] = useState<Product[]>()
@@ -20,6 +21,7 @@ function App() {
     <div>
       <Header />
       <Catalog products={products || []}></Catalog>
+      <AddSupplier></AddSupplier>
     </div>
   )
 }
