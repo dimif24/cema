@@ -1,23 +1,30 @@
-import { Supplier, emptySupplier } from "../../models/supplier";
 import { TextField, Button, Container, Grid, Typography } from '@mui/material';
-import { useState } from "react";
+import { updateSupplierField, resetSupplier } from '../supplier/supplierSlice';
+import { useAppDispatch, useAppSelector } from '../../../app/store/configureStore';
+import { useEffect } from 'react';
+import CurrencyDropdown from '../../dropDowns/CurrencyDropdown'; // Adjust the path as per your project structure
 
-// interface AddSupplierComponentProps {
-//     onAddSupplier: (supplier: Supplier) => void;
-// }
+
+
 const AddSupplier = () => {
-    const [supplier, setSupplier] = useState<Supplier>(emptySupplier);
+    const dispatch = useAppDispatch();
+    const supplier = useAppSelector(state => state.AddSupplier.supplier);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-        setSupplier({ ...supplier, [name]: value });
+        dispatch(updateSupplierField({ name, value }));
     };
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // Reset form (optional)
-        setSupplier(emptySupplier);
+        // Add submit logic here
+        dispatch(resetSupplier());
     };
+
+    useEffect(() => {
+        const balance = (supplier.cr || 0) - (supplier.db || 0);
+        dispatch(updateSupplierField({ name: 'balance', value: balance }));
+    }, [supplier.cr, supplier.db, dispatch]);
     return (
         <Container>
             <Typography variant="h4" component="h1" gutterBottom>
@@ -85,6 +92,58 @@ const AddSupplier = () => {
                             value={supplier.phoneNumber}
                             onChange={handleInputChange}
                             required
+                        />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <TextField
+                            fullWidth
+                            label="Website"
+                            name="website"
+                            value={supplier.website}
+                            onChange={handleInputChange}
+
+                        />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <CurrencyDropdown
+                            value={supplier.currency}
+                            onChange={(value: string) => dispatch(updateSupplierField({ name: 'currency', value }))}
+                            required
+                        />
+                    </Grid>
+                    <Grid item xs={4}>
+                        <TextField
+                            fullWidth
+                            label="DB"
+                            name="db"
+                            type='number'
+                            value={supplier.db}
+                            onChange={handleInputChange}
+
+                        />
+                    </Grid>
+                    <Grid item xs={4}>
+                        <TextField
+                            fullWidth
+                            label="CR"
+                            name="cr"
+                            type='number'
+
+                            value={supplier.cr}
+                            onChange={handleInputChange}
+
+                        />
+                    </Grid>
+                    <Grid item xs={4}>
+                        <TextField
+                            fullWidth
+                            label="Balance"
+                            name="balance"
+                            type='number'
+
+                            value={supplier.balance}
+                            onChange={handleInputChange}
+                            disabled
                         />
                     </Grid>
                     {/* Add more input fields as needed */}
