@@ -2,7 +2,8 @@ import { TextField, Button, Container, Grid, Typography } from '@mui/material';
 import { updateSupplierField, resetSupplier } from '../supplier/supplierSlice';
 import { useAppDispatch, useAppSelector } from '../../../app/store/configureStore';
 import { useEffect } from 'react';
-import CurrencyDropdown from '../../dropDowns/CurrencyDropdown'; // Adjust the path as per your project structure
+import CurrencyDropdown from '../../dropDowns/CurrencyDropdown';
+import CountryDropdown from '../../dropDowns/CountryDropdown';
 
 
 
@@ -54,12 +55,10 @@ const AddSupplier = () => {
                         />
                     </Grid>
                     <Grid item xs={6}>
-                        <TextField
-                            fullWidth
-                            label="Country"
-                            name="country"
+                        <CountryDropdown
+                            label="Choose a country"
                             value={supplier.country}
-                            onChange={handleInputChange}
+                            onChange={(value: string) => dispatch(updateSupplierField({ name: 'country', value }))}
                             required
                         />
                     </Grid>
