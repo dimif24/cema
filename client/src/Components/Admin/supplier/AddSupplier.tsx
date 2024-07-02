@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../../app/store/configureStor
 import { useEffect } from 'react';
 import CurrencyDropdown from '../../dropDowns/CurrencyDropdown';
 import CountryDropdown from '../../dropDowns/CountryDropdown';
+import PhoneInputDropdown from '../../dropDowns/PhoneInputDropdown';
 
 
 
@@ -59,6 +60,7 @@ const AddSupplier = () => {
                             label="Choose a country"
                             value={supplier.country}
                             onChange={(value: string) => dispatch(updateSupplierField({ name: 'country', value }))}
+                            flag='country'
                             required
                         />
                     </Grid>
@@ -84,14 +86,12 @@ const AddSupplier = () => {
                         />
                     </Grid>
                     <Grid item xs={6}>
-                        <TextField
-                            fullWidth
-                            label="Phone Number"
-                            name="phoneNumber"
-                            value={supplier.phoneNumber}
-                            onChange={handleInputChange}
-                            required
-                        />
+
+                        <Container>
+                            <PhoneInputDropdown value={supplier.phoneNumber} required onChange={(value: string) => dispatch(updateSupplierField({ name: 'phoneNumber', value }))}
+                            ></PhoneInputDropdown>
+                        </Container>
+
                     </Grid>
                     <Grid item xs={6}>
                         <TextField

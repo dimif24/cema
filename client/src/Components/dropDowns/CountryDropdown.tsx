@@ -7,6 +7,8 @@ interface CountryDropdownProps {
     onChange: (value: string) => void;
     required?: boolean;
     label: string;
+    flag: string;
+
 }
 interface CountryDropdown {
     label: string;
@@ -15,13 +17,17 @@ interface CountryDropdown {
 
 }
 
-const CountryDropdown = ({ value, onChange, required = false, label }: CountryDropdownProps) => {
+const CountryDropdown = ({ value, onChange, required = false, label, flag }: CountryDropdownProps) => {
 
 
 
 
     const handleChange = (_event: React.SyntheticEvent, newValue: CountryDropdown | null) => {
-        onChange(newValue ? newValue.label : '');
+        console.log(typeof (newValue?.phone));
+        onChange(newValue ? flag == 'phoneNumber' ? newValue.phone : newValue.label : '');
+    };
+    const getOptionSelected = (option: CountryDropdown, value: string) => {
+        return flag === 'phoneNumber' ? option.phone === value : option.label === value;
     };
 
 
@@ -43,7 +49,7 @@ const CountryDropdown = ({ value, onChange, required = false, label }: CountryDr
                             src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
                             alt=""
                         />
-                        {option.label} ({option.code}) +{option.phone}
+                        {option.label} ({option.code}) {flag === 'phoneNumber' && `+${option.phone}`}
                     </Box>
                 );
             }}
@@ -59,7 +65,7 @@ const CountryDropdown = ({ value, onChange, required = false, label }: CountryDr
                     }}
                 />
             )}
-            value={countries.find(option => option.label === value) || null}
+            value={countries.find(option => getOptionSelected(option, value)) || null}
 
             onChange={handleChange}
 
