@@ -6,6 +6,6 @@ export interface ContactPerson {
     position: string
     phoneNumber: string
     email: string
-    supplier: Supplier
+   supplier: Supplier
 
 }

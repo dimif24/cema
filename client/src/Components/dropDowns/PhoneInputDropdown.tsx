@@ -1,4 +1,5 @@
 import 'react-international-phone/style.css';
+import { PhoneNumberUtil } from 'google-libphonenumber';
 
 import {
     InputAdornment,
@@ -14,14 +15,26 @@ import {
     parseCountry,
     usePhoneInput,
 } from 'react-international-phone';
+import { useState } from 'react';
 
 interface PhoneInputDropdownProps {
     value: string;
     onChange: (phone: string) => void;
     required?: boolean;
 }
+const phoneUtil = PhoneNumberUtil.getInstance();
+
+const isPhoneValid = (phone: string) => {
+    try {
+        return phoneUtil.isValidNumber(phoneUtil.parseAndKeepRawInput(phone));
+    } catch (error) {
+        return false;
+    }
+};
 
 const PhoneInputDropdown = ({ value, onChange, required = false }: PhoneInputDropdownProps) => {
+    const [error, setError] = useState<string | null>(null);
+
     const { inputValue, handlePhoneValueChange, inputRef, country, setCountry } =
         usePhoneInput({
             defaultCountry: 'kw',
@@ -29,7 +42,10 @@ const PhoneInputDropdown = ({ value, onChange, required = false }: PhoneInputDro
             countries: defaultCountries,
             onChange: (data) => {
                 onChange(data.phone);
+                setError(isPhoneValid(data.phone) ? null : 'Wrong format');
+
             },
+            
         });
 
     return (
@@ -37,7 +53,9 @@ const PhoneInputDropdown = ({ value, onChange, required = false }: PhoneInputDro
             fullWidth
             required={required}
             variant="outlined"
-            label="Phone number"
+            label={error || "Phone Number"}
+            error={!!error}
+
             color="primary"
             placeholder="Phone number"
             value={inputValue}

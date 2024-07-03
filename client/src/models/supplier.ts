@@ -3,25 +3,25 @@ import { Product } from './products'
 export interface Supplier {
     id: number
     name: string
-    description: string
+    description: string |null
     country: string
     city: string
-    businessType: string
-    yearEstablished: number
+    businessType: string | null
+    yearEstablished: number | null
     phoneNumber: string
-    currency: string
-    profileImage: string
-    email: string
-    website: string
-    faxNumber: string
-    timeZone: string
-    bankName: string
+    currency: string | null
+    profileImage: string | null
+    email: string | null
+    website: string | null
+    faxNumber: string | null
+    timeZone: string | null
+    bankName: string | null
     shippingMethods: string[]
-    bankAccountNumber: string
-    cr: number
-    db: number
-    balance: number
-    contactPersons: ContactPerson[]
+    bankAccountNumber: string | null
+    cr: number | null
+    db: number | null
+    balance: number | null
+    contactPersons: ContactPerson[] 
     products: Product[]
 }
 
@@ -29,23 +29,23 @@ export interface Supplier {
 export const emptySupplier: Supplier = {
     id: 0,
     name: '',
-    description: '',
+    description: null,
     country: '',
     city: '',
-    businessType: '',
-    yearEstablished: 0,
+    businessType: null,
+    yearEstablished: null,
     phoneNumber: '',
-    currency: '',
-    profileImage: '',
+    currency: null,
+    profileImage: null,
     cr: 0,
     db: 0,
     balance: 0,
-    email: '',
-    website: '',
-    faxNumber: '',
-    timeZone: '',
-    bankName: '',
-    bankAccountNumber: '',
+    email: null,
+    website: null,
+    faxNumber: null,
+    timeZone: null,
+    bankName: null,
+    bankAccountNumber: null,
     shippingMethods: [],
     contactPersons: [],
     products: []
