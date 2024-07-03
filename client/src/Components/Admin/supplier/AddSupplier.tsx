@@ -87,10 +87,13 @@ const AddSupplier = () => {
                     </Grid>
                     <Grid item xs={6}>
 
-                        <Container>
-                            <PhoneInputDropdown value={supplier.phoneNumber} required onChange={(value: string) => dispatch(updateSupplierField({ name: 'phoneNumber', value }))}
-                            ></PhoneInputDropdown>
-                        </Container>
+                        <PhoneInputDropdown
+                            value={supplier.phoneNumber}
+                            required
+                            onChange={(value: string) => dispatch(updateSupplierField({ name: 'phoneNumber', value }))}
+                        >
+
+                        </PhoneInputDropdown>
 
                     </Grid>
                     <Grid item xs={6}>
