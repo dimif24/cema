@@ -3,6 +3,7 @@ import { Product } from '../../models/products'
 import Catalog from '../../features/catalog/Catalog'
 import Header from './Header'
 import AddSupplier from '../../Components/Admin/supplier/AddSupplier'
+import SuppliersListing from '../../Components/Admin/supplier/SuppliersListing'
 
 function App() {
   const [products, setProducts] = useState<Product[]>()
@@ -22,6 +23,7 @@ function App() {
       <Header />
       <Catalog products={products || []}></Catalog>
       <AddSupplier></AddSupplier>
+      <SuppliersListing></SuppliersListing>
     </div>
   )
 }

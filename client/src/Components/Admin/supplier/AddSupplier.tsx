@@ -40,7 +40,18 @@ const AddSupplier = () => {
     const handleDeleteContactPerson = (index: number) => {
         dispatch(removeContactPerson(index));
     };
+    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
 
+        if (file) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onloadend = () => {
+                const base64String = reader.result?.toString() || '';
+                dispatch(updateSupplierField({ name: 'profileImage', value: base64String }));
+            };
+        }
+    };
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const result = await addSupplier(supplier);
@@ -198,16 +209,26 @@ const AddSupplier = () => {
                             
                         />
                     </Grid>
-                    <Grid item xs={6}>
-                        <TextField
-                            fullWidth
-                            label="profileImage"
-                            name="profileImage"
-                            value={supplier.profileImage}
-                            onChange={handleInputChange}
-                            
-                        />
+                    <Grid item xs={5}>
+                    <TextField
+                        fullWidth
+                        //label="Profile Image"
+                        name="profileImage"
+                        type="file"
+                        onChange={handleImageUpload}
+                        inputProps={{ accept: 'image/*' }}
+                    />
                     </Grid>
+                    <Grid item xs={1}>
+                    {supplier.profileImage && (
+                        <img
+                            src={supplier.profileImage}
+                            alt="Profile Preview"
+                            style={{ width: '100%', height: '100%',                                maxHeight: '56px', // Limit maximum height to 100px
+                                objectFit: 'contain' }}
+                        />
+                    )}
+                </Grid>
                     <Grid item xs={6}>
                         <MultipleSelectCheckmarks label={"Shipping Methods"} value={supplier.shippingMethods!}    data={shippingMethods}                 onChange={handleShippingMethodsChange}
                         ></MultipleSelectCheckmarks>

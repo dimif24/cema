@@ -23,3 +23,22 @@ export const addSupplier = async (supplier: Supplier) => {
         return { success: false, message: error || 'An error occurred while adding the supplier' };
     }
 };
+export const fetchSuppliers = async (): Promise<Supplier[]> => {
+    try {
+        const response = await fetch(`${url}/api/Suppliers`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch suppliers');
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching suppliers:', error);
+        throw error;
+    }
+};
