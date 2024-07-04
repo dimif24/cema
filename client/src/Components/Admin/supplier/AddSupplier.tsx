@@ -1,5 +1,5 @@
-import * as React from 'react';
-import {  useEffect } from 'react';
+import React, { useEffect } from 'react';
+//import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import { TextField, Button, Container, Grid, Typography, SelectChangeEvent } from '@mui/material';
 import { updateSupplierField, resetSupplier, addContactPerson, updateContactPerson, removeContactPerson } from '../supplier/supplierSlice';
 import { useAppDispatch, useAppSelector } from '../../../app/store/configureStore';
@@ -11,11 +11,14 @@ import ContactPersonForm from '../supplier/ContactPersonForm';
 import { ContactPerson } from '../../../models/contactPerson';
 import MultipleSelectCheckmarks from '../../select/MultipleSelectCheckmarks'; // Make sure to import this if needed
 import shippingMethods from '../../select/shippingMethods'
+import useCustomSnackbar from "../../hooks/snackbar/useCustomSnackbar";
+import { addSupplier } from '../../api/AdminApi';
 
 const AddSupplier = () => {
     const dispatch = useAppDispatch();
     const supplier = useAppSelector(state => state.AddSupplier.supplier);
     const [showAdditionalDetails, setShowAdditionalDetails] = React.useState(false);
+    const { openSnackbar, SnackbarComponent } = useCustomSnackbar();
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -38,12 +41,17 @@ const AddSupplier = () => {
         dispatch(removeContactPerson(index));
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // Add submit logic here
-        dispatch(resetSupplier());
-    };
+        const result = await addSupplier(supplier);
 
+        if (result.success) {
+            openSnackbar('success', 'Supplier Added Successfully');
+            dispatch(resetSupplier());
+        } else {
+            openSnackbar('error', result.message);
+        }
+    };
 
     useEffect(() => {
         const balance = (supplier.cr || 0) - (supplier.db || 0);
@@ -98,7 +106,7 @@ const AddSupplier = () => {
                     </Grid>
                     <Grid item xs={6}>
 
-                        <EmailInput value={supplier.email!} onChange={handleInputChange}></EmailInput>
+                        <EmailInput value={supplier.email!} onChange={handleInputChange} required={true}></EmailInput>
                     </Grid>
                     <Grid item xs={6}>
 
@@ -269,11 +277,13 @@ const AddSupplier = () => {
                         <Button type="submit" variant="contained" color="primary">
                             Add Supplier
                         </Button>
+                        
                     </Grid>
+                    {SnackbarComponent}
+
                 </Grid>
             </form>
         </Container>
     );
 }
 export default AddSupplier;
-6

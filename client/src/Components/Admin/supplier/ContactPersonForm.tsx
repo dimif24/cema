@@ -45,12 +45,13 @@ const ContactPersonForm = ({ contactPerson, index, onChange, onDelete }: Contact
                 <EmailInput
                     value={contactPerson.email}
                     onChange={(e) => onChange(index, e)}
+                    required={true}
                 />
             </Grid>
             <Grid item xs={6}>
                 <PhoneInputDropdown
                     value={contactPerson.phoneNumber}
-                    required
+                    required={false}
                     onChange={(value: string) => onChange(index, { target: { name: 'phoneNumber', value } } as React.ChangeEvent<HTMLInputElement>)}
                 />
             </Grid>
