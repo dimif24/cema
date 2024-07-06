@@ -7,66 +7,41 @@ import CardContent from '@mui/joy/CardContent';
 import Typography from '@mui/joy/Typography';
 import Sheet from '@mui/joy/Sheet';
 import { Supplier } from '../../../models/supplier';
-const defaultProfileImage='../../../../images/AdditionalImages/defaultProfileImage.webp';
-const SupplierCard = ({ profileImage, name, businessType, balance, yearEstablished }: Supplier) => {
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+
+
+const defaultProfileImage = '../../../../images/AdditionalImages/defaultProfileImage.webp';
+const openWhatsAppChat = (phoneNumber: string) => {
+  const whatsappURL = `https://wa.me/${phoneNumber}`;
+  window.open(whatsappURL, '_blank');
+};
+const SupplierCard = ({ profileImage, name, businessType, balance, yearEstablished, country, currency, email, phoneNumber }: Supplier) => {
   return (
     <Box
       sx={{
         width: '100%',
-        position: 'relative',
+        display: 'flex',
+        flexDirection: { xs: 'column', md: 'row' }, // Adjust layout based on screen size
+        alignItems: 'center',
+        gap: 2,
         overflow: { xs: 'auto', sm: 'initial' },
       }}
     >
-      <Box
-        sx={{
-          position: 'absolute',
-          display: 'block',
-          width: '1px',
-          bgcolor: 'warning.300',
-          left: '500px',
-          top: '-24px',
-          bottom: '-24px',
-          '&::before': {
-            top: '4px',
-            content: '"vertical"',
-            display: 'block',
-            position: 'absolute',
-            right: '0.5rem',
-            color: 'text.tertiary',
-            fontSize: 'sm',
-            fontWeight: 'lg',
-          },
-          '&::after': {
-            top: '4px',
-            content: '"horizontal"',
-            display: 'block',
-            position: 'absolute',
-            left: '0.5rem',
-            color: 'text.tertiary',
-            fontSize: 'sm',
-            fontWeight: 'lg',
-          },
-        }}
-      />
       <Card
-        orientation="horizontal"
         sx={{
           width: '100%',
-          flexWrap: 'wrap',
-          [`& > *`]: {
-            '--stack-point': '500px',
-            minWidth:
-              'clamp(0px, (calc(var(--stack-point) - 2 * var(--Card-padding) - 2 * var(--variant-borderWidth, 0px)) + 1px - 100%) * 999, 100%)',
-          },
-          // make the card resizable for demo
+          display: 'flex',
+          flexDirection: { xs: 'column', md: 'row' }, // Adjust layout based on screen size
+          alignItems: 'center',
+          gap: 2,
           overflow: 'auto',
-          resize: 'horizontal',
+
         }}
       >
         <AspectRatio flex ratio="1" maxHeight={182} sx={{ minWidth: 182 }}>
-
           <img
-            src={profileImage? profileImage:defaultProfileImage}
+            src={profileImage ? profileImage : defaultProfileImage}
             loading="lazy"
             alt=""
           />
@@ -86,36 +61,67 @@ const SupplierCard = ({ profileImage, name, businessType, balance, yearEstablish
               '& > div': { flex: 1 },
             }}
           >
-            <div>
+            <Box sx={{
+              display: { xs: 'none', md: 'block' }, // Hide on small screens
+            }}>
               <Typography level="body-xs" fontWeight="lg">
-                Articles
+                Business Type
               </Typography>
               <Typography fontWeight="lg">{businessType}</Typography>
-            </div>
+            </Box>
             <div>
               <Typography level="body-xs" fontWeight="lg">
-                Followers
+                Balance
               </Typography>
-              <Typography fontWeight="lg">{balance}</Typography>
+              <Typography fontWeight="lg">{balance} {currency}</Typography>
             </div>
             <div>
               <Typography level="body-xs" fontWeight="lg">
-                Rating
+                Country
+              </Typography>
+              <Typography fontWeight="lg">{country}</Typography>
+            </div>
+            <Box sx={{
+              display: { xs: 'none', md: 'block' }, // Hide on small screens
+            }}>
+              <Typography level="body-xs" fontWeight="lg">
+                Year Established
               </Typography>
               <Typography fontWeight="lg">{yearEstablished}</Typography>
-            </div>
+            </Box>
           </Sheet>
           <Box sx={{ display: 'flex', gap: 1.5, '& > button': { flex: 1 } }}>
-            <Button variant="outlined" color="neutral">
-              Chat
-            </Button>
-            <Button variant="solid" color="primary">
-              Follow
-            </Button>
+            <Box sx={{ display: 'flex', width: '100%' }}>
+              <Button
+                sx={{ flex: 1, margin: '0 4px' }}
+                component="a"
+                href={`mailto:${email}?subject=Inquiry from &body=Hello ${name},`}
+              >
+                <MailOutlineIcon />
+              </Button>
+              <Button
+                sx={{ flex: 1, margin: '0 4px' }}
+                onClick={() => openWhatsAppChat(phoneNumber)}
+                variant="outlined"
+                color="primary"
+
+              >
+                <WhatsAppIcon />
+              </Button>
+              <Button
+                sx={{ flex: 2, margin: '0 4px' }}
+                variant="outlined"
+                color="neutral"
+              >
+                View Profile
+              </Button>
+            </Box>
+
+
           </Box>
         </CardContent>
       </Card>
-    </Box>
+    </Box >
   );
 }
 
