@@ -1,18 +1,19 @@
 import React, { useEffect } from 'react';
 //import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import { TextField, Button, Container, Grid, Typography, SelectChangeEvent } from '@mui/material';
-import { updateSupplierField, resetSupplier, addContactPerson, updateContactPerson, removeContactPerson } from '../supplier/supplierSlice';
+import { updateSupplierField, resetSupplier, addContactPerson, updateContactPerson, removeContactPerson } from './supplierSlice';
 import { useAppDispatch, useAppSelector } from '../../../app/store/configureStore';
 import CurrencyDropdown from '../../dropDowns/CurrencyDropdown';
 import CountryDropdown from '../../dropDowns/CountryDropdown';
 import PhoneInputDropdown from '../../dropDowns/PhoneInputDropdown';
 import EmailInput from '../../inputs/EmailInput';
-import ContactPersonForm from '../supplier/ContactPersonForm';
+import ContactPersonForm from './ContactPersonForm';
 import { ContactPerson } from '../../../models/contactPerson';
 import MultipleSelectCheckmarks from '../../select/MultipleSelectCheckmarks'; // Make sure to import this if needed
 import shippingMethods from '../../select/shippingMethods'
 import useCustomSnackbar from "../../hooks/snackbar/useCustomSnackbar";
-import { addSupplier } from '../../api/AdminApi';
+import { addSupplier } from '../../api/admin';
+import TimeZone from '../../dropDowns/TimeZone';
 
 const AddSupplier = () => {
     const dispatch = useAppDispatch();
@@ -22,11 +23,11 @@ const AddSupplier = () => {
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-     
+
         dispatch(updateSupplierField({ name, value }));
     };
     const handleShippingMethodsChange = (e: SelectChangeEvent<string[]>) => {
-        dispatch(updateSupplierField({ name: 'shippingMethods', value: e.target.value  }));
+        dispatch(updateSupplierField({ name: 'shippingMethods', value: e.target.value }));
     };
     const handleContactPersonChange = (index: number, e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -188,95 +189,94 @@ const AddSupplier = () => {
                         </Button>
                     </Grid>
                     {showAdditionalDetails && (
-<>
-                    <Grid item xs={6}>
-                        <TextField
-                            fullWidth
-                            label="businessType"
-                            name="businessType"
-                            value={supplier.businessType}
-                            onChange={handleInputChange}
-                            
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <TextField
-                            fullWidth
-                            label="yearEstablished"
-                            name="yearEstablished"
-                            value={supplier.yearEstablished}
-                            onChange={handleInputChange}
-                            
-                        />
-                    </Grid>
-                    <Grid item xs={5}>
-                    <TextField
-                        fullWidth
-                        //label="Profile Image"
-                        name="profileImage"
-                        type="file"
-                        onChange={handleImageUpload}
-                        inputProps={{ accept: 'image/*' }}
-                    />
-                    </Grid>
-                    <Grid item xs={1}>
-                    {supplier.profileImage && (
-                        <img
-                            src={supplier.profileImage}
-                            alt="Profile Preview"
-                            style={{ width: '100%', height: '100%',                                maxHeight: '56px', // Limit maximum height to 100px
-                                objectFit: 'contain' }}
-                        />
+                        <>
+                            <Grid item xs={6}>
+                                <TextField
+                                    fullWidth
+                                    label="businessType"
+                                    name="businessType"
+                                    value={supplier.businessType}
+                                    onChange={handleInputChange}
+
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField
+                                    fullWidth
+                                    label="yearEstablished"
+                                    name="yearEstablished"
+                                    value={supplier.yearEstablished}
+                                    onChange={handleInputChange}
+
+                                />
+                            </Grid>
+                            <Grid item xs={5}>
+                                <TextField
+                                    fullWidth
+                                    //label="Profile Image"
+                                    name="profileImage"
+                                    type="file"
+                                    onChange={handleImageUpload}
+                                    inputProps={{ accept: 'image/*' }}
+                                />
+                            </Grid>
+                            <Grid item xs={1}>
+                                {supplier.profileImage && (
+                                    <img
+                                        src={supplier.profileImage}
+                                        alt="Profile Preview"
+                                        style={{
+                                            width: '100%', height: '100%', maxHeight: '56px', // Limit maximum height to 100px
+                                            objectFit: 'contain'
+                                        }}
+                                    />
+                                )}
+                            </Grid>
+                            <Grid item xs={6}>
+                                <MultipleSelectCheckmarks label={"Shipping Methods"} value={supplier.shippingMethods!} data={shippingMethods} onChange={handleShippingMethodsChange}
+                                ></MultipleSelectCheckmarks>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField
+                                    fullWidth
+                                    label="faxNumber"
+                                    name="faxNumber"
+                                    value={supplier.faxNumber}
+                                    onChange={handleInputChange}
+
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+
+                                <TimeZone label='TimeZone'
+                                    value={supplier.timeZone}
+                                    onChange={(value: string) => dispatch(updateSupplierField({ name: 'timeZone', value }))}
+                                ></TimeZone>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField
+                                    fullWidth
+                                    label="bankName"
+                                    name="bankName"
+                                    value={supplier.bankName}
+                                    onChange={handleInputChange}
+
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField
+                                    fullWidth
+                                    label="bankAccountNumber"
+                                    name="bankAccountNumber"
+                                    value={supplier.bankAccountNumber}
+                                    onChange={handleInputChange}
+
+                                />
+                            </Grid>
+                        </>
                     )}
-                </Grid>
-                    <Grid item xs={6}>
-                        <MultipleSelectCheckmarks label={"Shipping Methods"} value={supplier.shippingMethods!}    data={shippingMethods}                 onChange={handleShippingMethodsChange}
-                        ></MultipleSelectCheckmarks>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <TextField
-                            fullWidth
-                            label="faxNumber"
-                            name="faxNumber"
-                            value={supplier.faxNumber}
-                            onChange={handleInputChange}
-                            
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <TextField
-                            fullWidth
-                            label="timeZone"
-                            name="timeZone"
-                            value={supplier.timeZone}
-                            onChange={handleInputChange}
-                            
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <TextField
-                            fullWidth
-                            label="bankName"
-                            name="bankName"
-                            value={supplier.bankName}
-                            onChange={handleInputChange}
-                            
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <TextField
-                            fullWidth
-                            label="bankAccountNumber"
-                            name="bankAccountNumber"
-                            value={supplier.bankAccountNumber}
-                            onChange={handleInputChange}
-                            
-                        />
-                    </Grid>
-                    </>
-)}
-                     {/* Add Contact Person Section */}
-                     <Grid item xs={12}>
+                    {/* Add Contact Person Section */}
+                    <Grid item xs={12}>
                         <Typography variant="h6" gutterBottom>
                             Contact Persons
                         </Typography>
@@ -298,7 +298,7 @@ const AddSupplier = () => {
                         <Button type="submit" variant="contained" color="primary">
                             Add Supplier
                         </Button>
-                        
+
                     </Grid>
                     {SnackbarComponent}
 

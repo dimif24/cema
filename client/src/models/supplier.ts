@@ -3,10 +3,10 @@ import { Product } from './products'
 export interface Supplier {
     id: number
     name: string
-    description: string |null
+    description: string | null
     country: string
     city: string
-    businessType: string | null
+    businessType: string | undefined
     yearEstablished: number | null
     phoneNumber: string
     currency: string | null
@@ -21,7 +21,7 @@ export interface Supplier {
     cr: number | null
     db: number | null
     balance: number | null
-    contactPersons: ContactPerson[] 
+    contactPersons: ContactPerson[]
     products: Product[]
 }
 
@@ -32,7 +32,7 @@ export const emptySupplier: Supplier = {
     description: '',
     country: '',
     city: '',
-    businessType: '',
+    businessType: undefined,
     yearEstablished: null,
     phoneNumber: '',
     currency: '',

@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Box, CircularProgress } from '@mui/joy';
 import SupplierCard from './SupplierCard';
-import { fetchSuppliers } from '../../api/AdminApi';
+import { fetchSuppliers } from '../../api/admin';
 import { Supplier } from '../../../models/supplier';
 
 const SuppliersListing = () => {

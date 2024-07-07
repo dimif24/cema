@@ -3,7 +3,8 @@ import { Product } from '../../models/products'
 import Catalog from '../../features/catalog/Catalog'
 import Header from './Header'
 import AddSupplier from '../../Components/Admin/supplier/AddSupplier'
-import SuppliersListing from '../../Components/Admin/supplier/SuppliersListing'
+import SupplierProfile from '../../Components/Admin/supplier/SupplierProfile'
+import AdminMainPage from '../../Components/Admin/supplier/Main'
 
 function App() {
   const [products, setProducts] = useState<Product[]>()
@@ -23,7 +24,9 @@ function App() {
       <Header />
       <Catalog products={products || []}></Catalog>
       <AddSupplier></AddSupplier>
-      <SuppliersListing></SuppliersListing>
+      <div style={{ marginTop: "100px" }}></div>
+      <AdminMainPage></AdminMainPage>
+      <SupplierProfile></SupplierProfile>
     </div>
   )
 }
