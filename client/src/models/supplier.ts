@@ -50,3 +50,29 @@ export const emptySupplier: Supplier = {
     contactPersons: [],
     products: []
 };
+
+// Define the initial empty supplier object
+export const EditInitialSupplier = (supplier: Supplier): Supplier => ({
+    id: supplier.id,
+    name: supplier.name,
+    description: supplier.description,
+    country: supplier.country,
+    city: supplier.city,
+    businessType: supplier.businessType,
+    yearEstablished: supplier.yearEstablished,
+    phoneNumber: supplier.phoneNumber,
+    currency: supplier.currency,
+    profileImage: supplier.profileImage,
+    cr: supplier.cr,
+    db: supplier.db,
+    balance: supplier.balance,
+    email: supplier.email,
+    website: '',
+    faxNumber: '',
+    timeZone: '',
+    bankName: '',
+    bankAccountNumber: '',
+    shippingMethods: [],
+    contactPersons: [],
+    products: []
+});

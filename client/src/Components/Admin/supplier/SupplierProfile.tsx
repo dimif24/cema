@@ -1,5 +1,5 @@
 import AspectRatio from '@mui/joy/AspectRatio';
-import Box from '@mui/joy/Box';
+import { Box, CircularProgress } from '@mui/joy';
 import Button from '@mui/joy/Button';
 import Divider from '@mui/joy/Divider';
 import FormControl from '@mui/joy/FormControl';
@@ -25,11 +25,53 @@ import AccessTimeFilledRoundedIcon from '@mui/icons-material/AccessTimeFilledRou
 // import VideocamRoundedIcon from '@mui/icons-material/VideocamRounded';
 // import InsertDriveFileRoundedIcon from '@mui/icons-material/InsertDriveFileRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
-
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import { useEffect, useState } from 'react';
+import { fetchSupplier } from '../../api/admin';
+import { useAppDispatch, useAppSelector } from '../../../app/store/configureStore';
+import { updateSupplierField, EditInitialSupplierState } from './supplierSlice';
 
 // import CountryDropdown from '../../dropDowns/CountryDropdown';
+interface SupplierProfileProps {
+    id: number;
+}
+const SupplierProfile = ({ id }: SupplierProfileProps) => {
+    const dispatch = useAppDispatch();
+    const supplier = useAppSelector(state => state.AddSupplier.supplier);
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
 
-const SupplierProfile = () => {
+        dispatch(updateSupplierField({ name, value }));
+    };
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
+    useEffect(() => {
+        const getSupplier = async () => {
+            try {
+                const supplier = await fetchSupplier(id);
+                dispatch(EditInitialSupplierState(supplier));
+                setLoading(false);
+            } catch (error) {
+                setError('Failed to fetch suppliers');
+                setLoading(false);
+            }
+        };
+
+        getSupplier();
+    }, []);
+    const defaultProfileImage = '../../../../images/AdditionalImages/defaultProfileImage.webp';
+    const openWhatsAppChat = (phoneNumber: string) => {
+        const whatsappURL = `https://wa.me/${phoneNumber}`;
+        window.open(whatsappURL, '_blank');
+    };
+    if (loading) {
+        return <CircularProgress />;
+    }
+
+    if (error) {
+        return <Box>{error}</Box>;
+    }
     return (
         <Box sx={{ flex: 1, width: '100%' }}>
             <Box
@@ -65,7 +107,7 @@ const SupplierProfile = () => {
                             Users
                         </Link>
                         <Typography color="primary" fontWeight={500} fontSize={12}>
-                            Supplier Profile
+                            Supplier Profile {supplier.name}
                         </Typography>
                     </Breadcrumbs>
                     <Typography level="h2" component="h1" sx={{ mt: 1, mb: 2 }}>
@@ -86,10 +128,26 @@ const SupplierProfile = () => {
             >
                 <Card>
                     <Box sx={{ mb: 1 }}>
-                        <Typography level="title-md">Personal info</Typography>
+                        <Typography level="title-md">Supplier info</Typography>
                         <Typography level="body-sm">
-                            Customize how your profile information will apper to the networks.
+                            You can edit the supplier info by pressing enable button.
                         </Typography>
+                        <Button
+                            sx={{ flex: 1, margin: '0 4px' }}
+                            onClick={() => openWhatsAppChat(supplier.phoneNumber)}
+                            variant="outlined"
+                            color="primary"
+
+                        >
+                            <WhatsAppIcon />
+                        </Button>
+                        <Button
+                            sx={{ flex: 1, margin: '0 4px' }}
+                            component="a"
+                            href={`mailto:${supplier.email}?subject=Inquiry from &body=Hello ${supplier.name},`}
+                        >
+                            <MailOutlineIcon />
+                        </Button>
                     </Box>
                     <Divider />
                     <Stack
@@ -104,8 +162,7 @@ const SupplierProfile = () => {
                                 sx={{ flex: 1, minWidth: 120, borderRadius: '100%' }}
                             >
                                 <img
-                                    src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
-                                    srcSet="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr=2 2x"
+                                    src={supplier.profileImage ? supplier.profileImage : defaultProfileImage}
                                     loading="lazy"
                                     alt=""
                                 />
@@ -134,7 +191,7 @@ const SupplierProfile = () => {
                                 <FormControl
                                     sx={{ display: { sm: 'flex-column', md: 'flex-row' }, gap: 2 }}
                                 >
-                                    <Input size="sm" placeholder="First name" />
+                                    <Input size="sm" placeholder="First name" value={supplier.name} />
                                     <Input size="sm" placeholder="Last name" sx={{ flexGrow: 1 }} />
                                 </FormControl>
                             </Stack>
@@ -152,7 +209,9 @@ const SupplierProfile = () => {
                                         placeholder="email"
                                         defaultValue="siriwatk@test.com"
                                         sx={{ flexGrow: 1 }}
+
                                     />
+
                                 </FormControl>
                             </Stack>
                             <div>
@@ -230,6 +289,7 @@ const SupplierProfile = () => {
                                         },
                                         gap: 2,
                                     }}
+
                                 >
                                     <Input size="sm" placeholder="First name" />
                                     <Input size="sm" placeholder="Last name" />
@@ -238,7 +298,7 @@ const SupplierProfile = () => {
                         </Stack>
                         <FormControl>
                             <FormLabel>Role</FormLabel>
-                            <Input size="sm" defaultValue="UI Developer" />
+                            <Input onChange={handleInputChange} size="sm" defaultValue="UI Developer" />
                         </FormControl>
                         <FormControl sx={{ flexGrow: 1 }}>
                             <FormLabel>Email</FormLabel>

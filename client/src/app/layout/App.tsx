@@ -26,7 +26,7 @@ function App() {
       <AddSupplier></AddSupplier>
       <div style={{ marginTop: "100px" }}></div>
       <AdminMainPage></AdminMainPage>
-      <SupplierProfile></SupplierProfile>
+      <SupplierProfile id={5}></SupplierProfile>
     </div>
   )
 }

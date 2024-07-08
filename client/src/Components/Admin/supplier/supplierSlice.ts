@@ -1,6 +1,6 @@
 // src/slices/supplierSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Supplier, emptySupplier } from '../../../models/supplier';
+import { EditInitialSupplier, Supplier, emptySupplier } from '../../../models/supplier';
 import { ContactPerson } from '../../../models/contactPerson';
 
 interface SupplierState {
@@ -21,6 +21,9 @@ const supplierSlice = createSlice({
         resetSupplier: (state) => {
             state.supplier = emptySupplier;
         },
+        EditInitialSupplierState: (state, action: PayloadAction<Supplier>) => {
+            state.supplier = EditInitialSupplier(action.payload);
+        },
         addContactPerson(state) {
             state.supplier.contactPersons.push({
                 id: 0,
@@ -37,14 +40,15 @@ const supplierSlice = createSlice({
 
             if (name in contactPerson) {
                 (contactPerson[name] as string) = value;
-            }       },
+            }
+        },
         removeContactPerson(state, action: PayloadAction<number>) {
             state.supplier.contactPersons.splice(action.payload, 1);
         },
     },
 });
 
-export const { updateSupplierField, resetSupplier,addContactPerson,
+export const { updateSupplierField, resetSupplier, EditInitialSupplierState, addContactPerson,
     updateContactPerson,
     removeContactPerson } = supplierSlice.actions;
 export default supplierSlice.reducer;
