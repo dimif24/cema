@@ -31,7 +31,9 @@ import { useEffect, useState } from 'react';
 import { fetchSupplier } from '../../api/admin';
 import { useAppDispatch, useAppSelector } from '../../../app/store/configureStore';
 import { updateSupplierField, EditInitialSupplierState } from './supplierSlice';
-
+import { TextField } from '@mui/material';
+import LockIcon from '@mui/icons-material/Lock';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 // import CountryDropdown from '../../dropDowns/CountryDropdown';
 interface SupplierProfileProps {
     id: number;
@@ -46,6 +48,7 @@ const SupplierProfile = ({ id }: SupplierProfileProps) => {
     };
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const [disableEditing, setDisableEditing] = useState<boolean>(true);
     useEffect(() => {
         const getSupplier = async () => {
             try {
@@ -71,6 +74,9 @@ const SupplierProfile = ({ id }: SupplierProfileProps) => {
 
     if (error) {
         return <Box>{error}</Box>;
+    }
+    const handleEnableEditing = () => {
+        setDisableEditing(!disableEditing);
     }
     return (
         <Box sx={{ flex: 1, width: '100%' }}>
@@ -134,6 +140,14 @@ const SupplierProfile = ({ id }: SupplierProfileProps) => {
                         </Typography>
                         <Button
                             sx={{ flex: 1, margin: '0 4px' }}
+                            component="a"
+                            onClick={handleEnableEditing}
+
+                        >
+                            Edit {disableEditing ? <LockOpenIcon /> : <LockIcon />}
+                        </Button>
+                        <Button
+                            sx={{ flex: 1, margin: '0 4px' }}
                             onClick={() => openWhatsAppChat(supplier.phoneNumber)}
                             variant="outlined"
                             color="primary"
@@ -188,12 +202,16 @@ const SupplierProfile = ({ id }: SupplierProfileProps) => {
                         <Stack spacing={2} sx={{ flexGrow: 1 }}>
                             <Stack spacing={1}>
                                 <FormLabel>Name</FormLabel>
-                                <FormControl
-                                    sx={{ display: { sm: 'flex-column', md: 'flex-row' }, gap: 2 }}
-                                >
-                                    <Input size="sm" placeholder="First name" value={supplier.name} />
-                                    <Input size="sm" placeholder="Last name" sx={{ flexGrow: 1 }} />
-                                </FormControl>
+
+                                <TextField
+                                    fullWidth
+                                    name="name"
+                                    value={supplier.name}
+                                    onChange={handleInputChange}
+                                    required
+                                    disabled={disableEditing}
+
+                                />
                             </Stack>
                             <Stack direction="row" spacing={2}>
                                 <FormControl>
@@ -309,6 +327,7 @@ const SupplierProfile = ({ id }: SupplierProfileProps) => {
                                 placeholder="email"
                                 defaultValue="siriwatk@test.com"
                                 sx={{ flexGrow: 1 }}
+                                readOnly={disableEditing}
                             />
                         </FormControl>
                         <div>
