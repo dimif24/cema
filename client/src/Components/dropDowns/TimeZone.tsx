@@ -1,6 +1,9 @@
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import timezones from '../../Helpers/timeZones';
+import { InputAdornment } from '@mui/material';
+import AccessTimeFilledRoundedIcon from '@mui/icons-material/AccessTimeFilledRounded';
+
 interface timeZone {
     label: string,
     value: string | null;
@@ -22,8 +25,17 @@ const TimeZone = ({ value, onChange, required, label }: timeZone) => {
             options={timezones}
             value={value}
             onChange={handleChange}
+            
+            
+            renderInput={(params) => <TextField {...params} required={required} label={label} InputProps={{
+                ...params.InputProps,
 
-            renderInput={(params) => <TextField {...params} required={required} label={label} />}
+                startAdornment: (
+                    <InputAdornment position="start">
+                        <AccessTimeFilledRoundedIcon />
+                    </InputAdornment>
+                ),
+            }}/>}
         />
     );
 }
