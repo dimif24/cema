@@ -5,7 +5,7 @@ import Divider from '@mui/joy/Divider';
 import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
 
-import Input from '@mui/joy/Input';
+//import Input from '@mui/joy/Input';
 import IconButton from '@mui/joy/IconButton';
 
 import Grid from '@mui/material/Grid';
@@ -20,7 +20,7 @@ import CardOverflow from '@mui/joy/CardOverflow';
 
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
-import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
+//import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 //import AccessTimeFilledRoundedIcon from '@mui/icons-material/AccessTimeFilledRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
@@ -29,10 +29,13 @@ import { useEffect, useState } from 'react';
 import { fetchSupplier } from '../../api/admin';
 import { useAppDispatch, useAppSelector } from '../../../app/store/configureStore';
 import { updateSupplierField, EditInitialSupplierState } from './supplierSlice';
-import { TextField } from '@mui/material';
+import { Stack, TextField } from '@mui/material';
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import CountryDropdown from '../../dropDowns/CountryDropdown';
+import EmailInput from '../../inputs/EmailInput';
+import PhoneInputDropdown from '../../dropDowns/PhoneInputDropdown';
+import CurrencyDropdown from '../../dropDowns/CurrencyDropdown';
 
 interface SupplierProfileProps {
     id: number;
@@ -64,6 +67,11 @@ const SupplierProfile = ({ id }: SupplierProfileProps) => {
 
         getSupplier();
     }, [id, dispatch]);
+    
+    useEffect(() => {
+        const balance = (supplier.cr || 0) - (supplier.db || 0);
+        dispatch(updateSupplierField({ name: 'balance', value: balance }));
+    }, [supplier.cr, supplier.db, dispatch]);
 
     const defaultProfileImage = '../../../../images/AdditionalImages/defaultProfileImage.webp';
     const openWhatsAppChat = (phoneNumber: string) => {
@@ -138,36 +146,57 @@ const SupplierProfile = ({ id }: SupplierProfileProps) => {
             >
                 <Grid item xs={12}>
                     <Card>
-                        <Box sx={{ mb: 1 }}>
+                    <Box sx={{ mb: 1 }}>
+                    <Grid container spacing={2} alignItems="center" >
+                        <Grid item xs={6}>
                             <Typography level="title-md">Supplier info</Typography>
-                            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                                <Typography level="body-sm">
-                                    You can edit the supplier info by pressing enable button.
-                                </Typography>
-                                <Button
-                                    sx={{ flex: 1, margin: '0 4px' }}
-                                    component="a"
-                                    onClick={handleEnableEditing}
-                                >
-                                    Edit {disableEditing ? <LockOpenIcon /> : <LockIcon />}
-                                </Button>
-                                <Button
-                                    sx={{ flex: 1, margin: '0 4px' }}
-                                    onClick={() => openWhatsAppChat(supplier.phoneNumber)}
-                                    variant="outlined"
-                                    color="primary"
-                                >
-                                    <WhatsAppIcon />
-                                </Button>
-                                <Button
-                                    sx={{ flex: 1, margin: '0 4px' }}
-                                    component="a"
-                                    href={`mailto:${supplier.email}?subject=Inquiry from &body=Hello ${supplier.name},`}
-                                >
-                                    <MailOutlineIcon />
-                                </Button>
-                            </Box>
-                        </Box>
+                        </Grid>
+                        <Grid item xs={6} textAlign="right">
+                            <Stack direction="row" spacing={1} justifyContent="flex-end" alignItems="center">
+                                <Typography level="title-md">Balance:</Typography>
+                                <Typography level="title-md">{supplier.balance?.toLocaleString()}</Typography>
+                            </Stack>
+                        </Grid>
+                    </Grid>
+
+
+                
+
+                <Grid container spacing={2} alignItems="center"  >
+                    <Grid item xs={12} md={8}>
+                        <Typography level="body-sm">
+                            You can edit the supplier info by pressing enable button.
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12} md={4} container justifyContent="flex-end" spacing={1}>
+                        <Grid item>
+                            <Button
+                                onClick={handleEnableEditing}
+                            >
+                                Edit {disableEditing ? <LockOpenIcon /> : <LockIcon />}
+                            </Button>
+                        </Grid>
+                        <Grid item>
+                            <Button
+                                onClick={() => openWhatsAppChat(supplier.phoneNumber)}
+                                variant="outlined"
+                                color="primary"
+                            >
+                                <WhatsAppIcon />
+                            </Button>
+                        </Grid>
+                        <Grid item>
+                            <Button
+                                component="a"
+                                href={`mailto:${supplier.email}?subject=Inquiry from &body=Hello ${supplier.name},`}
+                            >
+                                <MailOutlineIcon />
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Box>
+
                         <Divider />
                         <Grid container spacing={3} sx={{ my: 1 }}>
                             <Grid item xs={6} md={2}>
@@ -231,7 +260,7 @@ const SupplierProfile = ({ id }: SupplierProfileProps) => {
                                             />
                                         </FormControl>
                                     </Grid>
-                                    <Grid item xs={12} md={6}>
+                                    {/* <Grid item xs={12} md={6}>
                                         <FormControl>
                                             <FormLabel>Role</FormLabel>
                                             <Input size="sm" defaultValue="UI Developer" disabled={disableEditing} />
@@ -251,7 +280,7 @@ const SupplierProfile = ({ id }: SupplierProfileProps) => {
                                                 disabled={disableEditing}
                                             />
                                         </FormControl>
-                                    </Grid>
+                                    </Grid> */}
                                     {/* <Grid item xs={12} md={6}>
                                         <FormControl>
                                             <FormLabel>Timezone</FormLabel>
@@ -284,10 +313,89 @@ const SupplierProfile = ({ id }: SupplierProfileProps) => {
                             onChange={(value: string) => dispatch(updateSupplierField({ name: 'country', value }))}
                             flag='country'
                             required
-                            
+                            disabled={disableEditing}
+
 
                         />
                     </Grid>
+                    <Grid item xs={12} md={6}>
+
+                    <TextField
+                            fullWidth
+                            label="City"
+                            name="city"
+                            value={supplier.city}
+                            onChange={handleInputChange}
+                            required
+                            disabled={disableEditing}
+
+                        />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+
+                    <EmailInput value={supplier.email!} onChange={handleInputChange} required={true}                             disabled={disableEditing}
+                    ></EmailInput>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+
+                    <PhoneInputDropdown
+                        value={supplier.phoneNumber}
+                        required
+                        onChange={(value: string) => dispatch(updateSupplierField({ name: 'phoneNumber', value }))}
+                        disabled={disableEditing}
+
+                    >
+
+                    </PhoneInputDropdown>
+
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                    <TextField
+                        fullWidth
+                        label="Website"
+                        name="website"
+                        value={supplier.website}
+                        onChange={handleInputChange}
+                        disabled={disableEditing}
+
+
+                    />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                    <CurrencyDropdown
+                        value={supplier.currency!}
+                        onChange={(value: string) => dispatch(updateSupplierField({ name: 'currency', value }))}
+                        required
+                        disabled={disableEditing}
+
+                    />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                    <TextField
+                        fullWidth
+                        label="DB"
+                        name="db"
+                        type='number'
+                        value={supplier.db?.toLocaleString()}
+                        onChange={handleInputChange}
+                        disabled={disableEditing}
+
+                    />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                    <TextField
+                        fullWidth
+                        label="CR"
+                        name="cr"
+                        type='number'
+
+                        value={supplier.cr?.toLocaleString()}
+                        onChange={handleInputChange}
+                        disabled={disableEditing}
+
+                    />
+                    </Grid>
+                  
                                 </Grid>
                             </Grid>
                         </Grid>

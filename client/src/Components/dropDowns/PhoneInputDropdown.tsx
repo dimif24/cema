@@ -21,6 +21,7 @@ interface PhoneInputDropdownProps {
     value: string;
     onChange: (phone: string) => void;
     required?: boolean;
+    disabled?:boolean;
 }
 const phoneUtil = PhoneNumberUtil.getInstance();
 
@@ -32,17 +33,22 @@ const isPhoneValid = (phone: string) => {
     }
 };
 
-const PhoneInputDropdown = ({ value, onChange, required = false }: PhoneInputDropdownProps) => {
+const PhoneInputDropdown = ({ value, onChange, required = false,disabled }: PhoneInputDropdownProps) => {
     const [error, setError] = useState<string | null>(null);
 
     const { inputValue, handlePhoneValueChange, inputRef, country, setCountry } =
         usePhoneInput({
             defaultCountry: 'kw',
-            value,
+             value,
             countries: defaultCountries,
             onChange: (data) => {
-                onChange(data.phone);
-                setError(isPhoneValid(data.phone) ? null : 'Wrong format');
+            
+
+                
+                    onChange(data.phone);
+                    setError(isPhoneValid(data.phone) ? null : 'Wrong format');
+                
+                
 
             },
             
@@ -59,7 +65,7 @@ const PhoneInputDropdown = ({ value, onChange, required = false }: PhoneInputDro
             color="primary"
             placeholder="Phone number"
             value={inputValue}
-            onChange={handlePhoneValueChange}
+            onChange={  handlePhoneValueChange}
             type="tel"
             inputRef={inputRef}
             InputProps={{
@@ -106,6 +112,7 @@ const PhoneInputDropdown = ({ value, onChange, required = false }: PhoneInputDro
                             renderValue={(value) => (
                                 <FlagImage iso2={value} style={{ display: 'flex' }} />
                             )}
+                            disabled={disabled}
                         >
                             {defaultCountries.map((c) => {
                                 const country = parseCountry(c);
@@ -124,6 +131,8 @@ const PhoneInputDropdown = ({ value, onChange, required = false }: PhoneInputDro
                     </InputAdornment>
                 ),
             }}
+            disabled={disabled}
+
         />
     );
 };

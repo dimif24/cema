@@ -7,12 +7,13 @@ interface EmailInputProps {
     value: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
     required?: boolean;
+    disabled?:boolean;
 }
 
 
 
 
-const EmailInput = ({ value, onChange, required = false }: EmailInputProps) => {
+const EmailInput = ({ value, onChange, required = false, disabled }: EmailInputProps) => {
 
     const [emailError, setEmailError] = useState<string | null>(null);
 
@@ -42,6 +43,7 @@ const EmailInput = ({ value, onChange, required = false }: EmailInputProps) => {
                     </InputAdornment>
                 ),
             }}
+            disabled={disabled}
 
         />
     );

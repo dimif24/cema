@@ -8,23 +8,28 @@ interface CountryDropdownProps {
     required?: boolean;
     label: string;
     flag: string;
+    disabled?:boolean;
 
 }
 interface CountryDropdown {
     label: string;
     code: string;
     phone: string;
+    disabled?:boolean;
 
 }
 
-const CountryDropdown = ({ value, onChange, required = false, label, flag }: CountryDropdownProps) => {
+const CountryDropdown = ({ value, onChange, required = false, label, flag,disabled }: CountryDropdownProps) => {
 
 
 
 
     const handleChange = (_event: React.SyntheticEvent, newValue: CountryDropdown | null) => {
         console.log(typeof (newValue?.phone));
-        onChange(newValue ? flag == 'phoneNumber' ? newValue.phone : newValue.label : '');
+     
+            onChange(newValue ? flag == 'phoneNumber' ? newValue.phone : newValue.label : '');
+
+        
     };
     const getOptionSelected = (option: CountryDropdown, value: string) => {
         return flag === 'phoneNumber' ? option.phone === value : option.label === value;
@@ -63,12 +68,13 @@ const CountryDropdown = ({ value, onChange, required = false, label, flag }: Cou
                         ...params.inputProps,
                         autoComplete: 'new-password', // disable autocomplete and autofill
                     }}
+                    disabled={disabled}
                 />
             )}
             value={countries.find(option => getOptionSelected(option, value)) || null}
 
             onChange={handleChange}
-
+disabled={disabled}
         />
     );
 

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Product } from '../../models/products'
 import Catalog from '../../features/catalog/Catalog'
 import Header from './Header'
-import AddSupplier from '../../Components/Admin/supplier/AddSupplier'
+import AddSupplier from '../../Components/Admin/supplier/addSupplier/main'
 import SupplierProfile from '../../Components/Admin/supplier/SupplierProfile'
 import AdminMainPage from '../../Components/Admin/supplier/Main'
 
