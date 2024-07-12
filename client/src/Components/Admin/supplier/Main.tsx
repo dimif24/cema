@@ -5,6 +5,8 @@ import SideBar from '../../sideBar/Admin/SideBar';
 import Header from '../../sideBar/Admin/Header';
 // import SupplierProfile from '././SupplierProfile';
 import SuppliersListing from './SuppliersListing';
+import SupplierProfile from './SupplierProfile';
+import { TextField } from '@mui/material';
 
 const AdminMainPage = () => {
     return (
@@ -30,6 +32,7 @@ const AdminMainPage = () => {
                     }}
                 >
                     <SuppliersListing />
+                    {/* <SupplierProfile id={14}></SupplierProfile> */}
                 </Box>
             </Box>
         </CssVarsProvider>

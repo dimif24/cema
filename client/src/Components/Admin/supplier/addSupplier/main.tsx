@@ -94,7 +94,6 @@ const AddSupplier = () => {
                          handleInputChange={handleInputChange}
                          handleImageUpload={handleImageUpload}
                          xs={6} // Replace with your desired value
-                         md={6} // Replace with your desired value or remove if not needed
                      />
                     )}
                     {/* Add Contact Person Section */}
