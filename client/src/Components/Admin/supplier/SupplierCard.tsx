@@ -1,21 +1,23 @@
-// src/components/Admin/supplier/SupplierCard.tsx
-import AspectRatio from '@mui/joy/AspectRatio';
-import Box from '@mui/joy/Box';
-import Button from '@mui/joy/Button';
-import Card from '@mui/joy/Card';
-import CardContent from '@mui/joy/CardContent';
-import Typography from '@mui/joy/Typography';
-import Sheet from '@mui/joy/Sheet';
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Typography,
+  Paper,
+  IconButton,
+  Avatar
+} from '@mui/material';
 import { Supplier } from '../../../models/supplier';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
-
 
 const defaultProfileImage = '../../../../images/AdditionalImages/defaultProfileImage.webp';
 const openWhatsAppChat = (phoneNumber: string) => {
   const whatsappURL = `https://wa.me/${phoneNumber}`;
   window.open(whatsappURL, '_blank');
 };
+
 const SupplierCard = ({ profileImage, name, businessType, balance, yearEstablished, country, currency, email, phoneNumber }: Supplier) => {
   return (
     <Box
@@ -27,6 +29,7 @@ const SupplierCard = ({ profileImage, name, businessType, balance, yearEstablish
         gap: 2,
         overflow: { xs: 'auto', sm: 'initial' },
       }}
+      key={email}
     >
       <Card
         sx={{
@@ -36,24 +39,23 @@ const SupplierCard = ({ profileImage, name, businessType, balance, yearEstablish
           alignItems: 'center',
           gap: 2,
           overflow: 'auto',
-
         }}
       >
-        <AspectRatio flex ratio="1" maxHeight={182} sx={{ minWidth: 182 }}>
-          <img
+        <Box sx={{ position: 'relative', minWidth: 182, maxHeight: 182 }}>
+          <Avatar
             src={profileImage ? profileImage : defaultProfileImage}
-            loading="lazy"
-            alt=""
+            sx={{ width: '100%', height: '100%', borderRadius: 0 }}
+            variant="square"
           />
-        </AspectRatio>
+        </Box>
         <CardContent>
-          <Typography fontSize="xl" fontWeight="lg">
+          <Typography variant="h5" fontWeight="bold">
             {name}
           </Typography>
-          <Sheet
+          <Paper
             sx={{
-              bgcolor: 'background.level1',
-              borderRadius: 'sm',
+              backgroundColor: 'background.paper',
+              borderRadius: 1,
               p: 1.5,
               my: 1.5,
               display: 'flex',
@@ -64,64 +66,60 @@ const SupplierCard = ({ profileImage, name, businessType, balance, yearEstablish
             <Box sx={{
               display: { xs: 'none', md: 'block' }, // Hide on small screens
             }}>
-              <Typography level="body-xs" fontWeight="lg">
+              <Typography variant="body2" fontWeight="bold">
                 Business Type
               </Typography>
-              <Typography fontWeight="lg">{businessType}</Typography>
+              <Typography fontWeight="bold">{businessType}</Typography>
             </Box>
             <div>
-              <Typography level="body-xs" fontWeight="lg">
+              <Typography variant="body2" fontWeight="bold">
                 Balance
               </Typography>
-              <Typography fontWeight="lg">{balance} {currency}</Typography>
+              <Typography fontWeight="bold">{balance} {currency}</Typography>
             </div>
             <div>
-              <Typography level="body-xs" fontWeight="lg">
+              <Typography variant="body2" fontWeight="bold">
                 Country
               </Typography>
-              <Typography fontWeight="lg">{country}</Typography>
+              <Typography fontWeight="bold">{country}</Typography>
             </div>
             <Box sx={{
               display: { xs: 'none', md: 'block' }, // Hide on small screens
             }}>
-              <Typography level="body-xs" fontWeight="lg">
+              <Typography variant="body2" fontWeight="bold">
                 Year Established
               </Typography>
-              <Typography fontWeight="lg">{yearEstablished}</Typography>
+              <Typography fontWeight="bold">{yearEstablished}</Typography>
             </Box>
-          </Sheet>
+          </Paper>
           <Box sx={{ display: 'flex', gap: 1.5, '& > button': { flex: 1 } }}>
             <Box sx={{ display: 'flex', width: '100%' }}>
-              <Button
+              <IconButton
                 sx={{ flex: 1, margin: '0 4px' }}
                 component="a"
                 href={`mailto:${email}?subject=Inquiry from &body=Hello ${name},`}
               >
                 <MailOutlineIcon />
-              </Button>
-              <Button
+              </IconButton>
+              <IconButton
                 sx={{ flex: 1, margin: '0 4px' }}
                 onClick={() => openWhatsAppChat(phoneNumber)}
-                variant="outlined"
                 color="primary"
-
               >
                 <WhatsAppIcon />
-              </Button>
+              </IconButton>
               <Button
                 sx={{ flex: 2, margin: '0 4px' }}
                 variant="outlined"
-                color="neutral"
+                color="primary"
               >
                 View Profile
               </Button>
             </Box>
-
-
           </Box>
         </CardContent>
       </Card>
-    </Box >
+    </Box>
   );
 }
 

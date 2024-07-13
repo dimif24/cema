@@ -5,6 +5,7 @@ import Header from './Header'
 import AddSupplier from '../../Components/Admin/supplier/addSupplier/main'
 import SupplierProfile from '../../Components/Admin/supplier/SupplierProfile'
 import AdminMainPage from '../../Components/Admin/supplier/Main'
+import SuppliersListing from '../../Components/Admin/supplier/SuppliersListing'
 
 function App() {
   const [products, setProducts] = useState<Product[]>()
@@ -22,12 +23,13 @@ function App() {
   return (
     <div>
       <Header />
-      <Catalog products={products || []}></Catalog>
+      {/* <Catalog products={products || []}></Catalog> */}
       <AddSupplier></AddSupplier>
       <div style={{ marginTop: "100px" }}></div>
-      <AdminMainPage></AdminMainPage>
-      <SupplierProfile id={14}></SupplierProfile>
-      </div>
+      {/* <AdminMainPage></AdminMainPage> */}
+      <SuppliersListing />
+      <SupplierProfile id={5}></SupplierProfile>
+    </div>
   )
 }
 

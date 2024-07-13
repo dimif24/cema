@@ -10,6 +10,7 @@ import { TextField } from '@mui/material';
 
 const AdminMainPage = () => {
     return (
+
         <CssVarsProvider disableTransitionOnChange>
             <CssBaseline />
             <Box sx={{ display: 'flex', minHeight: '100dvh' }}>
@@ -31,7 +32,7 @@ const AdminMainPage = () => {
                         overflow: 'auto',
                     }}
                 >
-                    <SuppliersListing />
+                    {/* <SuppliersListing /> */}
                     {/* <SupplierProfile id={14}></SupplierProfile> */}
                 </Box>
             </Box>
