@@ -61,3 +61,4 @@ export const fetchSupplier = async (id: number): Promise<Supplier> => {
         throw error;
     }
 };
+

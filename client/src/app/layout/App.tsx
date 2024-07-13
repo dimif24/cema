@@ -22,13 +22,13 @@ function App() {
   }
   return (
     <div>
-      <Header />
+      {/* <Header /> */}
       {/* <Catalog products={products || []}></Catalog> */}
-      <AddSupplier></AddSupplier>
+      {/* <AddSupplier></AddSupplier> */}
       <div style={{ marginTop: "100px" }}></div>
-      {/* <AdminMainPage></AdminMainPage> */}
-      <SuppliersListing />
-      <SupplierProfile id={5}></SupplierProfile>
+      <AdminMainPage></AdminMainPage>
+      {/* <SuppliersListing /> */}
+      {/* <SupplierProfile id={5}></SupplierProfile> */}
     </div>
   )
 }

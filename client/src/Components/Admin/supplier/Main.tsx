@@ -1,42 +1,84 @@
-import { CssVarsProvider } from '@mui/joy/styles';
-import CssBaseline from '@mui/joy/CssBaseline';
-import Box from '@mui/joy/Box';
+import  { useEffect, useState } from 'react';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import Box from '@mui/material/Box';
 import SideBar from '../../sideBar/Admin/SideBar';
 import Header from '../../sideBar/Admin/Header';
-// import SupplierProfile from '././SupplierProfile';
 import SuppliersListing from './SuppliersListing';
 import SupplierProfile from './SupplierProfile';
-import { TextField } from '@mui/material';
+
+
+const theme = createTheme();
 
 const AdminMainPage = () => {
-    return (
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
-        <CssVarsProvider disableTransitionOnChange>
-            <CssBaseline />
-            <Box sx={{ display: 'flex', minHeight: '100dvh' }}>
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+    // Function to handle window resize
+    const handleResize = () => {
+        if (window.innerWidth < 600) { // Adjust this value based on your design
+          setSidebarOpen(false);
+        } else {
+          setSidebarOpen(true);
+        }
+      };
+    
+      // Use effect to add event listener
+      useEffect(() => {
+        handleResize(); // Check on mount
+        window.addEventListener('resize', handleResize);
+    
+        // Cleanup listener on unmount
+        return () => {
+          window.removeEventListener('resize', handleResize);
+        };
+      }, []);
 
-                <SideBar />
-                <Header />
-                <Box
-                    component="main"
-                    className="MainContent"
-                    sx={{
-                        pt: { xs: 'calc(12px + var(--Header-height))', md: 3 },
-                        pb: { xs: 2, sm: 2, md: 3 },
-                        flex: 1,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        minWidth: 0,
-                        height: '100dvh',
-                        gap: 1,
-                        overflow: 'auto',
-                    }}
-                >
-                    {/* <SuppliersListing /> */}
-                    {/* <SupplierProfile id={14}></SupplierProfile> */}
-                </Box>
-            </Box>
-        </CssVarsProvider>
-    );
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Box sx={{ display: 'flex', minHeight: '100vh' }}>
+        <SideBar open={sidebarOpen} />
+        <Box
+          sx={{
+            flexGrow: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            width: {
+              xs: '100%',
+              sm: sidebarOpen ? 'calc(100% - 240px)' : '100%',
+            },
+            transition: 'width 0.3s ease',
+            overflow: 'auto',
+          }}
+        >
+          <Header toggleSidebar={toggleSidebar} />
+          <Box
+            component="main"
+            className="MainContent"
+            sx={{
+            
+              pb: { xs: 2, sm: 2, md: 3 },
+              px: 2,
+              flex: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              minWidth: 0,
+              height: '100vh',
+              gap: 1,
+              overflow: 'auto',
+              
+            }}
+          >
+            {/* <SuppliersListing /> */}
+            <SupplierProfile id={5}></SupplierProfile>
+          </Box>
+        </Box>
+      </Box>
+    </ThemeProvider>
+  );
 }
+
 export default AdminMainPage;

@@ -1,9 +1,10 @@
 // src/components/Admin/supplier/SuppliersListing.tsx
 import { useEffect, useState } from 'react';
-import { Box, CircularProgress } from '@mui/joy';
+import { Box, CircularProgress } from '@mui/material';
 import SupplierCard from './SupplierCard';
 import { fetchSuppliers } from '../../api/admin';
 import { Supplier } from '../../../models/supplier';
+import { Grid } from '@mui/material';
 
 const SuppliersListing = () => {
     const [suppliers, setSuppliers] = useState<Supplier[]>([]);
@@ -34,11 +35,16 @@ const SuppliersListing = () => {
     }
 
     return (
-        <Box>
+
+        <Grid container spacing={2}>
             {suppliers.map((supplier) => (
+            <Grid item xs={12} key={supplier.id}>
                 <SupplierCard key={supplier.id} {...supplier} />
+            </Grid>
+
             ))}
-        </Box>
+        </Grid>
+
     );
 };
 

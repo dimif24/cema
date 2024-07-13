@@ -1,16 +1,13 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Typography,
-  Paper,
-  IconButton,
-  Avatar
-} from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
 import { Supplier } from '../../../models/supplier';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import PersonIcon from '@mui/icons-material/Person';
 
 const defaultProfileImage = '../../../../images/AdditionalImages/defaultProfileImage.webp';
 const openWhatsAppChat = (phoneNumber: string) => {
@@ -20,106 +17,98 @@ const openWhatsAppChat = (phoneNumber: string) => {
 
 const SupplierCard = ({ profileImage, name, businessType, balance, yearEstablished, country, currency, email, phoneNumber }: Supplier) => {
   return (
-    <Box
+    <Card
       sx={{
-        width: '100%',
         display: 'flex',
-        flexDirection: { xs: 'column', md: 'row' }, // Adjust layout based on screen size
-        alignItems: 'center',
-        gap: 2,
-        overflow: { xs: 'auto', sm: 'initial' },
+        flexDirection: { xs: 'column', sm: 'row' },
+        overflow: 'hidden',
+        boxShadow: 3,
+        borderRadius: 2,
+        transition: 'box-shadow 0.3s',
+        '&:hover': {
+          boxShadow: 6,
+        },
       }}
-      key={email}
     >
-      <Card
+      <Box
         sx={{
-          width: '100%',
-          display: 'flex',
-          flexDirection: { xs: 'column', md: 'row' }, // Adjust layout based on screen size
-          alignItems: 'center',
-          gap: 2,
-          overflow: 'auto',
+          width: { xs: '100%', sm: 200 },
+          height: { xs: 200, sm: 'auto' },
+          position: 'relative',
         }}
       >
-        <Box sx={{ position: 'relative', minWidth: 182, maxHeight: 182 }}>
-          <Avatar
-            src={profileImage ? profileImage : defaultProfileImage}
-            sx={{ width: '100%', height: '100%', borderRadius: 0 }}
-            variant="square"
-          />
-        </Box>
-        <CardContent>
-          <Typography variant="h5" fontWeight="bold">
-            {name}
-          </Typography>
-          <Paper
-            sx={{
-              backgroundColor: 'background.paper',
-              borderRadius: 1,
-              p: 1.5,
-              my: 1.5,
-              display: 'flex',
-              gap: 2,
-              '& > div': { flex: 1 },
-            }}
+        <Box
+          component="img"
+          src={profileImage || defaultProfileImage}
+          alt={name}
+          sx={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+          }}
+        />
+      </Box>
+      <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column', p: 3 }}>
+        <Typography variant="h5" fontWeight="bold" gutterBottom>
+          {name}
+        </Typography>
+        <Paper
+          elevation={0}
+          sx={{
+            bgcolor: 'background.default',
+            borderRadius: 2,
+            p: 2,
+            mb: 2,
+            display: 'grid',
+            gridTemplateColumns: { xs: '1fr 1fr', md: 'repeat(4, 1fr)' },
+            gap: 2,
+          }}
+        >
+          {[
+            { label: 'Business Type', value: businessType },
+            { label: 'Balance', value: `${balance} ${currency}` },
+            { label: 'Country', value: country },
+            { label: 'Year Established', value: yearEstablished },
+          ].map(({ label, value }) => (
+            <Box key={label}>
+              <Typography variant="body2" color="text.secondary">
+                {label}
+              </Typography>
+              <Typography variant="body1" fontWeight="medium">
+                {value}
+              </Typography>
+            </Box>
+          ))}
+        </Paper>
+        <Box sx={{ display: 'flex', gap: 1, mt: 'auto' }}>
+          <Button
+            startIcon={<MailOutlineIcon />}
+            variant="outlined"
+            component="a"
+            href={`mailto:${email}?subject=Inquiry for ${name}&body=Hello ${name},`}
+            sx={{ flex: 1 }}
           >
-            <Box sx={{
-              display: { xs: 'none', md: 'block' }, // Hide on small screens
-            }}>
-              <Typography variant="body2" fontWeight="bold">
-                Business Type
-              </Typography>
-              <Typography fontWeight="bold">{businessType}</Typography>
-            </Box>
-            <div>
-              <Typography variant="body2" fontWeight="bold">
-                Balance
-              </Typography>
-              <Typography fontWeight="bold">{balance} {currency}</Typography>
-            </div>
-            <div>
-              <Typography variant="body2" fontWeight="bold">
-                Country
-              </Typography>
-              <Typography fontWeight="bold">{country}</Typography>
-            </div>
-            <Box sx={{
-              display: { xs: 'none', md: 'block' }, // Hide on small screens
-            }}>
-              <Typography variant="body2" fontWeight="bold">
-                Year Established
-              </Typography>
-              <Typography fontWeight="bold">{yearEstablished}</Typography>
-            </Box>
-          </Paper>
-          <Box sx={{ display: 'flex', gap: 1.5, '& > button': { flex: 1 } }}>
-            <Box sx={{ display: 'flex', width: '100%' }}>
-              <IconButton
-                sx={{ flex: 1, margin: '0 4px' }}
-                component="a"
-                href={`mailto:${email}?subject=Inquiry from &body=Hello ${name},`}
-              >
-                <MailOutlineIcon />
-              </IconButton>
-              <IconButton
-                sx={{ flex: 1, margin: '0 4px' }}
-                onClick={() => openWhatsAppChat(phoneNumber)}
-                color="primary"
-              >
-                <WhatsAppIcon />
-              </IconButton>
-              <Button
-                sx={{ flex: 2, margin: '0 4px' }}
-                variant="outlined"
-                color="primary"
-              >
-                View Profile
-              </Button>
-            </Box>
-          </Box>
-        </CardContent>
-      </Card>
-    </Box>
+            
+          </Button>
+          <Button
+            startIcon={<WhatsAppIcon />}
+            variant="outlined"
+            onClick={() => openWhatsAppChat(phoneNumber)}
+            sx={{ flex: 1 }}
+          >
+            
+          </Button>
+          <Button
+            startIcon={<PersonIcon />}
+            variant="contained"
+            color="primary"
+            sx={{ flex: 1 }}
+          >
+            View 
+          </Button>
+        </Box>
+      </CardContent>
+    </Card>
   );
 }
 

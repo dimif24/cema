@@ -1,326 +1,188 @@
-import * as React from 'react';
-import GlobalStyles from '@mui/joy/GlobalStyles';
-import Avatar from '@mui/joy/Avatar';
-import Box from '@mui/joy/Box';
-import Divider from '@mui/joy/Divider';
-import IconButton from '@mui/joy/IconButton';
-import Input from '@mui/joy/Input';
-import List from '@mui/joy/List';
-import ListItem from '@mui/joy/ListItem';
-import ListItemButton, { listItemButtonClasses } from '@mui/joy/ListItemButton';
-import ListItemContent from '@mui/joy/ListItemContent';
-import Typography from '@mui/joy/Typography';
-import Sheet from '@mui/joy/Sheet';
+import React from 'react';
+import { styled } from '@mui/material/styles';
+import Drawer from '@mui/material/Drawer';
+import Box from '@mui/material/Box';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
+import Avatar from '@mui/material/Avatar';
+import IconButton from '@mui/material/IconButton';
+import InputBase from '@mui/material/InputBase';
+import Collapse from '@mui/material/Collapse';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import ShoppingCartRoundedIcon from '@mui/icons-material/ShoppingCartRounded';
-//import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
 import GroupRoundedIcon from '@mui/icons-material/GroupRounded';
 import SupportRoundedIcon from '@mui/icons-material/SupportRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import AssessmentRoundedIcon from '@mui/icons-material/AssessmentRounded';
-import BusinessRoundedIcon from '@mui/icons-material/BusinessRounded'; // Add this import
-import { closeSidebar } from './Utils';
+import BusinessRoundedIcon from '@mui/icons-material/BusinessRounded';
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 
-function Toggler({
-    defaultExpanded = false,
-    renderToggle,
-    children,
-}: {
-    defaultExpanded?: boolean;
-    children: React.ReactNode;
-    renderToggle: (params: {
-        open: boolean;
-        setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    }) => React.ReactNode;
-}) {
-    const [open, setOpen] = React.useState(defaultExpanded);
-    return (
-        <React.Fragment>
-            {renderToggle({ open, setOpen })}
-            <Box
-                sx={{
-                    display: 'grid',
-                    gridTemplateRows: open ? '1fr' : '0fr',
-                    transition: '0.2s ease',
-                    '& > *': {
-                        overflow: 'hidden',
-                    },
-                }}
-            >
-                {children}
-            </Box>
-        </React.Fragment>
-    );
-}
+const drawerWidth = 240;
 
-const Sidebar = () => {
-    return (
-        <Sheet
-            className="Sidebar"
-            sx={{
-                position: { xs: 'fixed', md: 'sticky' },
-                transform: {
-                    xs: 'translateX(calc(100% * (var(--SideNavigation-slideIn, 0) - 1)))',
-                    md: 'none',
-                },
-                transition: 'transform 0.4s, width 0.4s',
-                zIndex: 10000,
-                height: '100dvh',
-                width: 'var(--Sidebar-width)',
-                top: 0,
-                p: 2,
-                flexShrink: 0,
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 2,
-                borderRight: '1px solid',
-                borderColor: 'divider',
-            }}
-        >
-            <GlobalStyles
-                styles={(theme) => ({
-                    ':root': {
-                        '--Sidebar-width': '220px',
-                        [theme.breakpoints.up('lg')]: {
-                            '--Sidebar-width': '240px',
-                        },
-                    },
-                })}
-            />
-            <Box
-                className="Sidebar-overlay"
-                sx={{
-                    position: 'fixed',
-                    zIndex: 9998,
-                    top: 0,
-                    left: 0,
-                    width: '100vw',
-                    height: '100vh',
-                    opacity: 'var(--SideNavigation-slideIn)',
-                    backgroundColor: 'var(--joy-palette-background-backdrop)',
-                    transition: 'opacity 0.4s',
-                    transform: {
-                        xs: 'translateX(calc(100% * (var(--SideNavigation-slideIn, 0) - 1) + var(--SideNavigation-slideIn, 0) * var(--Sidebar-width, 0px)))',
-                        lg: 'translateX(-100%)',
-                    },
-                }}
-                onClick={() => closeSidebar()}
-            />
-            <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                <IconButton variant="soft" color="primary" size="sm">
+const StyledDrawer = styled(Drawer)(({ theme }) => ({
+  width: drawerWidth,
+  flexShrink: 0,
+  '& .MuiDrawer-paper': {
+    width: drawerWidth,
+    boxSizing: 'border-box',
+    border: 'none',
+    boxShadow: theme.shadows[1],
+    transition: 'transform 0.3s',
+  },
+}));
 
-                </IconButton>
-                <Typography level="title-lg">Cema</Typography>
-            </Box>
-            <Input size="sm" startDecorator={<SearchRoundedIcon />} placeholder="Search" />
-            <Box
-                sx={{
-                    minHeight: 0,
-                    overflow: 'hidden auto',
-                    flexGrow: 1,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    [`& .${listItemButtonClasses.root}`]: {
-                        gap: 1.5,
-                    },
-                }}
-            >
-                <List
-                    size="sm"
-                    sx={{
-                        gap: 1,
-                        '--List-nestedInsetStart': '30px',
-                        '--ListItem-radius': (theme) => theme.vars.radius.sm,
-                    }}
-                >
-                    <ListItem>
-                        <ListItemButton>
-                            <HomeRoundedIcon />
-                            <ListItemContent>
-                                <Typography level="title-sm">Home</Typography>
-                            </ListItemContent>
-                        </ListItemButton>
-                    </ListItem>
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+  },
+}));
 
-                    <ListItem>
-                        <ListItemButton>
-                            <DashboardRoundedIcon />
-                            <ListItemContent>
-                                <Typography level="title-sm">Dashboard</Typography>
-                            </ListItemContent>
-                        </ListItemButton>
-                    </ListItem>
+const SearchBox = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: theme.palette.grey[100],
+  '&:hover': {
+    backgroundColor: theme.palette.grey[200],
+  },
+  marginRight: theme.spacing(2),
+  marginLeft: 0,
+  width: '100%',
+}));
 
-                    <ListItem>
-                        <ListItemButton
-                            role="menuitem"
-                            component="a"
-                            href="/joy-ui/getting-started/templates/order-dashboard/"
-                        >
-                            <ShoppingCartRoundedIcon />
-                            <ListItemContent>
-                                <Typography level="title-sm">Orders</Typography>
-                            </ListItemContent>
-                        </ListItemButton>
-                    </ListItem>
-                    {/* <ListItem nested>
-                        <Toggler
-                            renderToggle={({ open, setOpen }) => (
-                                <ListItemButton onClick={() => setOpen(!open)}>
-                                    <AssignmentRoundedIcon />
-                                    <ListItemContent>
-                                        <Typography level="title-sm">Tasks</Typography>
-                                    </ListItemContent>
-                                    <KeyboardArrowDownIcon
-                                        sx={{ transform: open ? 'rotate(180deg)' : 'none' }}
-                                    />
-                                </ListItemButton>
-                            )}
-                        >
-                            <List sx={{ gap: 0.5 }}>
-                                <ListItem sx={{ mt: 0.5 }}>
-                                    <ListItemButton>All tasks</ListItemButton>
-                                </ListItem>
-                                <ListItem>
-                                    <ListItemButton>Backlog</ListItemButton>
-                                </ListItem>
-                                <ListItem>
-                                    <ListItemButton>In progress</ListItemButton>
-                                </ListItem>
-                                <ListItem>
-                                    <ListItemButton>Done</ListItemButton>
-                                </ListItem>
-                            </List>
-                        </Toggler>
-                    </ListItem> */}
-                    <ListItem>
-                        <ListItemButton
-                            role="menuitem"
-                            component="a"
-                            href="/joy-ui/getting-started/templates/messages/"
-                        >
-                            <AssessmentRoundedIcon />
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+interface SidebarProps {
+    open: boolean;
+  }
+const Sidebar = ({ open }:SidebarProps) => {
+  const [openUsers, setOpenUsers] = React.useState(false);
+  const [openSuppliers, setOpenSuppliers] = React.useState(false);
 
-                            <ListItemContent>
+  return (
+    <StyledDrawer variant="permanent"  sx={{display:open ?'block': 'none'}}>
+      <Box sx={{ pt: 10,pb:2.5, display: 'flex', alignItems: 'center', gap: 1 }}>
+        <IconButton size="small" color="primary">
+          {/* Add your logo icon here */}
+        </IconButton>
+        <Typography variant="h6">Cema</Typography>
+      </Box>
+      <SearchBox>
+        <SearchIconWrapper>
+          <SearchRoundedIcon />
+        </SearchIconWrapper>
+        <StyledInputBase
+          placeholder="Search"
+          inputProps={{ 'aria-label': 'search' }}
+        />
+      </SearchBox>
+      <Box sx={{ flexGrow: 1, overflowY: 'auto' }}>
+      <List>
+        {[
+          { text: 'Home', icon: <HomeRoundedIcon /> },
+          { text: 'Dashboard', icon: <DashboardRoundedIcon /> },
+          { text: 'Orders', icon: <ShoppingCartRoundedIcon /> },
+          { text: 'P&L Report', icon: <AssessmentRoundedIcon /> },
+          { text: 'Add Product', icon: <AddCircleRoundedIcon /> },
+        ].map((item, index) => (
+          <ListItem key={index} disablePadding>
+            <ListItemButton>
+              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemText primary={item.text} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+        <ListItem disablePadding>
+          <ListItemButton onClick={() => setOpenUsers(!openUsers)}>
+            <ListItemIcon>
+              <GroupRoundedIcon />
+            </ListItemIcon>
+            <ListItemText primary="Users" />
+            <KeyboardArrowDownIcon sx={{ transform: openUsers ? 'rotate(180deg)' : 'none' }} />
+          </ListItemButton>
+        </ListItem>
+        <Collapse in={openUsers} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            {['My profile', 'Create a new user', 'Roles & permission'].map((text) => (
+              <ListItemButton key={text} sx={{ pl: 4 }}>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            ))}
+          </List>
+        </Collapse>
+        <ListItem disablePadding>
+          <ListItemButton onClick={() => setOpenSuppliers(!openSuppliers)}>
+            <ListItemIcon>
+              <BusinessRoundedIcon />
+            </ListItemIcon>
+            <ListItemText primary="Supplier" />
+            <KeyboardArrowDownIcon sx={{ transform: openSuppliers ? 'rotate(180deg)' : 'none' }} />
+          </ListItemButton>
+        </ListItem>
+        <Collapse in={openSuppliers} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            {['All Suppliers', 'Add Supplier', 'Add Contact Person'].map((text) => (
+              <ListItemButton key={text} sx={{ pl: 4 }}>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            ))}
+          </List>
+        </Collapse>
+      </List>
+      <Box sx={{ flexGrow: 1 }} />
+      <List>
+        {[
+          { text: 'Support', icon: <SupportRoundedIcon /> },
+          { text: 'Settings', icon: <SettingsRoundedIcon /> },
+        ].map((item) => (
+          <ListItem key={item.text} disablePadding>
+            <ListItemButton>
+              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemText primary={item.text} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+      </Box>
+      <Divider />
+      <Box sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
+        <Avatar
+          src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
+          sx={{ width: 32, height: 32 }}
+        />
+        <Box sx={{ minWidth: 0, flex: 1 }}>
+          <Typography variant="subtitle2" noWrap>
+            Siriwat K.
+          </Typography>
+          <Typography variant="body2" color="text.secondary" noWrap>
+            siriwatk@test.com
+          </Typography>
+        </Box>
+        <IconButton size="small">
+          <LogoutRoundedIcon />
+        </IconButton>
+      </Box>
+    </StyledDrawer>
+  );
+};
 
-                                <Typography level="title-sm">P&L Report</Typography>
-                            </ListItemContent>
-
-                        </ListItemButton>
-                    </ListItem>
-                    <ListItem>
-                        <ListItemButton>
-                            <AddCircleRoundedIcon />
-                            <ListItemContent>
-                                <Typography level="title-sm">Add Product</Typography>
-                            </ListItemContent>
-                        </ListItemButton>
-                    </ListItem>
-                    <ListItem nested>
-                        <Toggler
-                            defaultExpanded
-                            renderToggle={({ open, setOpen }) => (
-                                <ListItemButton onClick={() => setOpen(!open)}>
-                                    <GroupRoundedIcon />
-                                    <ListItemContent>
-                                        <Typography level="title-sm">Users</Typography>
-                                    </ListItemContent>
-                                    <KeyboardArrowDownIcon
-                                        sx={{ transform: open ? 'rotate(180deg)' : 'none' }}
-                                    />
-                                </ListItemButton>
-                            )}
-                        >
-                            <List sx={{ gap: 0.5 }}>
-                                <ListItem sx={{ mt: 0.5 }}>
-                                    <ListItemButton selected>My profile</ListItemButton>
-                                </ListItem>
-                                <ListItem>
-                                    <ListItemButton>Create a new user</ListItemButton>
-                                </ListItem>
-                                <ListItem>
-                                    <ListItemButton>Roles & permission</ListItemButton>
-                                </ListItem>
-                            </List>
-                        </Toggler>
-                    </ListItem>
-                    <ListItem nested>
-                        <Toggler
-                            renderToggle={({ open, setOpen }) => (
-                                <ListItemButton onClick={() => setOpen(!open)}>
-                                    <BusinessRoundedIcon />
-                                    <ListItemContent>
-                                        <Typography level="title-sm">Supplier</Typography>
-                                    </ListItemContent>
-                                    <KeyboardArrowDownIcon
-                                        sx={{ transform: open ? 'rotate(180deg)' : 'none' }}
-                                    />
-                                </ListItemButton>
-                            )}
-                        >
-                            <List sx={{ gap: 0.5 }}>
-                                <ListItem sx={{ mt: 0.5 }}>
-                                    <ListItemButton>All Suppliers</ListItemButton>
-                                </ListItem>
-                                <ListItem sx={{ mt: 0.5 }}>
-                                    <ListItemButton>Add Supplier</ListItemButton>
-                                </ListItem>
-                                <ListItem>
-                                    <ListItemButton>Add Contact Person</ListItemButton>
-                                </ListItem>
-
-                            </List>
-                        </Toggler>
-                    </ListItem>
-
-
-                </List>
-                <List
-                    size="sm"
-                    sx={{
-                        mt: 'auto',
-                        flexGrow: 0,
-                        '--ListItem-radius': (theme) => theme.vars.radius.sm,
-                        '--List-gap': '8px',
-                        mb: 2,
-                    }}
-                >
-                    <ListItem>
-                        <ListItemButton>
-                            <SupportRoundedIcon />
-                            Support
-                        </ListItemButton>
-                    </ListItem>
-                    <ListItem>
-                        <ListItemButton>
-                            <SettingsRoundedIcon />
-                            Settings
-                        </ListItemButton>
-                    </ListItem>
-                </List>
-
-            </Box>
-            <Divider />
-            <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                <Avatar
-                    variant="outlined"
-                    size="sm"
-                    src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
-                />
-                <Box sx={{ minWidth: 0, flex: 1 }}>
-                    <Typography level="title-sm">Siriwat K.</Typography>
-                    <Typography level="body-xs">siriwatk@test.com</Typography>
-                </Box>
-                <IconButton size="sm" variant="plain" color="neutral">
-                    <LogoutRoundedIcon />
-                </IconButton>
-            </Box>
-        </Sheet>
-    );
-}
 export default Sidebar;
