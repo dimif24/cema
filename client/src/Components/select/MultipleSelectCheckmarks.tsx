@@ -14,9 +14,10 @@ interface MultipleSelectCheckmarksProps{
   value:string[];
   data:string[],
   onChange:(e: SelectChangeEvent<string[]>)=>void;
+  disabled?:boolean;
 
 }
-const  MultipleSelectCheckmarks=({label,value,data,onChange}:MultipleSelectCheckmarksProps)=> {
+const  MultipleSelectCheckmarks=({label,value,data,onChange,disabled}:MultipleSelectCheckmarksProps)=> {
 
 
 
@@ -34,6 +35,7 @@ const  MultipleSelectCheckmarks=({label,value,data,onChange}:MultipleSelectCheck
           input={<OutlinedInput label="Shipping Methods" />}
           renderValue={(selected) => selected.join(', ')}
           name='shippingMethods'
+          disabled={disabled}
 
         >
           {data.map((method) => (

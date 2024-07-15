@@ -81,6 +81,7 @@ const AddSupplier = () => {
                         supplier={supplier}
                         handleInputChange={handleInputChange}
                         xs={4}
+                        flag={true}
                     /> {/*contains DB CR Balance inputs*/}
                     
                     <Grid item xs={12}>
@@ -94,6 +95,8 @@ const AddSupplier = () => {
                          handleInputChange={handleInputChange}
                          handleImageUpload={handleImageUpload}
                          xs={6} // Replace with your desired value
+                         flag={true}
+
                      />
                     )}
                     {/* Add Contact Person Section */}

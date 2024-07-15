@@ -10,9 +10,11 @@ import { Supplier } from '../../../../models/supplier';
 interface AdditionalDetailsProps {
     supplier: Supplier; // Replace with actual supplier type
     handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-    handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    handleImageUpload?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     xs: number;
     md?: number;
+    flag?:boolean;
+    disabled?:boolean;
 }
 
 const AdditionalDetails: React.FC<AdditionalDetailsProps> = ({
@@ -21,6 +23,8 @@ const AdditionalDetails: React.FC<AdditionalDetailsProps> = ({
     handleImageUpload,
     xs,
     md,
+    flag,
+    disabled
 }) => {
     const dispatch = useAppDispatch();
 
@@ -37,6 +41,8 @@ const AdditionalDetails: React.FC<AdditionalDetailsProps> = ({
                     name="businessType"
                     value={supplier.businessType}
                     onChange={handleInputChange}
+                    disabled={disabled}
+
                 />
             </Grid>
             <Grid item xs={xs} md={md}>
@@ -46,8 +52,12 @@ const AdditionalDetails: React.FC<AdditionalDetailsProps> = ({
                     name="yearEstablished"
                     value={supplier.yearEstablished}
                     onChange={handleInputChange}
+                    disabled={disabled}
+
                 />
             </Grid>
+            {flag! &&(
+                <>
             <Grid item xs={xs-1}>
                 <TextField
                     fullWidth
@@ -55,6 +65,8 @@ const AdditionalDetails: React.FC<AdditionalDetailsProps> = ({
                     type="file"
                     onChange={handleImageUpload}
                     inputProps={{ accept: 'image/*' }}
+                    disabled={disabled}
+
                 />
             </Grid>
             <Grid item xs={1}>
@@ -69,12 +81,16 @@ const AdditionalDetails: React.FC<AdditionalDetailsProps> = ({
                     />
                 )}
             </Grid>
+            </>
+)}
             <Grid item xs={xs} md={md}>
                 <MultipleSelectCheckmarks
                     label="Shipping Methods"
                     value={supplier.shippingMethods}
                     data={shippingMethods}
                     onChange={handleShippingMethodsChange}
+                    disabled={disabled}
+
                 />
             </Grid>
             <Grid item xs={xs} md={md}>
@@ -84,6 +100,8 @@ const AdditionalDetails: React.FC<AdditionalDetailsProps> = ({
                     name="faxNumber"
                     value={supplier.faxNumber}
                     onChange={handleInputChange}
+                    disabled={disabled}
+
                 />
             </Grid>
             <Grid item xs={xs} md={md}>
@@ -91,6 +109,8 @@ const AdditionalDetails: React.FC<AdditionalDetailsProps> = ({
                     label='Time Zone'
                     value={supplier.timeZone}
                     onChange={(value: string) => dispatch(updateSupplierField({ name: 'timeZone', value }))}
+                    disabled={disabled}
+
                 />
             </Grid>
             <Grid item xs={xs} md={md}>
@@ -100,6 +120,8 @@ const AdditionalDetails: React.FC<AdditionalDetailsProps> = ({
                     name="bankName"
                     value={supplier.bankName}
                     onChange={handleInputChange}
+                    disabled={disabled}
+
                 />
             </Grid>
             <Grid item xs={xs} md={md}>
@@ -109,6 +131,8 @@ const AdditionalDetails: React.FC<AdditionalDetailsProps> = ({
                     name="bankAccountNumber"
                     value={supplier.bankAccountNumber}
                     onChange={handleInputChange}
+                    disabled={disabled}
+
                 />
             </Grid>
         </>

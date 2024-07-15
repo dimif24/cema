@@ -67,12 +67,12 @@ export const EditInitialSupplier = (supplier: Supplier): Supplier => ({
     db: supplier.db,
     balance: supplier.balance,
     email: supplier.email,
-    website: '',
-    faxNumber: '',
-    timeZone: '',
-    bankName: '',
-    bankAccountNumber: '',
-    shippingMethods: [],
-    contactPersons: [],
-    products: []
+    website: supplier.website,
+    faxNumber: supplier.faxNumber,
+    timeZone: supplier.timeZone,
+    bankName: supplier.bankName,
+    bankAccountNumber: supplier.bankAccountNumber,
+    shippingMethods: supplier.shippingMethods,
+    contactPersons: supplier.contactPersons,
+    products: supplier.products
 });

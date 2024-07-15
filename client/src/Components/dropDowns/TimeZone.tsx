@@ -9,9 +9,10 @@ interface timeZone {
     value: string | null;
     onChange: (newValue: string) => void;
     required?: boolean;
+    disabled?:boolean;
 }
 
-const TimeZone = ({ value, onChange, required, label }: timeZone) => {
+const TimeZone = ({ value, onChange, required, label,disabled }: timeZone) => {
     const handleChange = (_event: React.SyntheticEvent, newValue: string | null) => {
 
         onChange(newValue!);
@@ -36,6 +37,7 @@ const TimeZone = ({ value, onChange, required, label }: timeZone) => {
                     </InputAdornment>
                 ),
             }}/>}
+            disabled={disabled}
         />
     );
 }

@@ -54,7 +54,6 @@ export const fetchSupplier = async (id: number): Promise<Supplier> => {
         if (!response.ok) {
             throw new Error('Failed to fetch suppliers');
         }
-
         return await response.json();
     } catch (error) {
         console.error('Error fetching suppliers:', error);
@@ -62,3 +61,27 @@ export const fetchSupplier = async (id: number): Promise<Supplier> => {
     }
 };
 
+export const editSupplier = async (id: number,supplier:Supplier) => {
+    try {
+        const response = await fetch(`${url}/api/Suppliers/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(supplier),
+
+            
+        });
+
+        if (!response.ok) {
+            return { success: false, message: "error" };
+
+        }
+        return { success: true, message: 'Supplier Added Successfully' };
+
+    } catch (error) {
+        console.error('Error fetching suppliers:', error);
+        return { success: false, message: error };
+
+    }
+};

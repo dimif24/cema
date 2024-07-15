@@ -4,8 +4,8 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import SideBar from '../../sideBar/Admin/SideBar';
 import Header from '../../sideBar/Admin/Header';
-import SuppliersListing from './SuppliersListing';
-import SupplierProfile from './SupplierProfile';
+import SupplierProfile from './supplierProfile/Main';
+import Main from './addSupplier/main';
 
 
 const theme = createTheme();
@@ -73,7 +73,8 @@ const AdminMainPage = () => {
             }}
           >
             {/* <SuppliersListing /> */}
-            <SupplierProfile id={5}></SupplierProfile>
+            <SupplierProfile id={2}></SupplierProfile>
+            {/* <Main></Main> */}
           </Box>
         </Box>
       </Box>

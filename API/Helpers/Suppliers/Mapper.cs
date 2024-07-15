@@ -35,7 +35,7 @@ namespace API.Helpers.Suppliers
             {
                 Id = sp.Product.Id,
                 Name = sp.Product.Name,
-            Variants = new List<ProductVariant> { sp.Product.Variants.FirstOrDefault() }.Where(v => v != null).ToList(),
+            Variants = sp.Product.Variants.ToList(),
             
             }).ToList(),
             ContactPersons = supplier.ContactPersons.Select(cp => new ContactPerson

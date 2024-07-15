@@ -3,7 +3,7 @@ import { Product } from '../../models/products'
 import Catalog from '../../features/catalog/Catalog'
 import Header from './Header'
 import AddSupplier from '../../Components/Admin/supplier/addSupplier/main'
-import SupplierProfile from '../../Components/Admin/supplier/SupplierProfile'
+import SupplierProfile from '../../Components/Admin/supplier/supplierProfile/Main'
 import AdminMainPage from '../../Components/Admin/supplier/Main'
 import SuppliersListing from '../../Components/Admin/supplier/SuppliersListing'
 
