@@ -1,6 +1,7 @@
 using API.Data;
 using API.Dto;
 using API.Entities;
+using API.Helpers.Suppliers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,9 +27,9 @@ namespace API.Controllers
 
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Supplier>> GetSupplier(int id)
+        public async Task<ActionResult<SupplierDto>> GetSupplier(int id)
         {
-            var result = await _context.Suppliers.Where(sp => sp.Id == id).Include(sp => sp.Products).Include(sp => sp.ContactPersons).SingleOrDefaultAsync();
+            var result = await _context.Suppliers.Where(sp => sp.Id == id).Include(sp => sp.Products).ThenInclude(sp => sp.Product).ThenInclude(sp=>sp.Variants).Include(sp => sp.ContactPersons).SingleOrDefaultAsync();
             if (result == null)
             {
                 return NotFound();
@@ -36,7 +37,8 @@ namespace API.Controllers
             }
             else
             {
-                return Ok(result);
+                var supplierDto = Mapper.MapToSupplierDto(result);
+                return Ok(supplierDto);
             }
         }
 
