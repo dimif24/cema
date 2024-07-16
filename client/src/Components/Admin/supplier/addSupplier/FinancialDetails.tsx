@@ -22,7 +22,7 @@ const FinancialDetails: React.FC<FinancialDetailsProps> = ({ supplier, handleInp
                     label="DB"
                     name="db"
                     type='number'
-                    value={supplier.db?.toLocaleString()}
+                    value={supplier.db}
                     onChange={handleInputChange}
                     disabled={disabled}
                 />
@@ -33,7 +33,7 @@ const FinancialDetails: React.FC<FinancialDetailsProps> = ({ supplier, handleInp
                     label="CR"
                     name="cr"
                     type='number'
-                    value={supplier.cr?.toLocaleString()}
+                    value={supplier.cr}
                     onChange={handleInputChange}
                     disabled={disabled}
 

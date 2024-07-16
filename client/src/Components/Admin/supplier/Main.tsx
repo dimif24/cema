@@ -6,6 +6,7 @@ import SideBar from '../../sideBar/Admin/SideBar';
 import Header from '../../sideBar/Admin/Header';
 import SupplierProfile from './supplierProfile/Main';
 import Main from './addSupplier/main';
+import SuppliersListing from './SuppliersListing';
 
 
 const theme = createTheme();
@@ -73,8 +74,8 @@ const AdminMainPage = () => {
             }}
           >
             {/* <SuppliersListing /> */}
-            <SupplierProfile id={2}></SupplierProfile>
-            {/* <Main></Main> */}
+            {/* <SupplierProfile id={2}></SupplierProfile> */}
+            <Main></Main>
           </Box>
         </Box>
       </Box>

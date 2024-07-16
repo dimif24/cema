@@ -166,6 +166,7 @@ disabled={disableEditing}
                                     handleInputChange={handleInputChange}
                                     xs={12}
                                     md={6}
+                                    
                                     disabled={disableEditing}
                                 />
                                    <FinancialDetails

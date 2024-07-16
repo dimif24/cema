@@ -7,6 +7,8 @@ import EmailInput from '../../../inputs/EmailInput';
 import CurrencyDropdown from '../../../dropDowns/CurrencyDropdown';
 import { updateSupplierField } from './../supplierSlice';
 import { Supplier } from '../../../../models/supplier';
+import {  Control,Controller } from 'react-hook-form';
+
 
 interface SupplierDetailsProps {
     supplier: Supplier; // Replace with actual supplier type
@@ -14,24 +16,39 @@ interface SupplierDetailsProps {
     xs: number;
     md?:number;
     disabled?:boolean;
+    control?:Control<Supplier>;
 
 }
 
-const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, handleInputChange, xs,md,disabled }) => {
+const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, handleInputChange, xs,md,disabled,control }) => {
     const dispatch = useAppDispatch();
+
 
     return (
         <>
             <Grid item xs={xs} md={md}>
+            <Controller
+                     name="name"
+                     defaultValue={supplier.name}
+
+                    control={control}
+                    rules={{ required: 'Name is required' }}
+                   render={({ field, fieldState: { error } }) => (
                 <TextField
+                {...field}
+                error={!!error}
+                helperText={error?.message}
+
                     fullWidth
                     label="Name"
                     name="name"
-                    value={supplier.name}
-                    onChange={handleInputChange}
-                    required
+                 
+                   
+                    
                     disabled={disabled}
                 />
+            )} 
+           />   
             </Grid>
             <Grid item xs={xs} md={md}>
                 <TextField
@@ -75,6 +92,8 @@ const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, handleInput
                     onChange={handleInputChange}
                     required
                     disabled={disabled}
+                    control={control}
+
 
                 />
             </Grid>

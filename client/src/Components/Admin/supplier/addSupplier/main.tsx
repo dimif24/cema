@@ -11,13 +11,20 @@ import { addSupplier } from '../../../api/admin';
 import AdditionalDetails from './AdditionalDetails';
 import FinancialDetails from './FinancialDetails';
 import SupplierDetails from './SupplierDetails';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { emptySupplier, Supplier } from '../../../../models/supplier';
 
 const AddSupplier = () => {
     const dispatch = useAppDispatch();
+   // const { handleSubmit, control } = methods;
+
+
     const supplier = useAppSelector(state => state.AddSupplier.supplier);
     const [showAdditionalDetails, setShowAdditionalDetails] = React.useState(false);
     const { openSnackbar, SnackbarComponent } = useCustomSnackbar();
 
+    const methods= useForm<Supplier>();
+    
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
 
@@ -48,14 +55,18 @@ const AddSupplier = () => {
             };
         }
     };
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        console.log(supplier);
-        const result = await addSupplier(supplier);
+
+    const onSubmit:SubmitHandler<Supplier>
+     = async (data: Supplier) => {
+        console.log(data);
+        const result = await addSupplier(data);
 
         if (result.success) {
             openSnackbar('success', 'Supplier Added Successfully');
             dispatch(resetSupplier());
+
+            methods.reset();
+
         } else {
             openSnackbar('error', result.message);
         }
@@ -66,69 +77,81 @@ const AddSupplier = () => {
         dispatch(updateSupplierField({ name: 'balance', value: balance }));
     }, [supplier.cr, supplier.db, dispatch]);
     return (
+        <FormProvider {...methods}>
         <Container>
             <Typography variant="h4" component="h1" gutterBottom>
                 Add New Supplier
             </Typography>
-            <form onSubmit={handleSubmit}>
-                <Grid container spacing={2}>
-                <SupplierDetails
-                        supplier={supplier}
-                        handleInputChange={handleInputChange}
-                        xs={6}
-                    />{/*contains Name -> Currency dropdwos and inputs*/}
-                    <FinancialDetails
-                        supplier={supplier}
-                        handleInputChange={handleInputChange}
-                        xs={4}
-                        flag={true}
-                    /> {/*contains DB CR Balance inputs*/}
-                    
-                    <Grid item xs={12}>
-                        <Button variant="outlined" onClick={() => setShowAdditionalDetails(!showAdditionalDetails)}>
-                            {showAdditionalDetails ? "Hide Additional Details" : "Show Additional Details"}
-                        </Button>
-                    </Grid>
-                    {showAdditionalDetails && (
-                         <AdditionalDetails
-                         supplier={supplier}
-                         handleInputChange={handleInputChange}
-                         handleImageUpload={handleImageUpload}
-                         xs={6} // Replace with your desired value
-                         flag={true}
+           
 
-                     />
-                    )}
-                    {/* Add Contact Person Section */}
-                    <Grid item xs={12}>
-                        <Typography variant="h6" gutterBottom>
-                            Contact Persons
-                        </Typography>
-                        {supplier.contactPersons.map((contactPerson, index) => (
-                            <ContactPersonForm
-                                key={index}
-                                index={index}
-                                contactPerson={contactPerson}
-                                onChange={handleContactPersonChange}
-                                onDelete={handleDeleteContactPerson}
-                            />
-                        ))}
-                        <Button variant="outlined" color="primary" onClick={handleAddContactPerson}>
-                            Add Contact Person
-                        </Button>
-                    </Grid>
-                    {/* Add more input fields as needed */}
-                    <Grid item xs={12}>
-                        <Button type="submit" variant="contained" color="primary">
-                            Add Supplier
-                        </Button>
+                <form
+                onSubmit={methods.handleSubmit(onSubmit)}
+                 >
+                    <Grid container spacing={2}>
+
+                    <SupplierDetails
+                            supplier={supplier}
+                            handleInputChange={handleInputChange}
+                            control={methods.control}
+                            xs={6}
+                        />
+                        {/*contains Name -> Currency dropdwos and inputs*/}
+                        <FinancialDetails
+                            supplier={supplier}
+                            handleInputChange={handleInputChange}
+                            xs={4}
+                            flag={true}
+                        />
+                         {/*contains DB CR Balance inputs*/}
+                        
+                        <Grid item xs={12}>
+                            <Button variant="outlined" onClick={() => setShowAdditionalDetails(!showAdditionalDetails)}>
+                                {showAdditionalDetails ? "Hide Additional Details" : "Show Additional Details"}
+                            </Button>
+                        </Grid>
+                        {showAdditionalDetails && (
+                            <AdditionalDetails
+                            supplier={supplier}
+                            handleInputChange={handleInputChange}
+                            handleImageUpload={handleImageUpload}
+                            xs={6} // Replace with your desired value
+                            flag={true}
+
+                        />
+                        )}
+                        {/* Add Contact Person Section */}
+                        <Grid item xs={12}>
+                            <Typography variant="h6" gutterBottom>
+                                Contact Persons
+                            </Typography>
+                            {supplier.contactPersons.map((contactPerson, index) => (
+                                <ContactPersonForm
+                                    key={index}
+                                    index={index}
+                                    contactPerson={contactPerson}
+                                    onChange={handleContactPersonChange}
+                                    onDelete={handleDeleteContactPerson}
+                                />
+                            ))}
+                            <Button variant="outlined" color="primary" onClick={handleAddContactPerson}>
+                                Add Contact Person
+                            </Button>
+                        </Grid>
+                        {/* Add more input fields as needed */}
+                        <Grid item xs={12}>
+                            <Button type="submit" variant="contained" color="primary">
+                                Add Supplier
+                            </Button>
+
+                        </Grid>
+                        {SnackbarComponent}
 
                     </Grid>
-                    {SnackbarComponent}
+                </form>
+           
 
-                </Grid>
-            </form>
         </Container>
+       </FormProvider>
     );
 }
 export default AddSupplier;
