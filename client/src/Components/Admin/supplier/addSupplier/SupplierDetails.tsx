@@ -7,48 +7,48 @@ import EmailInput from '../../../inputs/EmailInput';
 import CurrencyDropdown from '../../../dropDowns/CurrencyDropdown';
 import { updateSupplierField } from './../supplierSlice';
 import { Supplier } from '../../../../models/supplier';
-import {  Control,Controller } from 'react-hook-form';
+import { Control, Controller } from 'react-hook-form';
 
 
 interface SupplierDetailsProps {
     supplier: Supplier; // Replace with actual supplier type
     handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
     xs: number;
-    md?:number;
-    disabled?:boolean;
-    control?:Control<Supplier>;
+    md?: number;
+    disabled?: boolean;
+    control?: Control<Supplier>;
 
 }
 
-const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, handleInputChange, xs,md,disabled,control }) => {
+const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, handleInputChange, xs, md, disabled, control }) => {
     const dispatch = useAppDispatch();
 
 
     return (
         <>
             <Grid item xs={xs} md={md}>
-            <Controller
-                     name="name"
-                     defaultValue={supplier.name}
+                <Controller
+                    name="name"
+                    defaultValue={supplier.name}
 
                     control={control}
                     rules={{ required: 'Name is required' }}
-                   render={({ field, fieldState: { error } }) => (
-                <TextField
-                {...field}
-                error={!!error}
-                helperText={error?.message}
+                    render={({ field, fieldState: { error } }) => (
+                        <TextField
+                            {...field}
+                            error={!!error}
+                            helperText={error?.message}
 
-                    fullWidth
-                    label="Name"
-                    name="name"
-                 
-                   
-                    
-                    disabled={disabled}
+                            fullWidth
+                            label="Name"
+                            name="name"
+
+
+
+                            disabled={disabled}
+                        />
+                    )}
                 />
-            )} 
-           />   
             </Grid>
             <Grid item xs={xs} md={md}>
                 <TextField
@@ -67,10 +67,11 @@ const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, handleInput
                 <CountryDropdown
                     label="Choose a country"
                     value={supplier.country}
-                    onChange={(value: string) => dispatch(updateSupplierField({ name: 'country', value }))}
+                    //onChange={(value: string) => dispatch(updateSupplierField({ name: 'country', value }))}
                     flag='country'
                     required
                     disabled={disabled}
+                    control={control}
 
                 />
             </Grid>
