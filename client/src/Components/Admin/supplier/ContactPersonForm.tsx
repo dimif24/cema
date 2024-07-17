@@ -2,16 +2,18 @@ import { TextField, Grid, IconButton, Box, Divider } from '@mui/material';
 import { Delete } from '@mui/icons-material';
 import PhoneInputDropdown from '../../dropDowns/PhoneInputDropdown';
 import EmailInput from '../../inputs/EmailInput';
-import { ContactPerson } from '../../../models/contactPerson';
+import { Control, Controller } from 'react-hook-form';
+import { Supplier } from '../../../models/supplier';
 
 interface ContactPersonProps {
-    contactPerson: ContactPerson;
     index: number;
-    onChange: (index: number, e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+
     onDelete: (index: number) => void;
+    control?: Control<Supplier>;
+
 }
 
-const ContactPersonForm = ({ contactPerson, index, onChange, onDelete }: ContactPersonProps) => {
+const ContactPersonForm = ({  index, onDelete,control }: ContactPersonProps) => {
     return (
         <Box mb={2}>
 
@@ -22,37 +24,53 @@ const ContactPersonForm = ({ contactPerson, index, onChange, onDelete }: Contact
                     </IconButton>
                 </Grid>
                 <Grid item xs={6}>
-                    <TextField
-                        fullWidth
-                        label="Name"
-                        name="name"
-                        value={contactPerson.name}
-                        onChange={(e) => onChange(index, e)}
-                        required
+                <Controller
+                        name={`contactPersons.${index}.name`}
+                        control={control}
+                        rules={{ required: 'Name is required' }}
+
+                        render={({ field }) => (
+                            <TextField
+                                {...field}
+                                fullWidth
+                                label="Name"
+                                
+                            />
+                        )}
                     />
+               
                 </Grid>
                 <Grid item xs={6}>
-                    <TextField
-                        fullWidth
-                        label="Position"
-                        name="position"
-                        value={contactPerson.position}
-                        onChange={(e) => onChange(index, e)}
-                        required
+                <Controller
+                        name={`contactPersons.${index}.position`}
+                        control={control}
+                        rules={{ required: 'Position is required' }}
+
+                        render={({ field }) => (
+                            <TextField
+                                {...field}
+                                fullWidth
+                                label="Position"
+                                
+                            />
+                        )}
                     />
                 </Grid>
                 <Grid item xs={6}>
                     <EmailInput
-                        value={contactPerson.email}
-                        onChange={(e) => onChange(index, e)}
+                        
                         required={true}
-                    />
+                        control={control}
+                        name={`contactPersons.${index}.email`}
+                        />
                 </Grid>
                 <Grid item xs={6}>
                     <PhoneInputDropdown
-                        value={contactPerson.phoneNumber}
+                     
                         required={false}
-                        onChange={(value: string) => onChange(index, { target: { name: 'phoneNumber', value } } as React.ChangeEvent<HTMLInputElement>)}
+                        
+                        name={`contactPersons.${index}.phoneNumber`}
+                        control={control}
                     />
                 </Grid>
 

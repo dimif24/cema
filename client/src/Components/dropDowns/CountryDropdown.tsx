@@ -12,7 +12,7 @@ interface CountryDropdownProps {
     label: string;
     flag: 'country' | 'phoneNumber';
     disabled?: boolean;
-    value: string;
+
 
 }
 
@@ -23,7 +23,7 @@ interface CountryDropdownOption {
     disabled?: boolean;
 }
 
-const CountryDropdown = ({ control, required = false, label, flag, value, disabled }: CountryDropdownProps) => {
+const CountryDropdown = ({ control, required = false, label, flag, disabled }: CountryDropdownProps) => {
     const handleChange = (_event: React.SyntheticEvent, newValue: CountryDropdownOption | null) => {
         console.log(typeof (newValue?.phone));
         return newValue ? (flag === 'phoneNumber' ? newValue.phone : newValue.label) : '';
@@ -37,7 +37,7 @@ const CountryDropdown = ({ control, required = false, label, flag, value, disabl
         <Controller
             name={flag}
             control={control}
-            defaultValue={value}
+           
             rules={{ required: required ? `${label} is required` : false }}
             render={({ field, fieldState: { error } }) => (
                 <Autocomplete

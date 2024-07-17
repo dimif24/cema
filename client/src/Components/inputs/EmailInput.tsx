@@ -2,21 +2,21 @@
 import { InputAdornment, TextField } from '@mui/material';
 import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 import { Control, Controller } from 'react-hook-form';
-import { Supplier } from '../../models/supplier';
+
 
 interface EmailInputProps {
-    value: string;
-    onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  
     required?: boolean;
     disabled?:boolean;
-    control?:Control<Supplier>;
+    control: Control<any> | undefined ;
+    name:string;
 
 }
 
 
 
 
-const EmailInput = ({ value, onChange, required = false, disabled,control }: EmailInputProps) => {
+const EmailInput = ({ required = false, disabled,control,name }: EmailInputProps) => {
 
 
 
@@ -24,9 +24,9 @@ const EmailInput = ({ value, onChange, required = false, disabled,control }: Ema
 
     return (
         <Controller
-        name="email"
+        name={name}
         control={control}
-        defaultValue={value}
+      
         rules={{
             required: required ? 'Email is required' : false,
             pattern: {

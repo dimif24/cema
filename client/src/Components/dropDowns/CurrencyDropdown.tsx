@@ -10,7 +10,6 @@ interface CurrencyOption {
 }
 
 interface CurrencyDropdownProps {
-    value: string;
     //onChange: (newValue: string) => void;
     required?: boolean;
     disabled?:boolean;
@@ -19,7 +18,7 @@ interface CurrencyDropdownProps {
 
 }
 
-const CurrencyDropdown = ({ value,
+const CurrencyDropdown = ({ 
     //  onChange,
       required,disabled,control }: CurrencyDropdownProps) => {
     const allCurrencies: CurrencyOption[] = currencyCodes.codes().map(code => {
@@ -46,7 +45,6 @@ const CurrencyDropdown = ({ value,
         <Controller
         name={"currency"}
         control={control}
-        defaultValue={value}
         rules={{ required: required ? 'Currency is required' : false }}
         render={({ field, fieldState: { error } }) => (
             <Autocomplete

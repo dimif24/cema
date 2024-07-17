@@ -3,53 +3,85 @@ import { Grid, TextField } from '@mui/material';
 //import { useAppDispatch } from '../../../../app/store/configureStore';
 //import { updateSupplierField } from './../supplierSlice';
 import { Supplier } from '../../../../models/supplier';
+import { Control, Controller } from 'react-hook-form';
 
 interface FinancialDetailsProps {
-    supplier: Supplier; // Replace with actual supplier type
-    handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
     xs: number;
     disabled?:boolean;
     flag?:boolean;
+    control?: Control<Supplier>;
+
 }
 
-const FinancialDetails: React.FC<FinancialDetailsProps> = ({ supplier, handleInputChange, xs,disabled,flag }) => {
+const FinancialDetails: React.FC<FinancialDetailsProps> = ({  xs,disabled,flag,control }) => {
     //const dispatch = useAppDispatch();
     return (
         <>
             <Grid item xs={xs}>
+            <Controller
+                    name="db"
+          
+
+                    control={control}
+                    render={({ field, fieldState: { error } }) => (
                 <TextField
+                {...field}
+                error={!!error}
+                helperText={error?.message}
+
                     fullWidth
                     label="DB"
-                    name="db"
+              
                     type='number'
-                    value={supplier.db}
-                    onChange={handleInputChange}
                     disabled={disabled}
                 />
+                    )}
+                    />
             </Grid>
             <Grid item xs={xs}>
+            <Controller
+                    name="cr"
+               
+
+                    control={control}
+                    render={({ field, fieldState: { error } }) => (
                 <TextField
+                {...field}
+                error={!!error}
+                helperText={error?.message}
                     fullWidth
                     label="CR"
-                    name="cr"
                     type='number'
-                    value={supplier.cr}
-                    onChange={handleInputChange}
+                   
                     disabled={disabled}
 
                 />
+                    )}
+                    />
             </Grid>
             {flag! && (
             <Grid item xs={xs}>
+                <Controller
+                    name="balance"
+                    
+
+                    control={control}
+                    render={({ field, fieldState: { error } }) => (
                 <TextField
+                {...field}
+                error={!!error}
+                helperText={error?.message}
                     fullWidth
                     label="Balance"
-                    name="balance"
+                  
                     type='number'
-                    value={supplier.balance}
-                    onChange={handleInputChange}
+                  
+               
                     disabled
                 />
+                )}
+                />
+
             </Grid>
             )}
         </>

@@ -32,7 +32,7 @@ export const emptySupplier: Supplier = {
     description: '',
     country: '',
     city: '',
-    businessType: undefined,
+    businessType: '',
     yearEstablished: null,
     phoneNumber: '',
     currency: '',

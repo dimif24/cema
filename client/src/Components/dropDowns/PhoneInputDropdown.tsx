@@ -15,13 +15,13 @@ import {
     parseCountry,
     usePhoneInput,
 } from 'react-international-phone';
-import { useState } from 'react';
+import { Control, Controller } from 'react-hook-form';
 
 interface PhoneInputDropdownProps {
-    value: string;
-    onChange: (phone: string) => void;
     required?: boolean;
     disabled?:boolean;
+    control: Control<any> | undefined ;
+    name:string;
 }
 const phoneUtil = PhoneNumberUtil.getInstance();
 
@@ -33,41 +33,48 @@ const isPhoneValid = (phone: string) => {
     }
 };
 
-const PhoneInputDropdown = ({ value, onChange, required = false,disabled }: PhoneInputDropdownProps) => {
-    const [error, setError] = useState<string | null>(null);
+const PhoneInputDropdown = ({  required = false,disabled,name,control }: PhoneInputDropdownProps) => {
 
     const { inputValue, handlePhoneValueChange, inputRef, country, setCountry } =
         usePhoneInput({
             defaultCountry: 'kw',
-             value,
-            countries: defaultCountries,
-            onChange: (data) => {
             
-
-                
-                    onChange(data.phone);
-                    setError(isPhoneValid(data.phone) ? null : 'Wrong format');
-                
-                
-
-            },
+            countries: defaultCountries,
+    
             
         });
 
     return (
-        <TextField
-            fullWidth
-            required={required}
-            variant="outlined"
-            label={error || "Phone Number"}
-            error={!!error}
+        <Controller
+        name={name}
+        control={control}
+        rules={{ required: required ? `Phone is required` : false,                
+        validate: (value) => isPhoneValid(value) || 'Invalid phone number'
+        }}
 
-            color="primary"
-            placeholder="Phone number"
-            value={inputValue}
-            onChange={  handlePhoneValueChange}
-            type="tel"
-            inputRef={inputRef}
+        render={({ field, fieldState: { error: error } }) => {
+           
+
+            return (
+                <TextField
+                    fullWidth
+                    variant="outlined"
+                    label={"Phone Number"}
+                    {...field}
+                error={!!error}
+                helperText={error?.message}
+                    color="primary"
+                    placeholder="Phone number"
+                    value={inputValue}
+                    onChange={(e) => {
+                        handlePhoneValueChange(e);
+                        field.onChange(e);
+                    }}
+                    type="tel"
+                    inputRef={(e) => {
+                        inputRef.current = e;
+                        field.ref(e);
+                    }}
             InputProps={{
                 startAdornment: (
                     <InputAdornment
@@ -133,7 +140,10 @@ const PhoneInputDropdown = ({ value, onChange, required = false,disabled }: Phon
             }}
             disabled={disabled}
 
-        />
-    );
-};
+            />
+        );
+    }}
+/>
+);
+}
 export default PhoneInputDropdown;
