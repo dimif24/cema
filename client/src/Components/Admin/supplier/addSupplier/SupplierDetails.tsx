@@ -76,15 +76,25 @@ const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, handleInput
                 />
             </Grid>
             <Grid item xs={xs} md={md}>
+            <Controller
+                    name="city"
+                    defaultValue={supplier.city}
+
+                    control={control}
+                    rules={{ required: 'City is required' }}
+                    render={({ field, fieldState: { error } }) => (
                 <TextField
+                {...field}
+                error={!!error}
+                helperText={error?.message}
                     fullWidth
                     label="City"
                     name="city"
-                    value={supplier.city}
-                    onChange={handleInputChange}
-                    required
+                 
                     disabled={disabled}
 
+                />
+                    )}
                 />
             </Grid>
             <Grid item xs={xs} md={md}>
@@ -121,9 +131,10 @@ const SupplierDetails: React.FC<SupplierDetailsProps> = ({ supplier, handleInput
             <Grid item xs={xs} md={md}>
                 <CurrencyDropdown
                     value={supplier.currency!}
-                    onChange={(value: string) => dispatch(updateSupplierField({ name: 'currency', value }))}
+                    //onChange={(value: string) => dispatch(updateSupplierField({ name: 'currency', value }))}
                     required
                     disabled={disabled}
+                    control={control}
 
                 />
             </Grid>
