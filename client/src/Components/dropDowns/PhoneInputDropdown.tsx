@@ -36,11 +36,11 @@ const isPhoneValid = (phone: string) => {
 
 const PhoneInputDropdown = ({  required = false,disabled,name,control }: PhoneInputDropdownProps) => {
     const { watch } = useFormContext<Supplier>();
-
+const value = watch("phoneNumber");
     const { inputValue, handlePhoneValueChange, inputRef, country, setCountry } =
         usePhoneInput({
             defaultCountry: 'kw',
-            value:watch("phoneNumber"),
+           value,
             countries: defaultCountries,
     
         });
@@ -66,7 +66,7 @@ const PhoneInputDropdown = ({  required = false,disabled,name,control }: PhoneIn
                     helperText={error?.message}
                     color="primary"
                     placeholder="Phone number"
-                    value={field.value}
+                    value={inputValue}
                     onChange={(e) => {
                         handlePhoneValueChange(e);
                         field.onChange(e);

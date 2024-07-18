@@ -14,7 +14,7 @@ interface ContactPeronCardProps {
 const ContactPeronCard = ({ contactPerson }: ContactPeronCardProps) => {
     const defaultProfileImage = '../../../../images/AdditionalImages/defaultProfileImage.webp';
     const openWhatsAppChat = (phoneNumber: string) => {
-        const whatsappURL = `https://wa.me/${phoneNumber}`;
+        const whatsappURL = `https://wa.me/${phoneNumber.replace(/\s+/g, '')}`;
         window.open(whatsappURL, '_blank');
     };
     return (

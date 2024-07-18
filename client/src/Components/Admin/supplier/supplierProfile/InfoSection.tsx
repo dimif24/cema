@@ -48,7 +48,7 @@ const InfoSection = ({onUpdateSuccess }:InfoSectionProps) => {
         }
     };
     const openWhatsAppChat = (phoneNumber: string) => {
-        const whatsappURL = `https://wa.me/${phoneNumber}`;
+        const whatsappURL = `https://wa.me/${phoneNumber.replace(/\s+/g, '')}`;
         window.open(whatsappURL, '_blank');
     };
     const defaultProfileImage = '../../../../images/AdditionalImages/defaultProfileImage.webp';

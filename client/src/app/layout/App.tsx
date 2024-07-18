@@ -6,6 +6,7 @@ import AddSupplier from '../../Components/Admin/supplier/addSupplier/main'
 import SupplierProfile from '../../Components/Admin/supplier/supplierProfile/Main'
 import AdminMainPage from '../../Components/Admin/supplier/Main'
 import SuppliersListing from '../../Components/Admin/supplier/SuppliersListing'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
   const [products, setProducts] = useState<Product[]>()
@@ -21,15 +22,24 @@ function App() {
     // ])
   }
   return (
-    <div>
+    <Router>
+
       {/* <Header /> */}
       {/* <Catalog products={products || []}></Catalog> */}
       {/* <AddSupplier></AddSupplier> */}
-      <div style={{ marginTop: "100px" }}></div>
-      <AdminMainPage></AdminMainPage>
+      {/* <div style={{ marginTop: "100px" }}></div>
+      <AdminMainPage></AdminMainPage> */}
       {/* <SuppliersListing /> */}
       {/* <SupplierProfile id={5}></SupplierProfile> */}
-    </div>
+
+      <Routes>
+          <Route path="/admin/*" element={<AdminMainPage />} />
+
+          <Route path="/" element={<><Header /><Catalog products={products || []}></Catalog></>}></Route>
+          {/* Define other routes here */}
+        </Routes>
+      </Router>
+
   )
 }
 

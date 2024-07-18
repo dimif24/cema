@@ -7,6 +7,8 @@ import Header from '../../sideBar/Admin/Header';
 import SupplierProfile from './supplierProfile/Main';
 import Main from './addSupplier/main';
 import SuppliersListing from './SuppliersListing';
+import { Route, Routes,Outlet  } from 'react-router-dom';
+import AddSupplier from './addSupplier/main';
 
 
 const theme = createTheme();
@@ -70,11 +72,17 @@ const AdminMainPage = () => {
               height: '100vh',
               gap: 1,
               overflow: 'auto',
-              
+              marginTop:"100px"
+
             }}
           >
-            {/* <SuppliersListing /> */}
-            <SupplierProfile id={2}></SupplierProfile>
+             <Routes>
+              <Route path="/" element={<SuppliersListing />} />
+              <Route path="add-supplier" element={<AddSupplier />} />
+              <Route path="supplier/:id" element={<SupplierProfile />} />
+            </Routes>
+          {/* <SuppliersListing /> */}
+            {/* <SupplierProfile id={2}></SupplierProfile> */}
             {/* <Main></Main> */}
           </Box>
         </Box>

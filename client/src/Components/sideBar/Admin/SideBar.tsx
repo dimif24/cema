@@ -25,6 +25,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import AssessmentRoundedIcon from '@mui/icons-material/AssessmentRounded';
 import BusinessRoundedIcon from '@mui/icons-material/BusinessRounded';
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
+import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -77,7 +78,11 @@ interface SidebarProps {
 const Sidebar = ({ open }:SidebarProps) => {
   const [openUsers, setOpenUsers] = React.useState(false);
   const [openSuppliers, setOpenSuppliers] = React.useState(false);
-
+  const supplierMenuItems = [
+    { text: 'All Suppliers', link: '/admin/' },
+    { text: 'Add Supplier', link: '/admin/add-supplier' },
+    { text: 'Add Contact Person', link: '/admin/suppliers' }
+  ];
   return (
     <StyledDrawer variant="permanent"  sx={{display:open ?'block': 'none'}}>
       <Box sx={{ pt: 10,pb:2.5, display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -98,14 +103,14 @@ const Sidebar = ({ open }:SidebarProps) => {
       <Box sx={{ flexGrow: 1, overflowY: 'auto' }}>
       <List>
         {[
-          { text: 'Home', icon: <HomeRoundedIcon /> },
-          { text: 'Dashboard', icon: <DashboardRoundedIcon /> },
-          { text: 'Orders', icon: <ShoppingCartRoundedIcon /> },
-          { text: 'P&L Report', icon: <AssessmentRoundedIcon /> },
-          { text: 'Add Product', icon: <AddCircleRoundedIcon /> },
+          { text: 'Home', icon: <HomeRoundedIcon />,to:'/admin' },
+          { text: 'Dashboard', icon: <DashboardRoundedIcon />,to:'/admin' },
+          { text: 'Orders', icon: <ShoppingCartRoundedIcon />,to:'/admin' },
+          { text: 'P&L Report', icon: <AssessmentRoundedIcon />,to:'/admin' },
+          { text: 'Add Product', icon: <AddCircleRoundedIcon />,to:'/admin' },
         ].map((item, index) => (
           <ListItem key={index} disablePadding>
-            <ListItemButton>
+            <ListItemButton component={Link} to={item.to}>
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItemButton>
@@ -140,9 +145,9 @@ const Sidebar = ({ open }:SidebarProps) => {
         </ListItem>
         <Collapse in={openSuppliers} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            {['All Suppliers', 'Add Supplier', 'Add Contact Person'].map((text) => (
-              <ListItemButton key={text} sx={{ pl: 4 }}>
-                <ListItemText primary={text} />
+            {supplierMenuItems.map((item) => (
+              <ListItemButton key={item.text} sx={{ pl: 4 }} component={Link} to={item.link}>
+                <ListItemText primary={item.text} />
               </ListItemButton>
             ))}
           </List>

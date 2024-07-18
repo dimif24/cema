@@ -15,12 +15,12 @@ import GeneralInfos from './GeneralInfos';
 import ContactInfoSection from './ContactPerson/ContactInfoSection';
 import { FormProvider, useForm } from 'react-hook-form';
 import { emptySupplier, Supplier } from '../../../../models/supplier';
+import { useParams } from 'react-router-dom';
 
-interface SupplierProfileProps {
-    id: number;
-}
 
-const SupplierProfile = ({ id }: SupplierProfileProps) => {
+const SupplierProfile = () => {
+    const { id } = useParams<{ id: string }>();
+
     const methods = useForm<Supplier>({
         defaultValues: emptySupplier
     });
@@ -34,7 +34,7 @@ const SupplierProfile = ({ id }: SupplierProfileProps) => {
     const getSupplier = useCallback(async () => {
         try {
             setLoading(true);
-            const supplier = await fetchSupplier(id);
+            const supplier = await fetchSupplier(parseInt(id!, 10));
             console.log(supplier);
             Object.keys(supplier).forEach((key) => {
                 setValue(key as keyof Supplier, supplier[key as keyof Supplier]);

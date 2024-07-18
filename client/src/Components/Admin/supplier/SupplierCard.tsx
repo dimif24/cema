@@ -8,14 +8,20 @@ import { Supplier } from '../../../models/supplier';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import PersonIcon from '@mui/icons-material/Person';
+import { useNavigate } from 'react-router-dom';
 
 const defaultProfileImage = '../../../../images/AdditionalImages/defaultProfileImage.webp';
 const openWhatsAppChat = (phoneNumber: string) => {
-  const whatsappURL = `https://wa.me/${phoneNumber}`;
+  const whatsappURL = `https://wa.me/${phoneNumber.replace(/\s+/g, '')}`;
   window.open(whatsappURL, '_blank');
 };
 
-const SupplierCard = ({ profileImage, name, businessType, balance, yearEstablished, country, currency, email, phoneNumber }: Supplier) => {
+const SupplierCard = ({id, profileImage, name, businessType, balance, yearEstablished, country, currency, email, phoneNumber }: Supplier) => {
+  const navigate = useNavigate();
+
+  const handleViewClick = () => {
+    navigate(`/admin/supplier/${id}`);
+  };
   return (
     <Card
       sx={{
@@ -66,7 +72,7 @@ const SupplierCard = ({ profileImage, name, businessType, balance, yearEstablish
         >
           {[
             { label: 'Business Type', value: businessType },
-            { label: 'Balance', value: `${balance} ${currency}` },
+            { label: 'Balance', value: `${balance ? balance:0} ${currency? currency:"--"}` },
             { label: 'Country', value: country },
             { label: 'Year Established', value: yearEstablished },
           ].map(({ label, value }) => (
@@ -103,6 +109,8 @@ const SupplierCard = ({ profileImage, name, businessType, balance, yearEstablish
             variant="contained"
             color="primary"
             sx={{ flex: 1 }}
+            onClick={handleViewClick}
+
           >
             View 
           </Button>
