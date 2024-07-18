@@ -1,10 +1,11 @@
 import { Box, Card, CardContent, Divider, Grid, Typography } from '@mui/material';
 import SupplierProductsListing from '../supplierProfile/ProductListing';
 import { Supplier } from '../../../../models/supplier';
-interface SupplierItemsSectionProps{
-    supplier:Supplier
-}
-const ItemsSection = ({ supplier }: SupplierItemsSectionProps) => {
+import { useFormContext } from 'react-hook-form';
+
+const ItemsSection = () => {
+    const { watch } = useFormContext<Supplier>();
+    const supplier = watch();
     return (
 <Grid
 container

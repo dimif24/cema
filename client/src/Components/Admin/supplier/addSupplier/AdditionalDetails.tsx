@@ -14,7 +14,7 @@ interface AdditionalDetailsProps {
     flag?:boolean;
     disabled?:boolean;
     control: Control<Supplier>;
-    setValue: (name: keyof Supplier, value: any) => void; // Update type to keyof Supplier
+    setValue?: (name: keyof Supplier, value: any) => void; // Update type to keyof Supplier
 
 }
 
@@ -75,7 +75,7 @@ const AdditionalDetails: React.FC<AdditionalDetailsProps> = ({
                     )}
                     />
             </Grid>
-            {flag! &&(
+            {flag! && setValue && (
                   <ImageUpload
                   control={control}
                   name="profileImage"
@@ -136,28 +136,43 @@ const AdditionalDetails: React.FC<AdditionalDetailsProps> = ({
                     )}
                 />
             </Grid>
-            {/* <Grid item xs={xs} md={md}>
+            <Grid item xs={xs} md={md}>
+            <Controller
+                    name="bankName"
+
+                    control={control}
+                    render={({ field, fieldState: { error } }) => (
                 <TextField
+                {...field}
+                error={!!error}
+                helperText={error?.message}
                     fullWidth
                     label="Bank Name"
-                    name="bankName"
-                    value={supplier.bankName}
-                    onChange={handleInputChange}
                     disabled={disabled}
 
                 />
+                    )}
+                    />
             </Grid>
             <Grid item xs={xs} md={md}>
+            <Controller
+                    name="bankAccountNumber"
+
+                    control={control}
+                    render={({ field, fieldState: { error } }) => (
                 <TextField
+                {...field}
+                error={!!error}
+                helperText={error?.message}
                     fullWidth
                     label="Bank Account Number"
-                    name="bankAccountNumber"
-                    value={supplier.bankAccountNumber}
-                    onChange={handleInputChange}
                     disabled={disabled}
 
+
                 />
-            </Grid> */}
+                    )}
+                    />
+            </Grid>
         </>
     );
 };

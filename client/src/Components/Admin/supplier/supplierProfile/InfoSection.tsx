@@ -6,36 +6,35 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
-import { useRef, useState } from 'react';
-import { EditInitialSupplierState, updateSupplierField } from '../supplierSlice';
-import { useAppDispatch } from '../../../../app/store/configureStore';
+import { useEffect, useRef, useState } from 'react';
+
 import FinancialDetails from '../addSupplier/FinancialDetails';
 import AdditionalDetails from '../addSupplier/AdditionalDetails';
 import useCustomSnackbar from "../../../hooks/snackbar/useCustomSnackbar";
 import { editSupplier } from '../../../api/admin';
-
-interface InfoSectionProps{
-    supplier:Supplier
+import { SubmitHandler, useFormContext } from 'react-hook-form';
+interface InfoSectionProps {
+    onUpdateSuccess: () => Promise<void>;
 }
-const InfoSection = ({ supplier }: InfoSectionProps) => {
+
+const InfoSection = ({onUpdateSuccess }:InfoSectionProps) => {
+    const { setValue,control,watch,handleSubmit } = useFormContext<Supplier>();
+
     const [disableEditing, setDisableEditing] = useState<boolean>(true);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [showAdditionalDetails, setShowAdditionalDetails] = useState(false);
     const { openSnackbar, SnackbarComponent } = useCustomSnackbar();
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
-        dispatch(updateSupplierField({ name, value }));
-    };
+    // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    //     const { name, value } = e.target;
+    //     setValue(name as keyof Supplier, value);
+    // };
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
-            // Handle the file upload logic here
-            // You might want to preview the image or upload it to your server
-
             const reader = new FileReader();
             reader.onloadend = () => {
-                dispatch(updateSupplierField({ name: 'profileImage', value: reader.result as string }));
+                setValue('profileImage', reader.result as string);
             };
             reader.readAsDataURL(file);
         }
@@ -48,24 +47,54 @@ const InfoSection = ({ supplier }: InfoSectionProps) => {
             fileInputRef.current.click();
         }
     };
-    const dispatch = useAppDispatch();
     const openWhatsAppChat = (phoneNumber: string) => {
         const whatsappURL = `https://wa.me/${phoneNumber}`;
         window.open(whatsappURL, '_blank');
     };
     const defaultProfileImage = '../../../../images/AdditionalImages/defaultProfileImage.webp';
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        console.log(supplier);
-        const result = await editSupplier(supplier.id,supplier);
+    // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    //     e.preventDefault();
+    //     const supplierData = getValues();
+    //     const result = await editSupplier(supplierData.id, supplierData);
+
+    //     if (result.success) {
+    //         await onUpdateSuccess(); // Call the function to refresh data
+    //         openSnackbar('success', 'Supplier Added Successfully');
+
+
+    //     } else {
+    //         openSnackbar('error', result.message as string);
+    //     }
+    // };
+    const onSubmit: SubmitHandler<Supplier> = async (data: Supplier) => {
+        // console.log(data);
+        // const result = await addSupplier(data);
+
+        // if (result.success) {
+        //     openSnackbar('success', 'Supplier Added Successfully');
+        //     methods.reset(emptySupplier);
+        // } else {
+        //     openSnackbar('error', result.message);
+        // }
+
+
+        const result = await editSupplier(data.id, data);
 
         if (result.success) {
+            await onUpdateSuccess(); // Call the function to refresh data
             openSnackbar('success', 'Supplier Added Successfully');
-            dispatch(EditInitialSupplierState(supplier));
+
+
         } else {
             openSnackbar('error', result.message as string);
         }
     };
+    useEffect(() => {
+        const cr = watch('cr') || 0;
+        const db = watch('db') || 0;
+        const balance = cr - db;
+        setValue('balance', balance);
+    }, [watch, setValue]);
     return (
         <Grid
         container
@@ -79,7 +108,8 @@ const InfoSection = ({ supplier }: InfoSectionProps) => {
     >
         <Grid item xs={12}>
             <Card>
-            <form onSubmit={handleSubmit}>
+            <form             onSubmit={handleSubmit(onSubmit)}
+            >
                 <CardContent>
                     <Box sx={{ mb: 1 }}>
                         <Grid container spacing={2} alignItems="center">
@@ -89,7 +119,7 @@ const InfoSection = ({ supplier }: InfoSectionProps) => {
                             <Grid item xs={6} textAlign="right">
                                 <Stack direction="row" spacing={1} justifyContent="flex-end" alignItems="center">
                                     <Typography variant="h6">Balance:</Typography>
-                                    <Typography variant="h6">{supplier.balance?.toLocaleString()}</Typography>
+                                    <Typography variant="h6">{ watch("cr") && watch("db") ? (watch("cr")!-watch("db")!).toLocaleString():0}</Typography>
                                 </Stack>
                             </Grid>
                         </Grid>
@@ -107,7 +137,7 @@ const InfoSection = ({ supplier }: InfoSectionProps) => {
                                 </Grid>
                                 <Grid item>
                                     <Button
-                                        onClick={() => openWhatsAppChat(supplier.phoneNumber)}
+                                        onClick={() => openWhatsAppChat(watch("phoneNumber"))}
                                         color="primary"
                                         startIcon={<WhatsAppIcon />}
                                     >
@@ -117,7 +147,7 @@ const InfoSection = ({ supplier }: InfoSectionProps) => {
                                 <Grid item>
                                     <Button
                                         component="a"
-                                        href={`mailto:${supplier.email}?subject=Inquiry from &body=Hello ${supplier.name},`}
+                                        href={`mailto:${watch("email")}?subject=Inquiry from &body=Hello ${watch("name")},`}
                                         startIcon={<MailOutlineIcon />}
                                     >
                                         Email
@@ -131,7 +161,8 @@ const InfoSection = ({ supplier }: InfoSectionProps) => {
                         <Grid item xs={4} md={2}>
                             <Box sx={{ position: 'relative' }}>
                                 <Avatar
-                                    src={supplier.profileImage ? supplier.profileImage : defaultProfileImage}
+                                  src={watch("profileImage") || defaultProfileImage}
+
                                     alt=""
                                     sx={{ width: "100%", height: "100%", borderRadius: '50%' }}
                                 />
@@ -162,17 +193,16 @@ disabled={disableEditing}
                         <Grid item xs={12} md={8}>
                             <Grid container spacing={2}>
                                 <SupplierDetails
-                                    supplier={supplier}
-                                    handleInputChange={handleInputChange}
+                              
+                                    control={control}
                                     xs={12}
                                     md={6}
                                     
                                     disabled={disableEditing}
                                 />
                                    <FinancialDetails
-                        supplier={supplier}
-                        handleInputChange={handleInputChange}
-                        xs={6}
+                 
+control={control}                        xs={6}
                         disabled={disableEditing}
 
                     /> {/*contains DB CR Balance inputs*/}
@@ -184,8 +214,7 @@ disabled={disableEditing}
                     </Grid>
                     {showAdditionalDetails && (
                          <AdditionalDetails
-                         supplier={supplier}
-                         handleInputChange={handleInputChange}
+                        control={control}
                          xs={6} // Replace with your desired value
                          disabled={disableEditing}
 

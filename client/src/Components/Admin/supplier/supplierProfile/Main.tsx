@@ -1,4 +1,4 @@
-import  { useEffect, useState  } from 'react';
+import  { useCallback, useEffect, useState  } from 'react';
 import {
     Box,
     CircularProgress,
@@ -8,47 +8,56 @@ import {
 //import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 
 import { fetchSupplier } from '../../../api/admin';
-import { useAppDispatch, useAppSelector } from '../../../../app/store/configureStore';
-import { updateSupplierField, EditInitialSupplierState } from '../supplierSlice';
 import ItemsSection from './ItemsSection';
 
 import InfoSection from './InfoSection';
 import GeneralInfos from './GeneralInfos';
 import ContactInfoSection from './ContactPerson/ContactInfoSection';
+import { FormProvider, useForm } from 'react-hook-form';
+import { emptySupplier, Supplier } from '../../../../models/supplier';
 
 interface SupplierProfileProps {
     id: number;
 }
 
 const SupplierProfile = ({ id }: SupplierProfileProps) => {
-    const dispatch = useAppDispatch();
-    const supplier = useAppSelector((state) => state.AddSupplier.supplier);
+    const methods = useForm<Supplier>({
+        defaultValues: emptySupplier
+    });
+
+    const {  setValue,watch } = methods;
 
 
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        const getSupplier = async () => {
-            try {
-                const supplier = await fetchSupplier(id);
-                console.log(supplier);
-                dispatch(EditInitialSupplierState(supplier));
-                console.log(supplier);
-                setLoading(false);
-            } catch (error) {
-                setError('Failed to fetch suppliers');
-                setLoading(false);
-            }
-        };
+    const getSupplier = useCallback(async () => {
+        try {
+            setLoading(true);
+            const supplier = await fetchSupplier(id);
+            console.log(supplier);
+            Object.keys(supplier).forEach((key) => {
+                setValue(key as keyof Supplier, supplier[key as keyof Supplier]);
+            });
+            setLoading(false);
+        } catch (error) {
+            setError('Failed to fetch suppliers');
+            setLoading(false);
+        }
+    }, [id, setValue]);
 
+
+    useEffect(() => {
+        
         getSupplier();
-    }, [id, dispatch]);
+    }, [getSupplier]);
 
     useEffect(() => {
-        const balance = (supplier.cr || 0) - (supplier.db || 0);
-        dispatch(updateSupplierField({ name: 'balance', value: balance }));
-    }, [supplier.cr, supplier.db, dispatch]);
+        const cr = watch('cr') || 0;
+        const db = watch('db') || 0;
+        const balance = cr - db;
+        setValue('balance', balance);
+    }, [watch, setValue]);
 
 
 
@@ -63,14 +72,20 @@ const SupplierProfile = ({ id }: SupplierProfileProps) => {
 
 
     return (
-        <Box sx={{ flex: 1, width: '100%' }}>
-            <GeneralInfos supplier={supplier}></GeneralInfos>
-      
-      <InfoSection supplier={supplier}></InfoSection>
+        <FormProvider {...methods}>
 
-<ItemsSection supplier={supplier}></ItemsSection>
-           <ContactInfoSection contactPersons={supplier.contactPersons}></ContactInfoSection>
+        <Box sx={{ flex: 1, width: '100%' }}>
+            <GeneralInfos ></GeneralInfos>
+      
+      <InfoSection onUpdateSuccess={getSupplier} ></InfoSection>
+
+<ItemsSection ></ItemsSection>
+           <ContactInfoSection ></ContactInfoSection>
+         
+
         </Box>
+        </FormProvider>
+
     );
 };
 

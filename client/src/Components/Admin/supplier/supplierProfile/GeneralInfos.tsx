@@ -7,11 +7,12 @@ import {
     Avatar,
     Stack,
 } from '@mui/material';
-interface GeneralInfosProps{
-    supplier:Supplier
-}
-const GeneralInfos = ({ supplier }: GeneralInfosProps) => {
+import { useFormContext } from 'react-hook-form';
+
+const GeneralInfos = () => {
     const defaultProfileImage = '../../../../images/AdditionalImages/defaultProfileImage.webp';
+    const { watch } = useFormContext<Supplier>();
+
     const openWhatsAppChat = (phoneNumber: string) => {
         const whatsappURL = `https://wa.me/${phoneNumber}`;
         window.open(whatsappURL, '_blank');
@@ -34,21 +35,21 @@ const GeneralInfos = ({ supplier }: GeneralInfosProps) => {
             <Grid container spacing={2} xs={6}>
                 <Grid item>
                     <Avatar
-                        src={supplier.profileImage ? supplier.profileImage : defaultProfileImage}
-                        alt=""
+                    src={watch("profileImage") || defaultProfileImage}
+                                  alt=""
                         sx={{ width: "50px", height: "50px", borderRadius: '50%' }}></Avatar>
                 </Grid>
                 <Grid item  justifyItems={"center"}>
                             <Typography variant="h6" component="h1" >
-                                {supplier.name}
+                                {watch("name")}
                             </Typography>   
                 </Grid>     
             </Grid>  
             <Grid item xs={6} textAlign="right">
                 <Stack direction="row" spacing={1} justifyContent="flex-end" alignItems="center">
                     <Typography variant="h6">Balance:</Typography>
-                    <Typography variant="h6">{supplier.balance?.toLocaleString()}</Typography>
-                </Stack>
+                    <Typography variant="h6">{ watch("cr") && watch("db") ? (watch("cr")!-watch("db")!).toLocaleString():0}</Typography>
+                    </Stack>
             </Grid>
             </Grid>
             <Grid container spacing={2} alignItems="center">
@@ -60,7 +61,7 @@ const GeneralInfos = ({ supplier }: GeneralInfosProps) => {
  
                                 <Grid item>
                                     <Button
-                                        onClick={() => openWhatsAppChat(supplier.phoneNumber)}
+                                        onClick={() => openWhatsAppChat(watch("phoneNumber"))}
                                         color="primary"
                                         startIcon={<WhatsAppIcon />}
                                     >
@@ -70,7 +71,7 @@ const GeneralInfos = ({ supplier }: GeneralInfosProps) => {
                                 <Grid item>
                                     <Button
                                         component="a"
-                                        href={`mailto:${supplier.email}?subject=Inquiry from &body=Hello ${supplier.name},`}
+                                        href={`mailto:${watch("email")}?subject=Inquiry from &body=Hello ${watch("name")},`}
                                         startIcon={<MailOutlineIcon />}
                                     >
                                         Email

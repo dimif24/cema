@@ -75,7 +75,7 @@ name="description"
                     required
                     disabled={disabled}
                     control={control}
-                    
+
                 />
             </Grid>
             <Grid item xs={xs} md={md}>
@@ -124,7 +124,7 @@ name="description"
                     name="website"
 
                     control={control}
-                    rules={{ required: 'City is required' }}
+                    // rules={{ required: 'City is required' }}
                     render={({ field, fieldState: { error } }) => (
                 <TextField
                 {...field}

@@ -74,8 +74,8 @@ const AdminMainPage = () => {
             }}
           >
             {/* <SuppliersListing /> */}
-            {/* <SupplierProfile id={2}></SupplierProfile> */}
-            <Main></Main>
+            <SupplierProfile id={2}></SupplierProfile>
+            {/* <Main></Main> */}
           </Box>
         </Box>
       </Box>

@@ -1,10 +1,12 @@
 import { Box, Card, CardContent, Divider, Grid, Typography } from '@mui/material';
-import { ContactPerson } from '../../../../../models/contactPerson';
 import ContactPersonCard from './ContactPersonCard';
-interface ContactInfoSectionProps{
-    contactPersons:ContactPerson[]
-}
-const ContactInfo = ({ contactPersons }: ContactInfoSectionProps) => {
+import { useFormContext } from 'react-hook-form';
+import { Supplier } from '../../../../../models/supplier';
+
+const ContactInfo = () => {
+    const { watch } = useFormContext<Supplier>();
+    const contactPersons = watch('contactPersons');
+
     return (
 <Grid
 container

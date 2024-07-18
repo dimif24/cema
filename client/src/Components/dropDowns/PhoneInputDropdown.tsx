@@ -15,7 +15,8 @@ import {
     parseCountry,
     usePhoneInput,
 } from 'react-international-phone';
-import { Control, Controller } from 'react-hook-form';
+import { Control, Controller, useFormContext } from 'react-hook-form';
+import { Supplier } from '../../models/supplier';
 
 interface PhoneInputDropdownProps {
     required?: boolean;
@@ -34,14 +35,14 @@ const isPhoneValid = (phone: string) => {
 };
 
 const PhoneInputDropdown = ({  required = false,disabled,name,control }: PhoneInputDropdownProps) => {
+    const { watch } = useFormContext<Supplier>();
 
     const { inputValue, handlePhoneValueChange, inputRef, country, setCountry } =
         usePhoneInput({
             defaultCountry: 'kw',
-            
+            value:watch("phoneNumber"),
             countries: defaultCountries,
     
-            
         });
 
     return (
@@ -61,11 +62,11 @@ const PhoneInputDropdown = ({  required = false,disabled,name,control }: PhoneIn
                     variant="outlined"
                     label={"Phone Number"}
                     {...field}
-                error={!!error}
-                helperText={error?.message}
+                    error={!!error}
+                    helperText={error?.message}
                     color="primary"
                     placeholder="Phone number"
-                    value={inputValue}
+                    value={field.value}
                     onChange={(e) => {
                         handlePhoneValueChange(e);
                         field.onChange(e);

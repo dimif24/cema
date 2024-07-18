@@ -29,8 +29,10 @@ const ContactPersonForm = ({  index, onDelete,control }: ContactPersonProps) => 
                         control={control}
                         rules={{ required: 'Name is required' }}
 
-                        render={({ field }) => (
+                        render={({ field, fieldState: { error } }) => (
                             <TextField
+                error={!!error}
+                helperText={error?.message}
                                 {...field}
                                 fullWidth
                                 label="Name"
@@ -46,9 +48,11 @@ const ContactPersonForm = ({  index, onDelete,control }: ContactPersonProps) => 
                         control={control}
                         rules={{ required: 'Position is required' }}
 
-                        render={({ field }) => (
+                        render={({ field, fieldState: { error } }) => (
                             <TextField
-                                {...field}
+                            error={!!error}
+                            helperText={error?.message}
+                                            {...field}
                                 fullWidth
                                 label="Position"
                                 
