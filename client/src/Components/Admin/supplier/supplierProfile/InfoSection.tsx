@@ -95,6 +95,7 @@ const InfoSection = ({onUpdateSuccess }:InfoSectionProps) => {
         const balance = cr - db;
         setValue('balance', balance);
     }, [watch, setValue]);
+
     return (
         <Grid
         container
@@ -119,7 +120,7 @@ const InfoSection = ({onUpdateSuccess }:InfoSectionProps) => {
                             <Grid item xs={6} textAlign="right">
                                 <Stack direction="row" spacing={1} justifyContent="flex-end" alignItems="center">
                                     <Typography variant="h6">Balance:</Typography>
-                                    <Typography variant="h6">{ watch("cr") && watch("db") ? (watch("cr")!-watch("db")!).toLocaleString():0}</Typography>
+                                    <Typography variant="h6">{ watch("cr") || watch("db") ? (watch("cr")!-watch("db")!).toLocaleString():0}</Typography>
                                 </Stack>
                             </Grid>
                         </Grid>

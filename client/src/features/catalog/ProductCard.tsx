@@ -36,14 +36,14 @@ const ProductCard = ({ product }: ProductCardProps) => {
           </a>
           <div className="mt-2 mb-5 flex items-center justify-between">
             <p>
-              <span className="text-3xl font-bold text-slate-900">
-                ${variant.price}
+              <span className="text-2xl font-bold text-slate-900">
+                ${variant.price.toLocaleString()}
               </span>
               <span className="text-sm text-slate-900 line-through">
                 $
                 {
                   // TODO: add discount to variant
-                  variant.price * (1 - 0.3)
+                  (variant.price * (1 - 0.3)).toLocaleString()
                 }
               </span>
             </p>

@@ -16,7 +16,7 @@ const openWhatsAppChat = (phoneNumber: string) => {
   window.open(whatsappURL, '_blank');
 };
 
-const SupplierCard = ({id, profileImage, name, businessType, balance, yearEstablished, country, currency, email, phoneNumber }: Supplier) => {
+const SupplierCard = ({id, profileImage, name, businessType, balance, yearEstablished, country, currency, email, phoneNumber,cr,db }: Supplier) => {
   const navigate = useNavigate();
 
   const handleViewClick = () => {
@@ -72,7 +72,7 @@ const SupplierCard = ({id, profileImage, name, businessType, balance, yearEstabl
         >
           {[
             { label: 'Business Type', value: businessType },
-            { label: 'Balance', value: `${balance ? balance:0} ${currency? currency:"--"}` },
+            { label: 'Balance', value: `${cr || db ? cr-db:0} ${currency? currency:"--"}` },
             { label: 'Country', value: country },
             { label: 'Year Established', value: yearEstablished },
           ].map(({ label, value }) => (

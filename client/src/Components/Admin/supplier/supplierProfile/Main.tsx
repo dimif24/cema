@@ -56,6 +56,7 @@ const SupplierProfile = () => {
         const cr = watch('cr') || 0;
         const db = watch('db') || 0;
         const balance = cr - db;
+
         setValue('balance', balance);
     }, [watch, setValue]);
 
