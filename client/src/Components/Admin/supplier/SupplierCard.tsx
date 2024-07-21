@@ -16,7 +16,7 @@ const openWhatsAppChat = (phoneNumber: string) => {
   window.open(whatsappURL, '_blank');
 };
 
-const SupplierCard = ({id, profileImage, name, businessType, balance, yearEstablished, country, currency, email, phoneNumber,cr,db }: Supplier) => {
+const SupplierCard = ({ id, profileImage, name, businessType, balance, yearEstablished, country, currency, email, phoneNumber }: Supplier) => {
   const navigate = useNavigate();
 
   const handleViewClick = () => {
@@ -72,7 +72,7 @@ const SupplierCard = ({id, profileImage, name, businessType, balance, yearEstabl
         >
           {[
             { label: 'Business Type', value: businessType },
-            { label: 'Balance', value: `${cr || db ? cr!-db!:0} ${currency? currency:"--"}` },
+            { label: 'Balance', value: `${balance} ${currency ? currency : "--"}` },
             { label: 'Country', value: country },
             { label: 'Year Established', value: yearEstablished },
           ].map(({ label, value }) => (
@@ -94,7 +94,7 @@ const SupplierCard = ({id, profileImage, name, businessType, balance, yearEstabl
             href={`mailto:${email}?subject=Inquiry for ${name}&body=Hello ${name},`}
             sx={{ flex: 1 }}
           >
-            
+
           </Button>
           <Button
             startIcon={<WhatsAppIcon />}
@@ -102,7 +102,7 @@ const SupplierCard = ({id, profileImage, name, businessType, balance, yearEstabl
             onClick={() => openWhatsAppChat(phoneNumber)}
             sx={{ flex: 1 }}
           >
-            
+
           </Button>
           <Button
             startIcon={<PersonIcon />}
@@ -112,7 +112,7 @@ const SupplierCard = ({id, profileImage, name, businessType, balance, yearEstabl
             onClick={handleViewClick}
 
           >
-            View 
+            View
           </Button>
         </Box>
       </CardContent>

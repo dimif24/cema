@@ -1,4 +1,4 @@
-import  { useCallback, useEffect, useState  } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
     Box,
     CircularProgress,
@@ -25,7 +25,7 @@ const SupplierProfile = () => {
         defaultValues: emptySupplier
     });
 
-    const {  setValue,watch } = methods;
+    const { setValue, watch } = methods;
 
 
     const [loading, setLoading] = useState<boolean>(true);
@@ -48,7 +48,7 @@ const SupplierProfile = () => {
 
 
     useEffect(() => {
-        
+
         getSupplier();
     }, [getSupplier]);
 
@@ -56,9 +56,8 @@ const SupplierProfile = () => {
         const cr = watch('cr') || 0;
         const db = watch('db') || 0;
         const balance = cr - db;
-
         setValue('balance', balance);
-    }, [watch, setValue]);
+    }, [watch('cr'), watch('db'), setValue]);
 
 
 
@@ -75,16 +74,16 @@ const SupplierProfile = () => {
     return (
         <FormProvider {...methods}>
 
-        <Box sx={{ flex: 1, width: '100%' }}>
-            <GeneralInfos ></GeneralInfos>
-      
-      <InfoSection onUpdateSuccess={getSupplier} ></InfoSection>
+            <Box sx={{ flex: 1, width: '100%' }}>
+                <GeneralInfos ></GeneralInfos>
 
-<ItemsSection ></ItemsSection>
-           <ContactInfoSection ></ContactInfoSection>
-         
+                <InfoSection onUpdateSuccess={getSupplier} ></InfoSection>
 
-        </Box>
+                <ItemsSection ></ItemsSection>
+                <ContactInfoSection ></ContactInfoSection>
+
+
+            </Box>
         </FormProvider>
 
     );

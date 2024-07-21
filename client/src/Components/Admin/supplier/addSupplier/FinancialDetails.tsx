@@ -7,82 +7,82 @@ import { Control, Controller } from 'react-hook-form';
 
 interface FinancialDetailsProps {
     xs: number;
-    disabled?:boolean;
-    flag?:boolean;
+    disabled?: boolean;
+    flag?: boolean;
     control?: Control<Supplier>;
 
 }
 
-const FinancialDetails: React.FC<FinancialDetailsProps> = ({  xs,disabled,flag,control }) => {
+const FinancialDetails: React.FC<FinancialDetailsProps> = ({ xs, disabled, flag, control }) => {
     //const dispatch = useAppDispatch();
     return (
         <>
             <Grid item xs={xs}>
-            <Controller
+                <Controller
                     name="db"
-          
+
 
                     control={control}
                     render={({ field, fieldState: { error } }) => (
-                <TextField
-                {...field}
-                error={!!error}
-                helperText={error?.message}
+                        <TextField
+                            {...field}
+                            error={!!error}
+                            helperText={error?.message}
 
-                    fullWidth
-                    label="DB"
-              
-                    type='number'
-                    disabled={disabled}
-                />
+                            fullWidth
+                            label="DB"
+
+                            type='number'
+                            disabled={disabled}
+                        />
                     )}
-                    />
-            </Grid>
-            <Grid item xs={xs}>
-            <Controller
-                    name="cr"
-               
-
-                    control={control}
-                    render={({ field, fieldState: { error } }) => (
-                <TextField
-                {...field}
-                error={!!error}
-                helperText={error?.message}
-                    fullWidth
-                    label="CR"
-                    type='number'
-                   
-                    disabled={disabled}
-
                 />
-                    )}
-                    />
             </Grid>
-            {flag! && (
             <Grid item xs={xs}>
                 <Controller
-                    name="balance"
-                    
+                    name="cr"
+
 
                     control={control}
                     render={({ field, fieldState: { error } }) => (
-                <TextField
-                {...field}
-                error={!!error}
-                helperText={error?.message}
-                    fullWidth
-                    label="Balance"
-                  
-                    type='number'
-                  
-               
-                    disabled
-                />
-                )}
-                />
+                        <TextField
+                            {...field}
+                            error={!!error}
+                            helperText={error?.message}
+                            fullWidth
+                            label="CR"
+                            type='number'
 
+                            disabled={disabled}
+
+                        />
+                    )}
+                />
             </Grid>
+            {flag! && (
+                <Grid item xs={xs}>
+                    <Controller
+                        name="balance"
+
+
+                        control={control}
+                        render={({ field, fieldState: { error } }) => (
+                            <TextField
+                                {...field}
+                                error={!!error}
+                                helperText={error?.message}
+                                fullWidth
+                                label="Balance"
+
+                                type='number'
+
+
+                                disabled
+                            />
+                        )}
+                    />
+
+                </Grid>
             )}
         </>
     );
