@@ -6,6 +6,16 @@ export interface ContactPerson {
     position: string
     phoneNumber: string
     email: string
-   supplier: Supplier
+    supplier: Supplier
+
+}
+// Define the initial empty supplier object
+export const emptyContactPeron: ContactPerson = {
+    id: 0,
+    name: '',
+    position: '',
+    email: '',
+    phoneNumber: '',
+    supplier:
 
 }
