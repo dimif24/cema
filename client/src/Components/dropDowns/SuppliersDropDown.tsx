@@ -1,44 +1,57 @@
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import timezones from '../../Helpers/timeZones';
 import { InputAdornment } from '@mui/material';
-import AccessTimeFilledRoundedIcon from '@mui/icons-material/AccessTimeFilledRounded';
+import BusinessRoundedIcon from '@mui/icons-material/BusinessRounded';
+import { Control, Controller } from 'react-hook-form';
 
-interface timeZone {
-    label: string,
-    value: string | null;
-    onChange: (newValue: string) => void;
+interface Supplier {
+    label: string;
     required?: boolean;
     disabled?: boolean;
+    data: { id: number; name: string; country: string }[];
+    control: Control<any>;
+    name: string;  // Add this line
 }
 
-const SupplierDropDown = ({ value, onChange, required, label, disabled }: timeZone) => {
-    const handleChange = (_event: React.SyntheticEvent, newValue: string | null) => {
-
-        onChange(newValue!);
-    };
+const SupplierDropDown = ({ required, label, disabled, data, control, name }: Supplier) => {
     return (
-        <Autocomplete
-            fullWidth
-            autoHighlight
-            disablePortal
-            id="combo-box-demo"
-            options={timezones}
-            value={value}
-            onChange={handleChange}
-
-
-            renderInput={(params) => <TextField {...params} required={required} label={label} InputProps={{
-                ...params.InputProps,
-
-                startAdornment: (
-                    <InputAdornment position="start">
-                        <AccessTimeFilledRoundedIcon />
-                    </InputAdornment>
-                ),
-            }} />}
-            disabled={disabled}
+        <Controller
+            name={name}  // Use the name prop here
+            control={control}
+            rules={{ required: required ? 'Supplier is required' : false }}
+            render={({ field, fieldState: { error } }) => (
+                <Autocomplete
+                    {...field}
+                    fullWidth
+                    autoHighlight
+                    disablePortal
+                    id={`autocomplete-${name}`}
+                    options={data}
+                    value={data.find(item => item.id === field.value) || null}
+                    onChange={(_, newValue) => field.onChange(newValue ? newValue.id : null)}
+                    getOptionLabel={(option) => `${option.id} - ${option.name} ${option.country}`}
+                    renderInput={(params) => (
+                        <TextField 
+                            {...params} 
+                            label={label}
+                            required={required}
+                            error={!!error}
+                            helperText={error?.message}
+                            InputProps={{
+                                ...params.InputProps,
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <BusinessRoundedIcon />
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                    )}
+                    disabled={disabled}
+                />
+            )}
         />
     );
 }
+
 export default SupplierDropDown;

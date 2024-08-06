@@ -16,7 +16,6 @@ import {
     usePhoneInput,
 } from 'react-international-phone';
 import { Control, Controller, useFormContext } from 'react-hook-form';
-import { Supplier } from '../../models/supplier';
 
 interface PhoneInputDropdownProps {
     required?: boolean;
@@ -35,8 +34,8 @@ const isPhoneValid = (phone: string) => {
 };
 
 const PhoneInputDropdown = ({  required = false,disabled,name,control }: PhoneInputDropdownProps) => {
-    const { watch } = useFormContext<Supplier>();
-const value = watch("phoneNumber");
+    const { watch } = useFormContext<any>();
+const value = watch(name);
     const { inputValue, handlePhoneValueChange, inputRef, country, setCountry } =
         usePhoneInput({
             defaultCountry: 'kw',

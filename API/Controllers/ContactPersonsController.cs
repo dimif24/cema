@@ -62,13 +62,13 @@ namespace API.Controllers
 
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteContactPerson(int contactPersonId)
+        public async Task<IActionResult> DeleteContactPerson(int id)
         {
-            var contactPerson = await _context.ContactPerson.FindAsync(contactPersonId);
+            var contactPerson = await _context.ContactPerson.FindAsync(id);
 
             if (contactPerson == null)
             {
-                return NotFound($"Contact person with ID {contactPersonId} not found");
+                return NotFound($"Contact person with ID {id} not found");
             }
 
             _context.ContactPerson.Remove(contactPerson);

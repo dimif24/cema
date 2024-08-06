@@ -121,7 +121,7 @@ const InfoSection = ({ onUpdateSuccess }: InfoSectionProps) => {
                                     <Grid item xs={6} textAlign="right">
                                         <Stack direction="row" spacing={1} justifyContent="flex-end" alignItems="center">
                                             <Typography variant="h6">Balance:</Typography>
-                                            <Typography variant="h6">{watch("balance")!.toLocaleString()}</Typography>
+                                            <Typography variant="h6">{watch("balance") ? watch("balance")!.toLocaleString():0}</Typography>
                                         </Stack>
                                     </Grid>
                                 </Grid>

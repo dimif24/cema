@@ -108,3 +108,21 @@ export const addContactPerson = async (ContactPerson: ContactPersonDto) => {
         return { success: false, message: error || 'An error occurred while adding the Contact Person' };
     }
 };
+export const deleteContactPerson = async (id: number) => {
+    try {
+        const response = await fetch(`${url}/api/ContactPersons/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to delete contact');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error deleting contact:', error);
+        throw error;
+    }
+};

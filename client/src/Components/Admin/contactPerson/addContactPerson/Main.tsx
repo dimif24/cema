@@ -17,7 +17,7 @@ const AddContactPerson = () => {
         const result = await addContactPerson(data);
 
         if (result.success) {
-            openSnackbar('success', 'Supplier Added Successfully');
+            openSnackbar('success', 'Contact Added Successfully');
             methods.reset(emptyContactPeron);
         } else {
             openSnackbar('error', result.message);
