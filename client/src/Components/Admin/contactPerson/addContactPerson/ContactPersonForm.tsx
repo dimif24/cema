@@ -2,10 +2,10 @@ import { TextField, Grid, Box, Divider } from '@mui/material';
 import PhoneInputDropdown from '../../../dropDowns/PhoneInputDropdown';
 import EmailInput from '../../../inputs/EmailInput';
 import { Control, Controller } from 'react-hook-form';
-import { ContactPerson } from '../../../../models/contactPerson';
+import { ContactPersonDto } from '../../../../models/contactPerson';
 
 interface ContactPersonProps {
-    control: Control<ContactPerson>;
+    control: Control<ContactPersonDto>;
 
 }
 

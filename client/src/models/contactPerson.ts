@@ -9,13 +9,23 @@ export interface ContactPerson {
     supplier: Supplier
 
 }
+export interface ContactPersonDto {
+    id: number
+    name: string
+    position: string
+    phoneNumber: string
+    email: string
+    supplierId: number
+
+}
 // Define the initial empty supplier object
-export const emptyContactPeron: ContactPerson = {
+export const emptyContactPeron: ContactPersonDto = {
     id: 0,
     name: '',
     position: '',
     email: '',
     phoneNumber: '',
-    supplier:
+    supplierId: 0
+
 
 }

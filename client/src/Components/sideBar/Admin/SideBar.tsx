@@ -73,19 +73,19 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   justifyContent: 'center',
 }));
 interface SidebarProps {
-    open: boolean;
-  }
-const Sidebar = ({ open }:SidebarProps) => {
+  open: boolean;
+}
+const Sidebar = ({ open }: SidebarProps) => {
   const [openUsers, setOpenUsers] = React.useState(false);
   const [openSuppliers, setOpenSuppliers] = React.useState(false);
   const supplierMenuItems = [
     { text: 'All Suppliers', link: '/admin/' },
     { text: 'Add Supplier', link: '/admin/add-supplier' },
-    { text: 'Add Contact Person', link: '/admin/suppliers' }
+    { text: 'Add Contact Person', link: '/admin/add-contact' }
   ];
   return (
-    <StyledDrawer variant="permanent"  sx={{display:open ?'block': 'none'}}>
-      <Box sx={{ pt: 10,pb:2.5, display: 'flex', alignItems: 'center', gap: 1 }}>
+    <StyledDrawer variant="permanent" sx={{ display: open ? 'block' : 'none' }}>
+      <Box sx={{ pt: 10, pb: 2.5, display: 'flex', alignItems: 'center', gap: 1 }}>
         <IconButton size="small" color="primary">
           {/* Add your logo icon here */}
         </IconButton>
@@ -101,72 +101,72 @@ const Sidebar = ({ open }:SidebarProps) => {
         />
       </SearchBox>
       <Box sx={{ flexGrow: 1, overflowY: 'auto' }}>
-      <List>
-        {[
-          { text: 'Home', icon: <HomeRoundedIcon />,to:'/admin' },
-          { text: 'Dashboard', icon: <DashboardRoundedIcon />,to:'/admin' },
-          { text: 'Orders', icon: <ShoppingCartRoundedIcon />,to:'/admin' },
-          { text: 'P&L Report', icon: <AssessmentRoundedIcon />,to:'/admin' },
-          { text: 'Add Product', icon: <AddCircleRoundedIcon />,to:'/admin' },
-        ].map((item, index) => (
-          <ListItem key={index} disablePadding>
-            <ListItemButton component={Link} to={item.to}>
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-        <ListItem disablePadding>
-          <ListItemButton onClick={() => setOpenUsers(!openUsers)}>
-            <ListItemIcon>
-              <GroupRoundedIcon />
-            </ListItemIcon>
-            <ListItemText primary="Users" />
-            <KeyboardArrowDownIcon sx={{ transform: openUsers ? 'rotate(180deg)' : 'none' }} />
-          </ListItemButton>
-        </ListItem>
-        <Collapse in={openUsers} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            {['My profile', 'Create a new user', 'Roles & permission'].map((text) => (
-              <ListItemButton key={text} sx={{ pl: 4 }}>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            ))}
-          </List>
-        </Collapse>
-        <ListItem disablePadding>
-          <ListItemButton onClick={() => setOpenSuppliers(!openSuppliers)}>
-            <ListItemIcon>
-              <BusinessRoundedIcon />
-            </ListItemIcon>
-            <ListItemText primary="Supplier" />
-            <KeyboardArrowDownIcon sx={{ transform: openSuppliers ? 'rotate(180deg)' : 'none' }} />
-          </ListItemButton>
-        </ListItem>
-        <Collapse in={openSuppliers} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            {supplierMenuItems.map((item) => (
-              <ListItemButton key={item.text} sx={{ pl: 4 }} component={Link} to={item.link}>
+        <List>
+          {[
+            { text: 'Home', icon: <HomeRoundedIcon />, to: '/admin' },
+            { text: 'Dashboard', icon: <DashboardRoundedIcon />, to: '/admin' },
+            { text: 'Orders', icon: <ShoppingCartRoundedIcon />, to: '/admin' },
+            { text: 'P&L Report', icon: <AssessmentRoundedIcon />, to: '/admin' },
+            { text: 'Add Product', icon: <AddCircleRoundedIcon />, to: '/admin' },
+          ].map((item, index) => (
+            <ListItem key={index} disablePadding>
+              <ListItemButton component={Link} to={item.to}>
+                <ListItemIcon>{item.icon}</ListItemIcon>
                 <ListItemText primary={item.text} />
               </ListItemButton>
-            ))}
-          </List>
-        </Collapse>
-      </List>
-      <Box sx={{ flexGrow: 1 }} />
-      <List>
-        {[
-          { text: 'Support', icon: <SupportRoundedIcon /> },
-          { text: 'Settings', icon: <SettingsRoundedIcon /> },
-        ].map((item) => (
-          <ListItem key={item.text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
+            </ListItem>
+          ))}
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => setOpenUsers(!openUsers)}>
+              <ListItemIcon>
+                <GroupRoundedIcon />
+              </ListItemIcon>
+              <ListItemText primary="Users" />
+              <KeyboardArrowDownIcon sx={{ transform: openUsers ? 'rotate(180deg)' : 'none' }} />
             </ListItemButton>
           </ListItem>
-        ))}
-      </List>
+          <Collapse in={openUsers} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              {['My profile', 'Create a new user', 'Roles & permission'].map((text) => (
+                <ListItemButton key={text} sx={{ pl: 4 }}>
+                  <ListItemText primary={text} />
+                </ListItemButton>
+              ))}
+            </List>
+          </Collapse>
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => setOpenSuppliers(!openSuppliers)}>
+              <ListItemIcon>
+                <BusinessRoundedIcon />
+              </ListItemIcon>
+              <ListItemText primary="Supplier" />
+              <KeyboardArrowDownIcon sx={{ transform: openSuppliers ? 'rotate(180deg)' : 'none' }} />
+            </ListItemButton>
+          </ListItem>
+          <Collapse in={openSuppliers} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              {supplierMenuItems.map((item) => (
+                <ListItemButton key={item.text} sx={{ pl: 4 }} component={Link} to={item.link}>
+                  <ListItemText primary={item.text} />
+                </ListItemButton>
+              ))}
+            </List>
+          </Collapse>
+        </List>
+        <Box sx={{ flexGrow: 1 }} />
+        <List>
+          {[
+            { text: 'Support', icon: <SupportRoundedIcon /> },
+            { text: 'Settings', icon: <SettingsRoundedIcon /> },
+          ].map((item) => (
+            <ListItem key={item.text} disablePadding>
+              <ListItemButton>
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
       </Box>
       <Divider />
       <Box sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 1 }}>

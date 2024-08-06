@@ -1,5 +1,6 @@
 // api/adminApi.ts
 
+import { ContactPersonDto } from "../../models/contactPerson";
 import { Supplier } from "../../models/supplier";
 const url = 'http://localhost:5000';
 export const addSupplier = async (supplier: Supplier) => {
@@ -61,7 +62,7 @@ export const fetchSupplier = async (id: number): Promise<Supplier> => {
     }
 };
 
-export const editSupplier = async (id: number,supplier:Supplier) => {
+export const editSupplier = async (id: number, supplier: Supplier) => {
     try {
         const response = await fetch(`${url}/api/Suppliers/${id}`, {
             method: 'PUT',
@@ -70,7 +71,7 @@ export const editSupplier = async (id: number,supplier:Supplier) => {
             },
             body: JSON.stringify(supplier),
 
-            
+
         });
 
         if (!response.ok) {
@@ -83,5 +84,27 @@ export const editSupplier = async (id: number,supplier:Supplier) => {
         console.error('Error fetching suppliers:', error);
         return { success: false, message: error };
 
+    }
+};
+
+export const addContactPerson = async (ContactPerson: ContactPersonDto) => {
+    try {
+        const response = await fetch(`${url}/api/ContactPersons`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(ContactPerson),
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            return { success: false, message: result.title };
+        }
+
+        return { success: true, message: 'Contact Added Successfully' };
+    } catch (error) {
+        return { success: false, message: error || 'An error occurred while adding the Contact Person' };
     }
 };
