@@ -12,9 +12,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { deleteContactPerson } from '../../../../api/admin';
 interface ContactPeronCardProps {
     contactPerson: ContactPerson;
+    onDelete: (id: number) => void;
+
+
 }
 
-const ContactPeronCard = ({ contactPerson }: ContactPeronCardProps) => {
+const ContactPeronCard = ({ contactPerson,onDelete  }: ContactPeronCardProps) => {
     const defaultProfileImage = '../../../../images/AdditionalImages/defaultProfileImage.webp';
     const openWhatsAppChat = (phoneNumber: string) => {
         const whatsappURL = `https://wa.me/${phoneNumber.replace(/\s+/g, '')}`;
@@ -25,9 +28,10 @@ const ContactPeronCard = ({ contactPerson }: ContactPeronCardProps) => {
         console.log('Edit contact person with id:', id);
     };
     
-    const handleDelete = (id: number) => {
+    const handleDelete = async (id: number) => {
         // Implement delete logic here
-        deleteContactPerson(id)
+        await deleteContactPerson(id);
+        onDelete(id);
         console.log('Delete contact person with id:', id);
     };
     return (

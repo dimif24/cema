@@ -118,9 +118,13 @@ export const deleteContactPerson = async (id: number) => {
         });
 
         if (!response.ok) {
-            throw new Error('Failed to delete contact');
+            if (response.status === 404) {
+                throw new Error(`Contact person with ID ${id} not found`);
+            } else {
+                throw new Error('Failed to delete contact');
+            }
         }
-        return await response.json();
+        return ;
     } catch (error) {
         console.error('Error deleting contact:', error);
         throw error;
