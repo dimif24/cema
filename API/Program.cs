@@ -24,7 +24,7 @@ builder.Services.AddDbContext<StoreContext>(
     }
 );
 builder.Services.AddCors();
-
+//builder.Services.AddOptions<StripeOptions>().Bind(builder.Configuration.Get)
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -43,7 +43,8 @@ app.UseCors(opt =>
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.UseDefaultFiles();
+app.UseStaticFiles();
 var scope = app.Services.CreateScope();
 var context = scope.ServiceProvider.GetRequiredService<StoreContext>();
 var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
