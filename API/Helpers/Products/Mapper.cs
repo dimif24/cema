@@ -5,11 +5,11 @@ namespace API.Helpers.Products
 {
     public static class Mapper
     {
-        public static VariantDto MapToVariantDto(Product product, ProductVariant variant)
+        public static ProductVariantDto MapToVariantDto(Product product, ProductVariant variant)
         {
-            return new VariantDto
+            return new ProductVariantDto
             {
-                Id = product.Id,
+                Id = variant.Id,
                 Name = product.Name,
                 Description = product.Description,
                 Type = product.Type,
