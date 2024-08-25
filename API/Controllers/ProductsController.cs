@@ -11,7 +11,6 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
-
         private readonly StoreContext _context;
 
         public ProductsController(StoreContext context)
@@ -20,25 +19,33 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Product>>> GetProducts()
+        public async Task<ActionResult<List<ProductVariantDto>>> GetProducts()
         {
-            return await _context.Products.Include(products => products.Variants).ToListAsync();
+            var variantDtos = await _context
+                .Products.SelectMany(
+                    product => product.Variants,
+                    (product, variant) => Mapper.MapToVariantDto(product, variant)
+                )
+                .ToListAsync();
+
+            return Ok(variantDtos);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
-            return await _context.Products.Include(product => product.Variants).SingleOrDefaultAsync(product => product.Id == id);
-
+            return await _context
+                .Products.Include(product => product.Variants)
+                .SingleOrDefaultAsync(product => product.Id == id);
         }
 
         [HttpGet("Variants/{variantId}")]
-        public async Task<ActionResult<VariantDto>> GetProductByVariant(int variantId)
+        public async Task<ActionResult<ProductVariantDto>> GetProductByVariant(int variantId)
         {
-            var variant = await _context.ProductVariants
-                                 .Where(v => v.Id == variantId)
-                                 .Include(v => v.Product)
-                                 .SingleOrDefaultAsync();
+            var variant = await _context
+                .ProductVariants.Where(v => v.Id == variantId)
+                .Include(v => v.Product)
+                .SingleOrDefaultAsync();
 
             if (variant == null)
             {
@@ -50,6 +57,5 @@ namespace API.Controllers
             var result = Mapper.MapToVariantDto(product, variant);
             return Ok(result);
         }
-
     }
 }
