@@ -1,0 +1,18 @@
+@import '../../../../app/styles.scss';
+
+.sliderWrapper {
+  :global(.swiper-pagination-bullet) {
+    background: $primary-color;
+  }
+
+  :global(.swiper-pagination-bullet-active) {
+    background-color: $primary-color;
+    width: 2rem;
+
+    border-radius: 0.5rem;
+  }
+  :global(.swiper-button-next),
+  :global(.swiper-button-prev) {
+    color: var(--swiper-navigation-color, $primary-color);
+  }
+}

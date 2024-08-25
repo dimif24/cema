@@ -1,0 +1,28 @@
+@import '../../../app/styles.scss';
+
+.sliderWrapper {
+  :global(.swiper-button-next),
+  :global(.swiper-button-prev) {
+    color: var(--swiper-navigation-color, $primary-color);
+  }
+}
+
+:global .swiper-slide {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+:global .swiper {
+  width: 100%;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+:global(.swiper-pagination-bullet) {
+  background: $primary-color;
+}
+
+:global(.swiper-pagination-bullet-active) {
+  background-color: $primary-color;
+}

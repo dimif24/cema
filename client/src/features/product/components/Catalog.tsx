@@ -1,5 +1,5 @@
 import { Button } from '@mui/material'
-import { Product } from '../../models/products'
+import { Product } from '../types/products'
 import ProductList from './ProductList'
 interface CatalogProps {
   products: Product[]
