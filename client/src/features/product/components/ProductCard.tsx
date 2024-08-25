@@ -1,27 +1,20 @@
-import { Product } from '../../models/products'
+import { Product } from '../types/products'
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined'
 import StarHalfOutlinedIcon from '@mui/icons-material/StarHalfOutlined'
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined'
 
-interface ProductCardProps {
-  product: Product
-}
-
-const ProductCard = ({ product }: ProductCardProps) => {
-  return product.variants.map((variant) => (
+const ProductCard = ({ id, name, price, pictureUrl }: Product) => {
+  return (
     <>
       <div
-        key={variant.id}
-        className="relative m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md"
+        key={id}
+        className="relative flex w-80 flex-col overflow-hidden rounded-lg bg-white shadow-md"
       >
-        <a
-          className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl"
-          href="#"
-        >
+        <a className="relative flex h-60 overflow-hidden" href="#">
           <img
-            className="object-contain w-full"
-            src={variant.pictureUrl}
+            className="object-cover w-full"
+            src={`../../../../public${pictureUrl}`}
             alt="product image"
           />
           <span className="absolute top-0 left-0 m-2 rounded-full bg-black px-2 text-center text-sm font-medium text-white">
@@ -30,20 +23,18 @@ const ProductCard = ({ product }: ProductCardProps) => {
         </a>
         <div className="mt-4 px-5 pb-5">
           <a href="#">
-            <h5 className="text-xl tracking-tight text-slate-900">
-              {product.name}
-            </h5>
+            <h5 className="text-xl tracking-tight text-slate-900">{name}</h5>
           </a>
           <div className="mt-2 mb-5 flex items-center justify-between">
             <p>
               <span className="text-3xl font-bold text-slate-900">
-                ${variant.price}
+                ${price}
               </span>
               <span className="text-sm text-slate-900 line-through">
                 $
                 {
                   // TODO: add discount to variant
-                  variant.price * (1 - 0.3)
+                  price * (1 - 0.3)
                 }
               </span>
             </p>
@@ -77,7 +68,6 @@ const ProductCard = ({ product }: ProductCardProps) => {
         </div>
       </div>
     </>
-  ))
+  )
 }
 export default ProductCard
-
