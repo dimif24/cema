@@ -23,23 +23,27 @@ const ProductCarousel = ({
 
   return (
     <Swiper
-      spaceBetween={25}
-      slidesPerView={4}
+      spaceBetween={8}
+      slidesPerView={2.25}
       modules={swiperModules}
       pagination={paginationOptions}
       navigation={!isGrid}
       breakpoints={{
-        640: {
-          slidesPerView: 2,
+        
+        480: {
+          slidesPerView: 3,
+          spaceBetween: 20,
         },
         768: {
           slidesPerView: 3,
+          spaceBetween: 20,
         },
         1024: {
           slidesPerView: 4,
+          spaceBetween: 25,
         },
       }}
-      className={`px-8 pb-8 ${styles.sliderWrapper}`}
+      className={`px-2 sm:px-8 pb-8 ${styles.sliderWrapper}`}
       grid={{
         rows: isGrid ? 2 : 1,
         fill: 'row',
