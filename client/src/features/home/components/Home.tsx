@@ -5,7 +5,7 @@ import InfoSection from './info-section/InfoSection'
 import ShopCategoriesSection from './shop-categories/ShopCategoriesSection'
 import ProductCarouselSection from '../../product/components/ProductCarouselSection'
 
-const MainPage = () => {
+const Home = () => {
   const [products, setProducts] = useState<Product[]>()
   useEffect(() => {
     fetch('http://localhost:5000/api/products')
@@ -38,4 +38,4 @@ const MainPage = () => {
   )
 }
 
-export default MainPage
+export default Home

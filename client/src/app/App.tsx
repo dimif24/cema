@@ -1,12 +1,12 @@
-import MainPage from '../features/main-page/components/MainPage'
+import { Outlet } from 'react-router-dom'
 import Footer from './Footer/Footer'
-import Header from './Header'
+import Header from './Header/Header'
 
 function App() {
   return (
     <div>
       <Header />
-      <MainPage></MainPage>
+      <Outlet />
       <Footer />
     </div>
   )

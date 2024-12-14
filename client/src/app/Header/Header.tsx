@@ -1,15 +1,17 @@
-import logo from '../assets/images/logo.png'
+import logo from '../../assets/images/logo.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { faHeart } from '@fortawesome/free-regular-svg-icons'
 import { faBagShopping } from '@fortawesome/free-solid-svg-icons'
 import { faUser } from '@fortawesome/free-regular-svg-icons'
+import { ROUTES } from '../router/routes'
+import Navbar from './Navbar'
 
 const Header = () => {
   return (
-    <header className="py-4 shadow-sm bg-white">
-      <div className="container mx-auto flex items-center justify-around">
-        <a href="index.html">
+    <header className="shadow-sm bg-white">
+      <div className="container py-4 mx-auto flex items-center justify-around">
+        <a href={ROUTES.HOME}>
           <img src={logo} alt="Logo" className="w-32" />
         </a>
 
@@ -65,6 +67,7 @@ const Header = () => {
           </a>
         </div>
       </div>
+      <Navbar />
     </header>
   )
 }
